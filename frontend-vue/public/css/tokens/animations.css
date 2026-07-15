@@ -1,0 +1,60 @@
+/* ============================================================
+   NEON PULSE v11.0 — Animation System
+   5-Bezier · Staggered Entry · Reduced Motion
+   ============================================================ */
+
+/* ── Keyframes ── */
+@keyframes fadeIn     { from { opacity: 0 } to { opacity: 1 } }
+@keyframes slideUp    { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: translateY(0) } }
+@keyframes slideDown  { from { opacity: 0; transform: translateY(-16px) } to { opacity: 1; transform: translateY(0) } }
+@keyframes scaleIn    { from { opacity: 0; transform: scale(.92) } to { opacity: 1; transform: scale(1) } }
+@keyframes msgIn      { from { opacity: 0; transform: scale(.92) translateY(8px) } to { opacity: 1; transform: scale(1) translateY(0) } }
+@keyframes spin       { to { transform: rotate(360deg) } }
+@keyframes shimmer    { 0% { background-position: 200% 0 } 100% { background-position: -200% 0 } }
+@keyframes pulse      { 0%, 100% { opacity: 1 } 50% { opacity: .5 } }
+@keyframes progressIndeterminate { 0% { transform: translateX(-100%) } 100% { transform: translateX(350%) } }
+
+/* ── Staggered List Entry ── */
+.stg-list > * {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: slideUp 500ms var(--ease-smooth) forwards;
+}
+.stg-list > *:nth-child(1) { animation-delay: 40ms }
+.stg-list > *:nth-child(2) { animation-delay: 80ms }
+.stg-list > *:nth-child(3) { animation-delay: 120ms }
+.stg-list > *:nth-child(4) { animation-delay: 160ms }
+.stg-list > *:nth-child(5) { animation-delay: 200ms }
+.stg-list > *:nth-child(6) { animation-delay: 240ms }
+.stg-list > *:nth-child(7) { animation-delay: 280ms }
+.stg-list > *:nth-child(8) { animation-delay: 320ms }
+
+/* ── Utility Animation Classes ── */
+.anim-fade-in    { animation: fadeIn var(--dur-base) var(--ease-out) }
+.anim-slide-up   { animation: slideUp var(--dur-slow) var(--ease-smooth) }
+.anim-scale-in   { animation: scaleIn var(--dur-base) var(--ease-spring) }
+.anim-msg-in     { animation: msgIn var(--dur-base) var(--ease-spring) }
+.spin            { width: 24px; height: 24px; border: 2.5px solid var(--border-subtle); border-top-color: var(--brand); border-radius: 50%; animation: spin .7s linear infinite; }
+.spin-sm         { width: 16px; height: 16px; border-width: 2px; }
+.spin-lg         { width: 38px; height: 38px; border-width: 3px; }
+.pulse           { animation: pulse 2s ease-in-out infinite; }
+
+/* ── Glass Hover Effects ── */
+.lift-glow { transition: all var(--dur-slow) var(--ease-smooth); }
+.lift-glow:hover { transform: translateY(-4px); box-shadow: var(--shadow-brand); }
+.mag-hover { transition: transform var(--dur-base) var(--ease-spring); }
+.mag-hover:hover { transform: scale(1.04) translateY(-2px); }
+
+/* ── Page Transitions ── */
+.page-enter-active { animation: fadeIn var(--dur-page) var(--ease-out); }
+.page-leave-active { animation: fadeIn var(--dur-fast) var(--ease-out) reverse; }
+
+/* ── Reduced Motion (a11y) ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

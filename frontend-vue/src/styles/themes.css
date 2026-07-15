@@ -1,0 +1,73 @@
+/* ============================================================
+   Day & Classic Theme L0 Seeds
+   ============================================================ */
+
+/* ── 日间模式 Day ── */
+[data-theme="day"] {
+  --bg-root: #F7F8FB;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #F2F4F8;
+  --bg-overlay: #EBEEF4;
+  --bg-subtle: rgba(17,21,29,.04);
+  --bg-hover: rgba(17,21,29,.06);
+  --bg-active: rgba(17,21,29,.09);
+  --bg-input: #FFFFFF;
+  --text-primary: #11151D;
+  --text-secondary: #657083;
+  --text-tertiary: #6B758A;
+  --text-dim: #9CA3AF;
+  --border-subtle: rgba(17,21,29,.06);
+  --border-default: rgba(17,21,29,.10);
+  --border-strong: rgba(17,21,29,.16);
+  --brand: #3B8FD9;
+  --brand-hover: #4DA8F0;
+  --brand-muted: rgba(59,143,217,.08);
+  --brand-glow: rgba(59,143,217,.10);
+  --green: #10B981;
+  --amber: #D97706;
+  --coral: #DC2626;
+  --cyan: #06B6D4;
+  --purple: #7C3AED;
+  --teal: #14B8A6;
+  --shadow-xs: 0 1px 2px -1px rgba(0,0,0,.04), 0 2px 4px -2px rgba(0,0,0,.03);
+  --shadow-sm: 0 1px 2px -1px rgba(0,0,0,.04), 0 4px 8px -3px rgba(0,0,0,.05);
+  --shadow-md: 0 1px 2px -1px rgba(0,0,0,.04), 0 4px 12px -3px rgba(0,0,0,.06), 0 14px 32px -8px rgba(0,0,0,.08);
+  --shadow-lg: 0 1px 2px -1px rgba(0,0,0,.04), 0 8px 24px -6px rgba(0,0,0,.07);
+  --shadow-glow: 0 0 0 1px rgba(59,143,217,.06), 0 0 16px rgba(59,143,217,.08);
+  --bg-gradient: radial-gradient(ellipse 120% 80% at 50% 0%, rgba(59,143,217,.04) 0%, transparent 50%);
+}
+
+/* ── 经典模式 Classic ── */
+[data-theme="classic"] {
+  --bg-root: #FDF8F0;
+  --bg-surface: #FFFBF5;
+  --bg-elevated: #F5EDE0;
+  --bg-overlay: #EDE3D2;
+  --bg-subtle: rgba(44,36,22,.04);
+  --bg-hover: rgba(44,36,22,.06);
+  --bg-active: rgba(44,36,22,.09);
+  --bg-input: #FFFBF5;
+  --text-primary: #2C2416;
+  --text-secondary: #7A6B54;
+  --text-tertiary: #9A8B74;
+  --text-dim: #C4B8A4;
+  --border-subtle: rgba(44,36,22,.06);
+  --border-default: rgba(44,36,22,.10);
+  --border-strong: rgba(44,36,22,.16);
+  --brand: #B8860B;
+  --brand-hover: #D4A843;
+  --brand-muted: rgba(184,134,11,.08);
+  --brand-glow: rgba(184,134,11,.10);
+  --green: #6B8F71;
+  --amber: #C9953B;
+  --coral: #B34A4A;
+  --cyan: #3B8FA5;
+  --purple: #7B6E9A;
+  --teal: #5B8F85;
+  --shadow-xs: 0 1px 2px -1px rgba(44,36,22,.06), 0 2px 4px -2px rgba(44,36,22,.04);
+  --shadow-sm: 0 1px 2px -1px rgba(44,36,22,.06), 0 4px 8px -3px rgba(44,36,22,.07);
+  --shadow-md: 0 1px 2px -1px rgba(44,36,22,.06), 0 4px 12px -3px rgba(44,36,22,.08), 0 14px 32px -8px rgba(44,36,22,.10);
+  --shadow-lg: 0 1px 2px -1px rgba(44,36,22,.06), 0 8px 24px -6px rgba(44,36,22,.09);
+  --shadow-glow: 0 0 0 1px rgba(184,134,11,.06), 0 0 16px rgba(184,134,11,.08);
+  --bg-gradient: radial-gradient(ellipse 120% 80% at 50% 0%, rgba(184,134,11,.04) 0%, transparent 50%);
+}

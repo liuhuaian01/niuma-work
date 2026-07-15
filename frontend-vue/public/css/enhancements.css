@@ -1,0 +1,355 @@
+/* ============================================================
+   LAB PAGE — Engine Dashboard (v2.0)
+   ============================================================ */
+.lab-hero {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 24px; padding: 20px 0 24px;
+  border-bottom: 1px solid var(--border-subtle); margin-bottom: 20px;
+}
+.lab-hero-left { display: flex; align-items: center; gap: 20px; }
+.lab-pulse-ring { position: relative; width: 140px; height: 140px; flex-shrink: 0; }
+.lab-tai-chi { width: 140px; height: 140px; filter: drop-shadow(0 0 24px rgba(77,168,240,.18)); }
+.lab-pulse-dot {
+  position: absolute; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--brand); animation: labPulseDot 2s ease-in-out infinite;
+  box-shadow: 0 0 6px var(--brand);
+}
+.lab-pulse-dot:nth-child(2) { animation-delay: 0.4s; }
+.lab-pulse-dot:nth-child(3) { animation-delay: 0.8s; }
+.lab-pulse-dot:nth-child(4) { animation-delay: 1.2s; }
+@keyframes labPulseDot {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.8); }
+}
+.lab-hero-info h2 { font-size: 20px; font-weight: 700; margin: 0 0 4px; font-family: var(--font-display); }
+.lab-hero-info p { font-size: 12px; color: var(--text-tertiary); margin: 0; }
+.lab-hero-status {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--gn); margin-bottom: 4px;
+  font-family: var(--font-mono);
+}
+.lab-hero-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--gn);
+  box-shadow: 0 0 8px var(--gn); animation: labPulseDot 1.5s ease-in-out infinite;
+}
+.lab-hero-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.lab-metric {
+  text-align: center; padding: 12px 16px;
+  background: var(--bg-elevated); border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+.lab-metric-value {
+  font-size: 22px; font-weight: 700; font-family: var(--font-mono);
+  background: linear-gradient(135deg, var(--brand), #5ED6C0);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.lab-metric-label { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+.lab-metric-delta { font-size: 10px; color: var(--text-dim); margin-top: 4px; }
+.lab-metric-delta.up { color: var(--gn); }
+
+/* Lab Sections */
+.lab-section { margin-bottom: 24px; }
+.lab-section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.lab-section-header h3 {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600; color: var(--text-secondary); margin: 0;
+}
+.lab-section-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 7px;
+  background: rgba(77,168,240,.08); color: var(--brand); flex-shrink: 0;
+}
+.lab-section-icon.purple { background: rgba(139,92,246,.10); color: var(--purple); }
+.lab-section-icon.teal { background: rgba(45,212,191,.10); color: var(--teal); }
+.lab-section-badge {
+  font-size: 10px; padding: 2px 8px; border-radius: 99px;
+  background: rgba(52,211,153,.10); color: var(--gn);
+  font-family: var(--font-mono);
+}
+.lab-pulse-small {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--gn);
+  box-shadow: 0 0 6px var(--gn); animation: labPulseDot 1.5s ease-in-out infinite;
+}
+
+/* Token Chart */
+.lab-chart-area {
+  display: flex; gap: 12px;
+  padding: 16px; background: var(--bg-elevated);
+  border-radius: var(--radius-md); border: 1px solid var(--border-subtle);
+}
+.lab-chart-yaxis {
+  display: flex; flex-direction: column-reverse; justify-content: space-between;
+  font-size: 10px; color: var(--text-tertiary); font-family: var(--font-mono);
+  padding: 0 4px; min-width: 32px;
+}
+.lab-chart-canvas {
+  flex: 1; display: flex; justify-content: space-around; align-items: flex-end;
+  height: 160px; padding-bottom: 22px;
+}
+.lab-chart-column { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.lab-chart-bar-group {
+  display: flex; gap: 3px; align-items: flex-end; height: 130px;
+}
+.lab-chart-bar {
+  width: 24px; border-radius: 3px 3px 0 0; position: relative;
+  transition: height .3s ease;
+}
+.lab-chart-bar.usage { background: var(--brand); opacity: 0.7; }
+.lab-chart-bar.saved { background: var(--gn); opacity: 0.6; }
+.lab-chart-bar-label {
+  position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+  font-size: 8px; color: var(--text-tertiary); font-family: var(--font-mono);
+  white-space: nowrap;
+}
+.lab-chart-xlabel { font-size: 10px; color: var(--text-tertiary); margin-top: 4px; }
+.lab-chart-legend {
+  display: flex; gap: 16px; align-items: center; margin-top: 8px;
+  font-size: 11px; color: var(--text-tertiary);
+}
+.lab-legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+.lab-legend-dot.usage { background: var(--brand); opacity: 0.7; }
+.lab-legend-dot.saved { background: var(--gn); opacity: 0.6; }
+
+/* Module Mesh */
+.lab-mesh-container { border-radius: var(--radius-md); overflow: hidden; }
+.lab-mesh-viz {
+  background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md) var(--radius-md) 0 0; padding: 16px;
+}
+.lab-mesh-svg { width: 100%; height: auto; }
+.lab-module-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 8px; margin-top: 8px;
+}
+.lab-module-card {
+  padding: 12px; background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+.lab-module-card.active { border-color: rgba(77,168,240,.12); }
+.lab-module-card-dot {
+  width: 7px; height: 7px; border-radius: 50%; margin-bottom: 6px;
+  background: var(--text-tertiary);
+}
+.lab-module-card-dot.active { background: var(--gn); box-shadow: 0 0 6px var(--gn); }
+.lab-module-card-name { font-size: 13px; font-weight: 600; }
+.lab-module-card-phrase {
+  font-size: 11px; color: var(--text-tertiary); margin-top: 2px;
+  font-style: italic;
+}
+.lab-module-card-stat {
+  font-size: 11px; color: var(--brand); margin-top: 4px;
+  font-family: var(--font-mono);
+}
+
+/* Bottom Grid */
+.lab-bottom-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.lab-bottom-card {
+  padding: 16px; background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-md);
+}
+.lab-log-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.lab-log-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 10px; border-radius: var(--radius-xs);
+  background: var(--bg-app); font-size: 12px;
+}
+.lab-log-item.high { background: rgba(77,168,240,.06); border-left: 2px solid var(--brand); }
+.lab-log-time {
+  font-size: 10px; color: var(--text-tertiary); white-space: nowrap;
+  font-family: var(--font-mono); margin-top: 1px;
+}
+.lab-log-text { flex: 1; color: var(--text-secondary); line-height: 1.5; }
+.lab-log-tag {
+  font-size: 9px; padding: 1px 6px; border-radius: 99px;
+  background: rgba(77,168,240,.10); color: var(--brand);
+  white-space: nowrap; font-family: var(--font-mono); flex-shrink: 0;
+}
+
+/* ============================================================
+   CHAT ENHANCEMENTS — Tool Calls / Thinking / Context
+   ============================================================ */
+/* Compression bar */
+.msg-compression-bar {
+  display: flex; align-items: center; gap: 8px;
+  margin: 8px auto; padding: 6px 14px;
+  max-width: fit-content; border-radius: 99px;
+  background: rgba(77,168,240,.06); border: 1px solid rgba(77,168,240,.12);
+  font-size: 11px; color: var(--text-tertiary);
+}
+.compression-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--brand); flex-shrink: 0;
+}
+.compression-pct {
+  font-family: var(--font-mono); color: var(--gn); font-weight: 600;
+}
+
+/* Thinking block */
+.msg-thinking-block {
+  margin-bottom: 8px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-elevated); overflow: hidden;
+  cursor: pointer; user-select: none;
+}
+.thinking-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+}
+.thinking-spinner {
+  display: flex; gap: 3px; padding-top: 2px;
+}
+.thinking-spinner span {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--brand); animation: thinkingBounce 1.4s ease-in-out infinite;
+}
+.thinking-spinner span:nth-child(2) { animation-delay: .16s; }
+.thinking-spinner span:nth-child(3) { animation-delay: .32s; }
+@keyframes thinkingBounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}
+.thinking-label { font-size: 12px; color: var(--text-tertiary); flex: 1; }
+.thinking-chevron { flex-shrink: 0; transition: transform .2s; color: var(--text-tertiary); }
+.thinking-chevron.expanded { transform: rotate(180deg); }
+.thinking-body {
+  padding: 8px 12px 12px; border-top: 1px solid var(--border-subtle);
+  font-size: 12px; color: var(--text-tertiary); line-height: 1.5;
+  max-height: 200px; overflow-y: auto; white-space: pre-wrap;
+}
+
+/* Tool calls */
+.msg-toolcalls {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px;
+}
+.toolcall-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 99px;
+  background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+  font-size: 11px; font-family: var(--font-mono);
+}
+.toolcall-pill.running { border-color: var(--amber); }
+.toolcall-pill.done { border-color: var(--gn); color: var(--gn); }
+.toolcall-pill.error { border-color: var(--coral); color: var(--coral); }
+.toolcall-icon { display: flex; align-items: center; width: 14px; height: 14px; }
+.toolcall-spinner { animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.toolcall-name { font-weight: 600; color: var(--text-secondary); }
+.toolcall-args { color: var(--text-tertiary); font-size: 10px; }
+
+/* Code block wrapper */
+.code-block-wrapper {
+  position: relative; margin: 8px 0;
+}
+.code-copy-btn {
+  position: absolute; top: 8px; right: 8px; z-index: 1;
+  padding: 4px 10px; border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs); background: var(--bg-elevated);
+  font-size: 11px; color: var(--text-tertiary); cursor: pointer;
+  font-family: var(--font-mono); transition: all .15s;
+}
+.code-copy-btn:hover { color: var(--text-primary); border-color: var(--brand); }
+.code-copy-btn.copied { color: var(--gn); border-color: var(--gn); }
+
+/* Streaming cursor */
+.streaming-text .msg-bubble::after {
+  content: '|'; animation: blink 1s step-end infinite;
+  color: var(--brand); font-weight: 100;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ============================================================
+   MEMORY GRAPH
+   ============================================================ */
+.mem3-graph-layout { display: flex; gap: 16px; min-height: 320px; }
+.mem3-graph-canvas {
+  flex: 1; background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-md);
+  padding: 16px; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.mem3-graph-hint {
+  position: absolute; top: 10px; left: 14px;
+  font-size: 10px; color: var(--text-tertiary); font-family: var(--font-mono);
+}
+.mem3-graph-svg { width: 100%; height: 100%; max-width: 600px; }
+.mem3-graph-sidebar { width: 200px; flex-shrink: 0; }
+.mem3-graph-node-list { display: flex; flex-direction: column; gap: 6px; }
+.mem3-graph-node-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px; background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);
+  cursor: pointer; transition: border-color .15s;
+}
+.mem3-graph-node-item:hover { border-color: var(--node-color, var(--brand)); }
+.mem3-graph-node-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--node-color, var(--brand)); flex-shrink: 0;
+}
+.mem3-graph-node-name { font-size: 12px; font-weight: 600; }
+.mem3-graph-node-count { font-size: 10px; color: var(--text-tertiary); margin-top: 1px; }
+
+/* ============================================================
+   6-STATE INPUT (ChatInput)
+   ============================================================ */
+.input-card.focused { box-shadow: 0 0 0 1px var(--brand); border-color: var(--brand); }
+.input-card.attached { border-color: rgba(77,168,240,.3); }
+.input-card.attached::before {
+  content: ''; position: absolute; inset: -1px; border-radius: inherit;
+  border: 2px dashed rgba(77,168,240,.25); pointer-events: none;
+}
+.input-card.queue::after {
+  content: '等待中...'; position: absolute; top: 50%; right: 50px;
+  transform: translateY(-50%); font-size: 11px; color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+.toolbar-voice-btn {
+  width: 30px; height: 30px; border: none; background: none;
+  border-radius: var(--radius-xs); color: var(--text-tertiary);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.toolbar-voice-btn:hover { color: var(--text-secondary); background: var(--bg-hover); }
+.toolbar-voice-btn.recording {
+  color: var(--coral); background: rgba(248,113,113,.08);
+  animation: voicePulse 1s ease-in-out infinite;
+}
+@keyframes voicePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(248,113,113,.2); }
+  50% { box-shadow: 0 0 0 6px rgba(248,113,113,.05); }
+}
+
+/* ═══════════════════════════════════════════════
+   Universal Icon Tooltip · DS §Tooltip extended
+   覆盖所有带 [data-tooltip] 属性的图标按钮
+   ═══════════════════════════════════════════════ */
+[data-tooltip] { position: relative; }
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute; top: 50%; left: calc(100% + 10px); transform: translateY(-50%);
+  padding: 5px 12px; font-size: 11px; font-weight: 500; font-family: var(--font-sans, sans-serif);
+  color: var(--color-text-inverse, #fff); background: var(--color-text-primary, #1a2a3a);
+  border-radius: 6px; white-space: nowrap; pointer-events: none;
+  opacity: 0; transition: opacity 0.15s ease; z-index: var(--z-tooltip, 600);
+  box-shadow: 0 4px 16px rgba(0,0,0,.25);
+}
+[data-tooltip]::before {
+  content: ''; position: absolute; top: 50%; left: calc(100% + 4px); transform: translateY(-50%);
+  width: 0; height: 0; border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 6px solid var(--color-text-primary, #1a2a3a);
+  opacity: 0; transition: opacity 0.15s ease; z-index: var(--z-tooltip, 600); pointer-events: none;
+}
+[data-tooltip]:hover::after, [data-tooltip]:hover::before,
+[data-tooltip]:focus-visible::after, [data-tooltip]:focus-visible::before { opacity: 1; }
+
+/* Fix for nav-brand-logo (anchor tag) so tooltip positioning works */
+.nav-brand-logo[data-tooltip] { position: relative; }
+
+/* Tooltip z-index fix: sidebar must stack above chat-area (z-index:3) */
+.chat-sidebar { position: relative; z-index: 5; }

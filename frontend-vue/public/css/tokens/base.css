@@ -1,0 +1,72 @@
+/* ============================================================
+   NEON PULSE v11.0 — Base Styles
+   CSS Reset + Body + Scrollbar + 核心布局
+   ============================================================ */
+
+/* ── Reset ── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-root);
+  background-image: var(--surface-gradient);
+  color: var(--text-primary);
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.4s var(--ease-out), color 0.4s var(--ease-out);
+}
+
+/* ── 代码字体 ── */
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+}
+
+/* ── 链接重置 ── */
+a { color: var(--brand); text-decoration: none; }
+a:hover { color: var(--brand-hover); }
+
+/* ── 选中高亮 ── */
+::selection {
+  background: var(--brand-muted);
+  color: var(--text-primary);
+}
+
+/* ── 聚焦环 ── */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── Global Scrollbar ── */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; border-radius: 3px; }
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+::-webkit-scrollbar-corner { background: transparent; }
+
+/* ── Desktop Drag Region (WebView2) ── */
+.chrome-drag { -webkit-app-region: drag; }
+.chrome-no-drag { -webkit-app-region: no-drag; }

@@ -1,0 +1,53 @@
+/* ============================================================
+   NEON PULSE Design System — Animation System
+   v10.0 — 5-Bezier · Staggered · Reduced Motion
+   ============================================================ */
+
+/* ── Entry Animations ── */
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: translateY(0) } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(.92) } to { opacity: 1; transform: scale(1) } }
+@keyframes msgIn { from { opacity: 0; transform: scale(.92) translateY(8px) } to { opacity: 1; transform: scale(1) translateY(0) } }
+@keyframes shimmer { 0% { background-position: 200% 0 } 100% { background-position: -200% 0 } }
+
+/* ── Staggered List Entry ── */
+.stg-list > * { opacity: 0; transform: translateY(16px); animation: slideUp 500ms var(--ease-smooth) forwards; }
+.stg-list > *:nth-child(1) { animation-delay: 40ms }
+.stg-list > *:nth-child(2) { animation-delay: 80ms }
+.stg-list > *:nth-child(3) { animation-delay: 120ms }
+.stg-list > *:nth-child(4) { animation-delay: 160ms }
+.stg-list > *:nth-child(5) { animation-delay: 200ms }
+.stg-list > *:nth-child(6) { animation-delay: 240ms }
+.stg-list > *:nth-child(7) { animation-delay: 280ms }
+.stg-list > *:nth-child(8) { animation-delay: 320ms }
+
+/* ── Glass Hover Effects ── */
+.lift-glow { transition: all var(--dur-slow) var(--ease-smooth); }
+.lift-glow:hover { transform: translateY(-4px); box-shadow: var(--shadow-glow); }
+.mag-hover { transition: transform var(--dur-base) var(--ease-spring); }
+.mag-hover:hover { transform: scale(1.04) translateY(-2px); }
+
+/* ── Page Transition ── */
+.page-enter-active { animation: fadeIn var(--dur-page) var(--ease-out); }
+.page-leave-active { animation: fadeIn var(--dur-fast) var(--ease-out) reverse; }
+
+/* ── Loading Spinner ── */
+@keyframes spin { to { transform: rotate(360deg) } }
+.spin { width: 24px; height: 24px; border: 2.5px solid var(--border-subtle); border-top-color: var(--brand); border-radius: 50%; animation: spin .7s linear infinite; }
+
+/* ── Pulse ── */
+@keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: .5 } }
+.pulse { animation: pulse 2s ease-in-out infinite; }
+
+.chat-search-panel { display: none; }
+.chat-search-panel.open { display: flex; align-items: center; gap: 10px; padding: 8px 16px; background: var(--bg-surface); border-bottom: 1px solid var(--border-subtle); }
+.chat-search-input { flex: 1; border: none; background: var(--bg-elevated); color: var(--text-primary); font-size: 13px; padding: 8px 12px; border-radius: 8px; outline: none; font-family: inherit; }
+.chat-search-input::placeholder { color: var(--text-tertiary); }
+.chat-search-count { font-size: 11px; color: var(--text-tertiary); white-space: nowrap; }
+.chat-search-close { width: 28px; height: 28px; border: none; background: none; color: var(--text-tertiary); cursor: pointer; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+.chat-search-close:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+/* ── Reduced Motion (a11y) ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

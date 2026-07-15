@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="night">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>超级牛马 Super Niuma — 赛博工坊 AI Workstation</title>
+  <!-- NEON PULSE v11.0 Design System — Full Stack -->
+  <!-- Layer 1-7: Tokens (primitives → semantics → components → themes → base → animations → compat) -->
+  <link rel="stylesheet" href="/css/design-tokens.css">
+  <!-- Chat Components (extracted from prototype) -->
+  <link rel="stylesheet" href="/css/chat-components.css">
+  <!-- Component Base Classes (Vue-consumable CSS) — loaded AFTER chat-components to override conflicts -->
+  <link rel="stylesheet" href="/css/components-base.css">
+  <link rel="stylesheet" href="/css/enhancements.css">
+  <!-- Prototype Design System: FULL CSS from niuma-neon-pulse-prototype.html (loaded LAST to fill gaps) -->
+  <link rel="stylesheet" href="/css/prototype-design-system.css">
+  <!-- Modal Taste Enhancements: gpt-taste 标准美颜 (loaded AFTER prototype to override) -->
+  <link rel="stylesheet" href="/css/modal-taste-enhancements.css">
+  <style>
+    #app { display: flex; width: 100vw; height: 100vh; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

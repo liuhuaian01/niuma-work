@@ -1,0 +1,5 @@
+"""超级牛马工作台 · 版本管理"""
+VERSION = "1.0.0-alpha"
+API_VERSION = "v1"
+BUILD_DATE = "2026-07-15"
+BUILD_LABEL = "Alpha 预览版 — PyInstaller 打包"

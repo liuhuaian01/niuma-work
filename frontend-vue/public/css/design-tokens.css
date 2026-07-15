@@ -1,0 +1,27 @@
+/* ============================================================
+   NEON PULSE v11.0 — Design System Entry Point
+   超级牛马下一代桌面端设计系统
+   聚合所有令牌层：Primitives → Semantics → Components → Themes
+   ============================================================ */
+
+/* Layer 1: Primitive Tokens (原始值——不可变) */
+@import './tokens/primitives.css';
+
+/* Layer 2: Semantic Tokens (语义令牌——默认 Night 主题) */
+@import './tokens/semantics.css';
+
+/* Layer 3: Component Tokens (组件令牌——出厂默认值) */
+@import './tokens/components.css';
+
+/* Layer 4: Theme Overrides (主题覆写层) */
+@import './tokens/themes/day.css';
+@import './tokens/themes/classic.css';
+
+/* Layer 5: Base Styles (Reset + Body + Scrollbar) */
+@import './tokens/base.css';
+
+/* Layer 6: Animation System (动效) */
+@import './tokens/animations.css';
+
+/* Layer 7: v10.0 Backwards Compatibility (向后兼容) */
+@import './compat.css';

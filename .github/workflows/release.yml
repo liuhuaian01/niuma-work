@@ -1,0 +1,68 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build Vue Frontend
+        working-directory: frontend-vue
+        run: |
+          npm ci
+          npx vite build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend-vue/dist/
+
+  build-backend:
+    runs-on: windows-latest
+    needs: build-frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend-vue/dist/
+      - name: Install Dependencies
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r <(python -c "import tomllib; [print(f'{k}{v}') for k,v in tomllib.load(open('pyproject.toml','rb'))['project']['dependencies'].items()]" 2>/dev/null || echo "fastapi uvicorn[standard] sqlalchemy aiosqlite httpx pydantic python-dotenv pyinstaller huggingface_hub")
+      - name: Build with PyInstaller
+        working-directory: backend
+        run: |
+          pyinstaller main.spec --distpath dist --workpath build
+      - name: Upload Exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-exe
+          path: backend/dist/SuperNiuma-backend.exe
+
+  release:
+    runs-on: ubuntu-latest
+    needs: [build-frontend, build-backend]
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: backend-exe
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SuperNiuma-backend.exe
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') }}
