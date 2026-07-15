@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+*.spec.bak
+
+# Node
+node_modules/
+frontend-vue/dist/
+.vite/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# WorkBuddy (personal data)
+.workbuddy/
+.hermes/
+
+# Temp / QA files
+_qa_*.txt
+.write_test*
+_copy_file.py
+backend/_qa_*.txt
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Data (runtime)
+data/bin/
+data/models/*.gguf
+data/*.json
+data/.checkpoint
+data/.*_keys
+data/dist/
+data/logs/
+data/evolution/
+data/goalloop/
+backend/data/
+backend/logs/
+backend/.hermes_install_progress.json
+
+# Env
+.env
+.env.local
+*.local
+
+# PyInstaller
+/tmp/
+pyinstaller-build/

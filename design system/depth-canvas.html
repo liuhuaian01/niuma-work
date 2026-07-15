@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Depth Canvas · Super Niuma — Full Component Library</title>
+<style>
+/* ═══════════════════════════════════════════════
+   DEPTH CANVAS — Apple-Inspired · 30+ Components
+   零渐变。零发光。空间、文字、玻璃。
+   ═══════════════════════════════════════════════ */
+
+:root{
+  --font:system-ui,-apple-system,'SF Pro Text','PingFang SC','Microsoft YaHei',sans-serif;
+  --font-display:system-ui,-apple-system,'SF Pro Display','PingFang SC','Microsoft YaHei',sans-serif;
+  --font-mono:'SF Mono','JetBrains Mono','Fira Code',Consolas,monospace;
+}
+
+[data-theme="night"]{
+  --bg0:#0A0A0A;--bg1:#131313;--bg2:#1C1C1E;--bg3:#262628;
+  --tx1:#FFFFFF;--tx2:#98989D;--tx3:#636366;
+  --edge:rgba(255,255,255,0.08);--edge-h:rgba(255,255,255,0.14);
+  --accent:#4DA8F0;--accent-bg:rgba(77,168,240,0.10);
+  --red:#FF453A;--green:#30D158;--amber:#FF9F0A;
+  --glass:rgba(28,28,30,0.70);--glass-h:rgba(28,28,30,0.82);
+  --sh-sm:0 1px 2px rgba(0,0,0,0.3);--sh-md:0 4px 12px rgba(0,0,0,0.4);--sh-lg:0 8px 30px rgba(0,0,0,0.5);
+  --kbd-bg:#2C2C2E;--kbd-edge:rgba(255,255,255,0.12);
+}
+[data-theme="day"]{
+  --bg0:#F5F5F7;--bg1:#FFFFFF;--bg2:#F0F0F2;--bg3:#E8E8ED;
+  --tx1:#1D1D1F;--tx2:#6E6E73;--tx3:#AEAEB2;
+  --edge:rgba(0,0,0,0.06);--edge-h:rgba(0,0,0,0.12);
+  --accent:#007AFF;--accent-bg:rgba(0,122,255,0.08);
+  --red:#FF3B30;--green:#34C759;--amber:#FF9500;
+  --glass:rgba(255,255,255,0.65);--glass-h:rgba(255,255,255,0.80);
+  --sh-sm:0 1px 2px rgba(0,0,0,0.04);--sh-md:0 4px 12px rgba(0,0,0,0.06);--sh-lg:0 8px 30px rgba(0,0,0,0.08);
+  --kbd-bg:#E8E8ED;--kbd-edge:rgba(0,0,0,0.10);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-family:var(--font);font-size:16px;line-height:1.47;-webkit-font-smoothing:antialiased;background:var(--bg0)}
+body{color:var(--tx1);height:100vh;overflow:hidden}
+::selection{background:var(--accent-bg);color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--edge-h);border-radius:2px}
+
+/* ── CHROME ── */
+.chrome{position:fixed;top:0;left:0;right:0;height:44px;display:flex;align-items:center;justify-content:center;padding:0 16px;background:var(--bg1);z-index:500;-webkit-app-region:drag;user-select:none}
+.chrome-dots{position:absolute;left:16px;display:flex;gap:8px;-webkit-app-region:no-drag}
+.chrome-d{width:12px;height:12px;border-radius:50%;cursor:pointer}
+.chrome-d.c{background:var(--red)}.chrome-d.m{background:var(--amber)}.chrome-d.x{background:var(--green)}
+.chrome-t{font-size:12px;font-weight:600;color:var(--tx2);letter-spacing:0.01em}
+
+/* ── SIDEBAR ── */
+.side{position:fixed;left:0;top:44px;bottom:0;width:52px;background:var(--bg1);display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:1px;z-index:400;border-right:1px solid var(--edge)}
+.side-i{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.1s;position:relative}
+.side-i svg{width:18px;height:18px;fill:none;stroke:var(--tx2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.side-i:hover{background:var(--bg2)}.side-i:hover svg{stroke:var(--tx1)}
+.side-i.on svg{stroke:var(--accent)}.side-i.on{background:var(--accent-bg)}
+.side-sp{flex:1}
+.side-av{width:28px;height:28px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--tx2)}
+
+/* ── MAIN ── */
+.main{margin-left:52px;margin-top:44px;height:calc(100vh - 44px);overflow-y:auto;overflow-x:hidden;padding-bottom:120px}
+
+/* ── SECTIONS ── */
+.sec{padding:56px 80px;max-width:1100px}
+.sec-label{font-size:11px;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;color:var(--tx3);margin-bottom:4px}
+.sec-title{font-family:var(--font-display);font-size:1.6rem;font-weight:700;line-height:1.12;letter-spacing:-0.02em;margin-bottom:8px}
+.sec-desc{font-size:15px;line-height:1.55;color:var(--tx2);max-width:520px;margin-bottom:28px}
+.hr{height:1px;background:var(--edge);margin:0 80px;max-width:940px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+
+/* ════════════════ COMPONENTS ════════════════ */
+
+/* ── Button ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:7px 16px;border:none;border-radius:999px;font-family:var(--font);font-size:14px;font-weight:500;cursor:pointer;transition:all 0.1s;white-space:nowrap}
+.btn-p{background:var(--accent);color:#fff}.btn-p:hover{opacity:0.88}.btn-p:active{opacity:0.72}
+.btn-s{background:var(--bg3);color:var(--tx1)}.btn-s:hover{background:var(--kbd-bg)}
+.btn-g{background:transparent;color:var(--tx2)}.btn-g:hover{background:var(--bg2);color:var(--tx1)}
+.btn-d{background:transparent;color:var(--tx2)}.btn-d:hover{background:var(--red);background:rgba(255,69,58,0.10);color:var(--red)}
+.btn-sm{padding:4px 12px;font-size:13px}
+.btn:disabled{opacity:0.35;cursor:not-allowed}
+
+/* ── Input ── */
+.inp{width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--edge);border-radius:8px;color:var(--tx1);font-family:var(--font);font-size:14px;outline:none;transition:border 0.1s}
+.inp::placeholder{color:var(--tx3)}.inp:focus{border-color:var(--accent)}
+.inp-err{border-color:var(--red)}.inp-err:focus{border-color:var(--red)}
+
+/* ── Card ── */
+.card{background:var(--bg2);border:1px solid var(--edge);border-radius:12px;padding:20px;transition:box-shadow 0.2s}
+.card:hover{box-shadow:var(--sh-md)}
+.card-glass{background:var(--glass);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%)}
+.card-glass-h{background:var(--glass-h);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%)}
+
+/* ── Badge ── */
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:500}
+.badge-a{background:var(--accent-bg);color:var(--accent)}
+.badge-g{background:rgba(48,209,88,0.10);color:var(--green)}
+.badge-r{background:rgba(255,69,58,0.10);color:var(--red)}
+.badge-w{background:rgba(255,159,10,0.10);color:var(--amber)}
+
+/* ── Toggle ── */
+.tgl{position:relative;width:44px;height:24px;border-radius:12px;background:var(--bg3);border:1px solid var(--edge);cursor:pointer;transition:all 0.15s;flex-shrink:0}
+.tgl::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--tx3);transition:all 0.15s;box-shadow:0 1px 2px rgba(0,0,0,0.2)}
+.tgl.on{background:var(--accent);border-color:var(--accent)}
+.tgl.on::after{left:22px;background:#fff}
+.tgl:disabled{opacity:0.4;cursor:not-allowed}
+
+/* ── Checkbox ── */
+.chk{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px}
+.chk input{display:none}
+.chk-box{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--edge-h);display:flex;align-items:center;justify-content:center;transition:all 0.1s;flex-shrink:0}
+.chk input:checked+.chk-box{background:var(--accent);border-color:var(--accent)}
+.chk input:checked+.chk-box::after{content:'';width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-1px)}
+
+/* ── Radio ── */
+.rad{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px}
+.rad input{display:none}
+.rad-box{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--edge-h);display:flex;align-items:center;justify-content:center;transition:all 0.1s;flex-shrink:0}
+.rad input:checked+.rad-box{border-color:var(--accent)}
+.rad input:checked+.rad-box::after{content:'';width:9px;height:9px;border-radius:50%;background:var(--accent)}
+
+/* ── Dropdown ── */
+.dd{position:relative;display:inline-block}
+.dd-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid var(--edge);background:var(--bg2);color:var(--tx1);font-size:14px;font-family:var(--font);cursor:pointer;transition:all 0.1s}
+.dd-btn:hover{border-color:var(--edge-h)}
+.dd-btn::after{content:'▾';font-size:10px;color:var(--tx3);margin-left:2px}
+.dd-menu{position:absolute;top:calc(100% + 6px);left:0;min-width:180px;background:var(--glass-h);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border:1px solid var(--edge);border-radius:10px;padding:4px;box-shadow:var(--sh-lg);z-index:100;opacity:0;pointer-events:none;transform:translateY(-6px);transition:all 0.15s}
+.dd-menu.open{opacity:1;pointer-events:auto;transform:translateY(0)}
+.dd-item{padding:8px 12px;border-radius:6px;font-size:14px;color:var(--tx1);cursor:pointer;transition:background 0.1s;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dd-item:hover{background:var(--bg2)}
+.dd-item.sel{color:var(--accent)}.dd-item.sel::after{content:'✓';font-size:12px}
+.dd-sep{height:1px;background:var(--edge);margin:4px 6px}
+.dd-grp{padding:6px 12px 2px;font-size:11px;color:var(--tx3);font-weight:600;text-transform:uppercase;letter-spacing:0.04em}
+
+/* ── Dialog / Modal ── */
+.dlg-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:600;animation:fadeIn 0.15s}
+.dlg{background:var(--glass-h);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border:1px solid var(--edge);border-radius:14px;width:440px;max-width:92vw;max-height:80vh;padding:24px;box-shadow:var(--sh-lg);animation:scaleIn 0.2s}
+.dlg-title{font-size:17px;font-weight:600;margin-bottom:8px}
+.dlg-body{font-size:14px;color:var(--tx2);line-height:1.5;margin-bottom:20px}
+.dlg-foot{display:flex;justify-content:flex-end;gap:8px}
+.dlg-hidden{display:none}
+
+/* ── Tooltip ── */
+.tip{position:relative;display:inline-flex}
+.tip-txt{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);padding:5px 10px;background:var(--bg3);border:1px solid var(--edge);border-radius:6px;font-size:12px;color:var(--tx1);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.15s;z-index:200;box-shadow:var(--sh-md)}
+.tip:hover .tip-txt{opacity:1;transition-delay:0.3s}
+
+/* ── Toast ── */
+.toast-area{position:fixed;top:16px;right:16px;display:flex;flex-direction:column;gap:8px;z-index:700}
+.toast{display:flex;align-items:flex-start;gap:10px;padding:12px 16px;background:var(--glass-h);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border:1px solid var(--edge);border-radius:12px;box-shadow:var(--sh-lg);min-width:280px;max-width:380px;animation:slideIn 0.3s}
+.toast-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:700}
+.toast-s .toast-icon{background:rgba(48,209,88,0.15);color:var(--green)}
+.toast-e .toast-icon{background:rgba(255,69,58,0.15);color:var(--red)}
+.toast-w .toast-icon{background:rgba(255,159,10,0.15);color:var(--amber)}
+.toast-i .toast-icon{background:var(--accent-bg);color:var(--accent)}
+.toast-body{flex:1;min-width:0}.toast-title{font-size:14px;font-weight:600}.toast-desc{font-size:12px;color:var(--tx2);margin-top:2px}
+.toast-close{width:22px;height:22px;border:none;background:none;color:var(--tx3);cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}.toast-close:hover{background:var(--bg2)}
+
+/* ── Context Menu ── */
+.ctx{min-width:180px;max-width:260px;background:var(--glass-h);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border:1px solid var(--edge);border-radius:10px;padding:4px;box-shadow:var(--sh-lg)}
+.ctx-i{padding:8px 12px;border-radius:6px;font-size:13px;color:var(--tx1);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;transition:background 0.1s}
+.ctx-i:hover{background:var(--bg2)}
+.ctx-i.danger:hover{background:rgba(255,69,58,0.10);color:var(--red)}
+.ctx-i .short{font-size:11px;color:var(--tx3);font-family:var(--font-mono)}
+.ctx-s{height:1px;background:var(--edge);margin:4px 6px}
+
+/* ── Message Bubbles ── */
+.msg-area{display:flex;flex-direction:column;gap:16px;max-width:700px}
+.msg-u{max-width:80%;margin-left:auto;padding:10px 16px;border-radius:16px 16px 4px 16px;background:var(--accent);color:#fff;font-size:14px;line-height:1.5}
+.msg-ai{max-width:85%;margin-right:auto;font-size:14px;line-height:1.6;color:var(--tx1)}
+.msg-ai p{margin-bottom:8px}.msg-ai p:last-child{margin-bottom:0}
+.msg-sys{text-align:center;font-size:12px;color:var(--tx3);padding:8px}
+.msg-err{max-width:80%;margin:0 auto;padding:12px 16px;border-radius:10px;background:rgba(255,69,58,0.08);border:1px solid rgba(255,69,58,0.20);font-size:14px;color:var(--red);display:flex;align-items:center;gap:10px}
+.msg-meta{font-size:11px;color:var(--tx3);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+
+/* ── Chat Input ── */
+.chat-inp-wrap{border:1px solid var(--edge);border-radius:14px;background:var(--bg2);padding:8px 12px;transition:border 0.15s}
+.chat-inp-wrap:focus-within{border-color:var(--accent)}
+.chat-inp-wrap textarea{width:100%;border:none;background:transparent;color:var(--tx1);font-family:var(--font);font-size:14px;resize:none;outline:none;min-height:24px;max-height:160px;line-height:1.5;padding:4px 0}
+.chat-inp-wrap textarea::placeholder{color:var(--tx3)}
+.chat-inp-bar{display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid var(--edge);margin-top:4px}
+.chat-inp-actions{display:flex;gap:4px}
+.chat-inp-btn{width:30px;height:30px;border-radius:6px;border:none;background:transparent;color:var(--tx2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all 0.1s}
+.chat-inp-btn:hover{background:var(--bg3);color:var(--tx1)}
+.chat-send{width:32px;height:32px;border-radius:50%;border:none;background:var(--accent);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:opacity 0.1s}
+.chat-send:hover{opacity:0.88}
+
+/* ── Code Block ── */
+.code{background:#1C1C1E;border:1px solid var(--edge);border-radius:10px;overflow:hidden;font-family:var(--font-mono)}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--edge)}
+.code-lang{font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.04em}
+.code-copy{font-size:11px;color:var(--tx3);background:none;border:none;cursor:pointer;font-family:var(--font);padding:3px 8px;border-radius:4px}.code-copy:hover{background:var(--bg3);color:var(--tx1)}
+.code-body{padding:14px 16px;font-size:13px;line-height:1.7;overflow-x:auto;color:var(--tx2)}
+.c-keyword{color:var(--red)}.c-string{color:var(--green)}.c-func{color:var(--accent)}.c-comment{color:var(--tx3)}
+
+/* ── Table ── */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;padding:10px 14px;color:var(--tx3);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--edge)}
+.tbl td{padding:10px 14px;border-bottom:1px solid var(--edge);color:var(--tx2)}
+.tbl tr:hover td{background:var(--bg2)}
+
+/* ── Timeline ── */
+.tl{position:relative;padding-left:28px}
+.tl::before{content:'';position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:var(--edge)}
+.tl-i{position:relative;padding-bottom:20px}.tl-i:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:-27px;top:2px;width:16px;height:16px;border-radius:50%;border:2px solid var(--edge);background:var(--bg1)}
+.tl-dot.a{border-color:var(--accent);background:var(--accent)}
+.tl-dot.d{border-color:var(--green);background:var(--green)}
+.tl-time{font-size:11px;color:var(--tx3);margin-bottom:2px}
+.tl-title{font-size:14px;font-weight:500}
+.tl-desc{font-size:12px;color:var(--tx2);margin-top:2px}
+
+/* ── Skeleton ── */
+.skel{background:linear-gradient(90deg,var(--bg2) 25%,var(--bg3) 50%,var(--bg2) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:4px}
+.skel-t{height:14px;margin-bottom:8px}.skel-t:last-child{width:60%}
+.skel-a{width:36px;height:36px;border-radius:50%}
+.skel-c{height:100px;border-radius:8px}
+
+/* ── Progress ── */
+.prog{height:6px;border-radius:3px;background:var(--bg3);overflow:hidden}
+.prog-bar{height:100%;border-radius:3px;background:var(--accent);transition:width 0.3s}
+.prog-ind{height:100%;width:30%;border-radius:3px;background:var(--accent);animation:progressInd 1.6s infinite}
+
+/* ── Empty State ── */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;text-align:center;border-radius:14px;border:1px dashed var(--edge);background:var(--bg1)}
+.empty-icon{width:56px;height:56px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:22px}
+.empty-title{font-size:16px;font-weight:600;margin-bottom:4px}
+.empty-desc{font-size:13px;color:var(--tx2);max-width:300px;line-height:1.5;margin-bottom:16px}
+
+/* ── Tabs ── */
+.tabs{display:flex;gap:2px;background:var(--bg2);border-radius:8px;padding:3px;width:fit-content}
+.tab{padding:7px 16px;border-radius:6px;border:none;background:transparent;color:var(--tx2);font-size:13px;font-weight:500;cursor:pointer;transition:all 0.1s;font-family:var(--font);white-space:nowrap}
+.tab:hover{color:var(--tx1)}
+.tab.on{background:var(--bg1);color:var(--tx1);box-shadow:var(--sh-sm)}
+
+/* ── File Item ── */
+.file{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:background 0.1s}
+.file:hover{background:var(--bg2)}
+.file-ic{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.file-ic.f{background:rgba(255,159,10,0.10);color:var(--amber)}
+.file-ic.d{background:var(--accent-bg);color:var(--accent)}
+.file-ic.i{background:rgba(48,209,88,0.10);color:var(--green)}
+.file-nm{font-size:13px;font-weight:500}
+.file-meta{font-size:11px;color:var(--tx3);margin-top:1px}
+
+/* ── Avatar ── */
+.av{width:32px;height:32px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--tx2);flex-shrink:0}
+.av-lg{width:48px;height:48px;font-size:17px}
+.av-sm{width:24px;height:24px;font-size:10px}
+.av-online{position:relative}.av-online::after{content:'';position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;border-radius:50%;border:2px solid var(--bg1);background:var(--green)}
+
+/* ── Workspace Card ── */
+.ws-card{background:var(--bg2);border:1px solid var(--edge);border-radius:12px;padding:16px;transition:all 0.2s;cursor:pointer}
+.ws-card:hover{border-color:var(--edge-h);box-shadow:var(--sh-md)}
+.ws-card-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.ws-card-name{font-size:15px;font-weight:600}
+.ws-card-desc{font-size:12px;color:var(--tx2);margin-bottom:12px;line-height:1.4}
+.ws-card-meta{display:flex;gap:16px;font-size:11px;color:var(--tx3)}
+
+/* ── Model Card ── */
+.m-card{background:var(--bg2);border:1px solid var(--edge);border-radius:12px;padding:16px}
+.m-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.m-card-name{font-size:15px;font-weight:600}
+.m-card-rating{font-size:12px;color:var(--amber)}
+.m-card-specs{font-size:12px;color:var(--tx3);margin-bottom:8px}
+.m-card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+.m-card-tag{padding:2px 8px;border-radius:999px;background:var(--bg3);font-size:11px;color:var(--tx2)}
+
+/* ── Agent Row ── */
+.agent-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;transition:background 0.1s}
+.agent-row:hover{background:var(--bg2)}
+.agent-info{flex:1;min-width:0}.agent-name{font-size:14px;font-weight:500}.agent-role{font-size:11px;color:var(--tx3)}
+
+/* ── Command Palette ── */
+.cp{width:480px;max-width:92vw;background:var(--glass-h);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border:1px solid var(--edge);border-radius:14px;box-shadow:var(--sh-lg);overflow:hidden}
+.cp-input{padding:12px 16px;border-bottom:1px solid var(--edge)}
+.cp-input input{width:100%;border:none;background:transparent;color:var(--tx1);font-family:var(--font);font-size:15px;outline:none}
+.cp-input input::placeholder{color:var(--tx3)}
+.cp-results{padding:4px;max-height:280px;overflow-y:auto}
+.cp-grp{padding:6px 12px 2px;font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--tx3);font-weight:600}
+.cp-item{padding:8px 12px;border-radius:6px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;font-size:13px;color:var(--tx1);transition:background 0.1s}
+.cp-item:hover,.cp-item.sel{background:var(--bg2)}
+.cp-item .short{font-size:10px;color:var(--tx3);font-family:var(--font-mono)}
+
+/* ── Keyboard ── */
+.kbd{display:inline-flex;align-items:center;gap:3px}
+.kbd k{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:18px;padding:0 4px;border-radius:3px;background:var(--kbd-bg);border:1px solid var(--kbd-edge);font-family:var(--font-mono);font-size:10px;color:var(--tx2);line-height:1}
+.kbd s{color:var(--tx3);font-size:9px}
+
+/* ── Hermes Quick Panel ── */
+.hermes-panel{width:360px;max-height:420px;background:var(--glass-h);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border:1px solid var(--edge);border-radius:14px;box-shadow:var(--sh-lg);display:flex;flex-direction:column;overflow:hidden}
+.hermes-header{padding:12px 16px;border-bottom:1px solid var(--edge);display:flex;align-items:center;gap:10px}
+.hermes-body{flex:1;overflow-y:auto;padding:8px}
+.hermes-input{padding:8px 12px;border-top:1px solid var(--edge);display:flex;gap:8px}
+.hermes-input input{flex:1;border:none;background:transparent;color:var(--tx1);font-family:var(--font);font-size:14px;outline:none}
+.hermes-input input::placeholder{color:var(--tx3)}
+
+/* ── DnD Zone ── */
+.dnd{border:2px dashed var(--edge);border-radius:14px;padding:32px;text-align:center;transition:all 0.2s;cursor:pointer}
+.dnd:hover,.dnd.over{border-color:var(--accent);background:var(--accent-bg)}
+.dnd-icon{font-size:28px;margin-bottom:10px;color:var(--tx3)}.dnd:hover .dnd-icon,.dnd.over .dnd-icon{color:var(--accent)}
+.dnd-title{font-size:15px;font-weight:600;margin-bottom:4px}
+.dnd-desc{font-size:12px;color:var(--tx2)}
+
+/* ── Swatch ── */
+.sw{width:44px;height:44px;border-radius:8px;transition:transform 0.15s}
+.sw:hover{transform:scale(1.12);box-shadow:var(--sh-sm)}
+
+/* ── Elevation demo ── */
+.depth-row{display:flex;gap:12px;align-items:flex-end}
+.depth-box{flex:1;border-radius:12px;padding:16px;min-height:70px;display:flex;align-items:flex-end;font-size:12px;color:var(--tx3)}
+.d-0{background:var(--bg0);border:1px dashed var(--edge)}
+.d-1{background:var(--bg1);border:1px solid var(--edge);box-shadow:var(--sh-sm);min-height:90px}
+.d-2{background:var(--glass);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid var(--edge);box-shadow:var(--sh-md);min-height:110px}
+.d-3{background:var(--glass-h);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border:1px solid var(--edge);box-shadow:var(--sh-lg);min-height:130px}
+
+/* ── Settings Row ── */
+.set-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--edge)}
+.set-row:last-child{border-bottom:none}
+.set-label{font-size:14px}.set-desc{font-size:12px;color:var(--tx3);margin-top:2px}
+
+/* ── Animations ── */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes progressInd{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
+@media(prefers-reduced-motion){*,*::before,*::after{animation-duration:0.01ms!important}}
+
+@media(max-width:768px){.sec{padding:32px 20px}.grid2,.grid3,.grid4{grid-template-columns:1fr}.hr{margin:0 20px}}
+</style>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-create" viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="6"/><circle cx="12" cy="3.5" r="2"/><line x1="8" y1="13" x2="16" y2="13"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></symbol>
+  <symbol id="i-workspace" viewBox="0 0 24 24"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="15" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="15" width="7" height="7" rx="1.5"/><rect x="15" y="15" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-files" viewBox="0 0 24 24"><path d="M5 3h9l5 5v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v5h5"/><line x1="7" y1="13" x2="15" y2="13"/><line x1="7" y1="17" x2="12" y2="17"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6l-4 3v-3H6a2 2 0 0 1-2-2V6z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><line x1="4" y1="8" x2="20" y2="8"/><line x1="6" y1="12" x2="22" y2="12"/><line x1="8" y1="16" x2="24" y2="16"/><circle cx="4" cy="8" r="1" fill="currentColor"/><circle cx="6" cy="12" r="1" fill="currentColor"/><circle cx="8" cy="16" r="1" fill="currentColor"/></symbol>
+</svg>
+
+<!-- CHROME -->
+<div class="chrome">
+  <div class="chrome-dots"><div class="chrome-d c"></div><div class="chrome-d m"></div><div class="chrome-d x"></div></div>
+  <div class="chrome-t">Depth Canvas — Component Library</div>
+</div>
+
+<!-- SIDEBAR -->
+<nav class="side">
+  <div class="side-i on"><svg viewBox="0 0 24 24"><use href="#i-create"/></svg></div>
+  <div class="side-i"><svg viewBox="0 0 24 24"><use href="#i-search"/></svg></div>
+  <div class="side-i"><svg viewBox="0 0 24 24"><use href="#i-workspace"/></svg></div>
+  <div class="side-i"><svg viewBox="0 0 24 24"><use href="#i-files"/></svg></div>
+  <div class="side-i"><svg viewBox="0 0 24 24"><use href="#i-chat"/></svg></div>
+  <div class="side-i"><svg viewBox="0 0 24 24"><use href="#i-layers"/></svg></div>
+  <div class="side-sp"></div>
+  <div class="side-i tip"><svg viewBox="0 0 24 24"><use href="#i-settings"/></svg><span class="tip-txt">Settings</span></div>
+  <div class="side-av">刘</div>
+</nav>
+
+<!-- TOAST AREA -->
+<div class="toast-area" id="toastArea"></div>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="sec" style="padding-top:72px">
+  <span class="sec-label">Design System</span>
+  <h1 class="sec-title" style="font-size:clamp(2rem,4.5vw,3.2rem);max-width:640px">30+ Components.<br><span style="color:var(--accent)">One language.</span></h1>
+  <p class="sec-desc" style="font-size:17px">Apple-inspired minimal. Zero gradients. System fonts. Every component needed for the Super Niuma AI workstation — chat, workspace, memory, settings, and beyond.</p>
+</section>
+
+<div class="hr"></div>
+
+<!-- ═══════════ COLOR + TYPOGRAPHY ═══════════ -->
+<section class="sec">
+  <span class="sec-label">Foundation</span>
+  <h2 class="sec-title">8 Colors. System Fonts.</h2>
+  <div class="grid2" style="margin-top:24px">
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:10px">Palette</span>
+      <div class="row" style="gap:10px;margin-bottom:10px">
+        <div class="sw" style="background:var(--bg0)"></div><div class="sw" style="background:var(--bg1)"></div><div class="sw" style="background:var(--bg2)"></div><div class="sw" style="background:var(--bg3)"></div>
+      </div>
+      <div class="row" style="gap:10px">
+        <div class="sw" style="background:var(--accent)"></div><div class="sw" style="background:var(--red)"></div><div class="sw" style="background:var(--green)"></div><div class="sw" style="background:var(--amber)"></div>
+      </div>
+    </div>
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:10px">Depth Model</span>
+      <div class="depth-row">
+        <div class="d-0">L0</div><div class="d-1">L1</div><div class="d-2">L2</div><div class="d-3">L3</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- ═══════════ BUTTON · INPUT · TOGGLE · CHECKBOX · RADIO ═══════════ -->
+<section class="sec">
+  <span class="sec-label">Atoms</span>
+  <h2 class="sec-title">Button · Input · Toggle</h2>
+
+  <div class="grid2" style="margin-top:20px">
+    <!-- Buttons -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Buttons</span>
+      <div class="row" style="flex-direction:column;align-items:flex-start;gap:8px">
+        <div class="row"><button class="btn btn-p">Primary</button><button class="btn btn-p" disabled>Disabled</button></div>
+        <div class="row"><button class="btn btn-s">Secondary</button><button class="btn btn-s btn-sm">Small</button></div>
+        <div class="row"><button class="btn btn-g">Ghost</button><button class="btn btn-d">Danger</button></div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Input</span>
+      <input class="inp" placeholder="Placeholder" style="margin-bottom:8px">
+      <input class="inp" value="Filled value" style="margin-bottom:8px">
+      <input class="inp inp-err" value="Error state">
+    </div>
+
+    <!-- Toggle -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Toggle</span>
+      <div class="row" style="gap:12px">
+        <div class="tgl off" onclick="this.classList.toggle('on');this.classList.toggle('off')"></div>
+        <span style="font-size:14px">Off</span>
+      </div>
+      <div class="row" style="gap:12px;margin-top:8px">
+        <div class="tgl on"></div>
+        <span style="font-size:14px">On</span>
+      </div>
+    </div>
+
+    <!-- Checkbox + Radio -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Checkbox & Radio</span>
+      <label class="chk" style="margin-bottom:8px"><input type="checkbox" checked><span class="chk-box"></span>Checked</label>
+      <label class="chk" style="margin-bottom:12px"><input type="checkbox"><span class="chk-box"></span>Unchecked</label>
+      <label class="rad" style="margin-bottom:8px"><input type="radio" name="r1" checked><span class="rad-box"></span>Option A</label>
+      <label class="rad"><input type="radio" name="r1"><span class="rad-box"></span>Option B</label>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- ═══════════ DROPDOWN · DIALOG · TOOLTIP ═══════════ -->
+<section class="sec">
+  <span class="sec-label">Molecules</span>
+  <h2 class="sec-title">Dropdown · Dialog · Tooltip</h2>
+
+  <div class="grid2" style="margin-top:20px">
+    <!-- Dropdown -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Dropdown / Select</span>
+      <div class="dd" id="dd-demo" style="margin-bottom:12px">
+        <button class="dd-btn" onclick="document.getElementById('dd-menu').classList.toggle('open')">Auto</button>
+        <div class="dd-menu" id="dd-menu">
+          <div class="dd-item sel">Auto <span style="font-size:11px;color:var(--tx3)">Recommended</span></div>
+          <div class="dd-sep"></div>
+          <div class="dd-item">DeepSeek V4</div>
+          <div class="dd-item">Gemma-4</div>
+          <div class="dd-item">Qwen-VL</div>
+          <div class="dd-sep"></div>
+          <div class="dd-item" style="opacity:0.4">Claude 4 <span style="font-size:11px;color:var(--tx3)">Quota used</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dialog -->
+    <div class="card" style="min-height:120px">
+      <span class="sec-label" style="margin-bottom:12px">Dialog / Modal</span>
+      <button class="btn btn-s btn-sm" onclick="document.getElementById('dlg-demo').classList.remove('dlg-hidden')">Open Dialog</button>
+    </div>
+
+    <!-- Tooltip -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Tooltip</span>
+      <div class="row" style="gap:16px">
+        <div class="tip"><button class="btn btn-s btn-sm">Hover me</button><span class="tip-txt">This is a tooltip</span></div>
+        <div class="tip"><span class="badge badge-a">Shortcut</span><span class="tip-txt">Press ⌘K to open</span></div>
+      </div>
+    </div>
+
+    <!-- Badge -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Badges</span>
+      <div class="row"><span class="badge badge-a">Active</span><span class="badge badge-g">Success</span><span class="badge badge-w">Warning</span><span class="badge badge-r">Error</span></div>
+    </div>
+  </div>
+
+  <!-- Dialog (hidden) -->
+  <div class="dlg-overlay dlg-hidden" id="dlg-demo" onclick="if(event.target===this)this.classList.add('dlg-hidden')">
+    <div class="dlg">
+      <div class="dlg-title">Delete Workspace</div>
+      <div class="dlg-body">This action cannot be undone. All agents, files, and memory in this workspace will be permanently removed.</div>
+      <div class="dlg-foot">
+        <button class="btn btn-s btn-sm" onclick="document.getElementById('dlg-demo').classList.add('dlg-hidden')">Cancel</button>
+        <button class="btn btn-p btn-sm" onclick="document.getElementById('dlg-demo').classList.add('dlg-hidden')">Delete</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- ═══════════ TOAST · CONTEXT MENU ═══════════ -->
+<section class="sec">
+  <span class="sec-label">Feedback</span>
+  <h2 class="sec-title">Toast · Context Menu</h2>
+
+  <div class="grid2" style="margin-top:20px">
+    <!-- Toast -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Toast Notifications</span>
+      <p style="font-size:13px;color:var(--tx2);margin-bottom:12px">Top-right. Auto-dismiss. Max 2 at once.</p>
+      <div class="row" style="gap:8px">
+        <button class="btn btn-s btn-sm" onclick="showToast('s','Success','File saved')">Success</button>
+        <button class="btn btn-s btn-sm" onclick="showToast('e','Error','Connection failed')">Error</button>
+        <button class="btn btn-s btn-sm" onclick="showToast('w','Warning','Token at 85%')">Warning</button>
+        <button class="btn btn-s btn-sm" onclick="showToast('i','Info','New update available')">Info</button>
+      </div>
+    </div>
+
+    <!-- Context Menu -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Context Menu</span>
+      <div class="ctx" style="width:200px">
+        <div class="ctx-i">Copy<span class="short">⌘C</span></div>
+        <div class="ctx-i">Regenerate<span class="short">⌘R</span></div>
+        <div class="ctx-s"></div>
+        <div class="ctx-i danger">Delete<span class="short">⌫</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- ═══════════ MESSAGE BUBBLES · CHAT INPUT ═══════════ -->
+<section class="sec">
+  <span class="sec-label">Chat</span>
+  <h2 class="sec-title">Message Bubbles · Chat Input</h2>
+
+  <div class="grid2" style="margin-top:20px">
+    <!-- Messages -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Message Bubbles</span>
+      <div class="msg-area">
+        <div class="msg-sys">Today 10:24 AM</div>
+        <div class="msg-ai">
+          <div class="msg-meta"><span style="font-weight:600">Hermes</span><span class="badge badge-a">Auto</span></div>
+          <p>你好，我是 Hermes。你的 AI 工作助理。有什么可以帮你？</p>
+        </div>
+        <div class="msg-u">帮我写一篇关于 AI Agent 的文章大纲</div>
+        <div class="msg-ai">
+          <div class="msg-meta"><span style="font-weight:600">Hermes</span></div>
+          <p>好的，这是一个关于 AI Agent 协作工作台的文章大纲：</p>
+          <p>1. <strong>引言</strong> — 从单模型到多 Agent 协作的范式转移</p>
+          <p>2. <strong>核心概念</strong> — Agent、工具、记忆、Token 预算</p>
+        </div>
+        <div class="msg-err">
+          <span>!</span>
+          <span style="flex:1">消息发送失败：网络连接超时</span>
+          <button class="btn btn-g btn-sm">Retry</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Chat Input</span>
+      <div class="chat-inp-wrap">
+        <textarea placeholder="Ask anything...&#10;Shift+Enter for new line" rows="3">帮我写一篇关于 AI Agent 的文章大纲</textarea>
+        <div class="chat-inp-bar">
+          <div class="chat-inp-actions">
+            <button class="chat-inp-btn" title="Mention Agent">@</button>
+            <button class="chat-inp-btn" title="Attach File">+</button>
+            <button class="chat-inp-btn" title="Web Search">◉</button>
+          </div>
+          <div class="row" style="gap:6px">
+            <span class="kbd"><k>Shift</k><s>+</s><k>Enter</k></span>
+            <button class="chat-send">↑</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- ═══════════ CODE · TABLE · TIMELINE · FILE ═══════════ -->
+<section class="sec">
+  <span class="sec-label">Content Display</span>
+  <h2 class="sec-title">Code · Table · Timeline · File</h2>
+
+  <div class="grid2" style="margin-top:20px">
+    <!-- Code Block -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:10px">Code Block</span>
+      <div class="code">
+        <div class="code-head"><span class="code-lang">Python</span><button class="code-copy">Copy</button></div>
+        <div class="code-body">
+<span class="c-keyword">from</span> taiji <span class="c-keyword">import</span> Engine<br>
+<span class="c-keyword">def</span> <span class="c-func">create_agent</span>(name: <span class="c-keyword">str</span>) -> Agent:<br>
+&nbsp;&nbsp;<span class="c-comment"># Auto-route to best model</span><br>
+&nbsp;&nbsp;<span class="c-keyword">return</span> Engine.allocate(name)<br>
+<span class="c-func">print</span>(<span class="c-string">"超级牛马 ⚡"</span>)
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card" style="padding:12px">
+      <span class="sec-label" style="margin-bottom:10px;padding:0 8px">Table</span>
+      <table class="tbl">
+        <thead><tr><th>Model</th><th>Context</th><th>Cost/1M</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>DeepSeek V4</td><td>128K</td><td>$0.50</td><td><span class="badge badge-g">Active</span></td></tr>
+          <tr><td>Gemma-4</td><td>32K</td><td>Free</td><td><span class="badge badge-a">Local</span></td></tr>
+          <tr><td>Claude 4</td><td>200K</td><td>$3.00</td><td><span class="badge badge-w">Limited</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Timeline -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Timeline</span>
+      <div class="tl">
+        <div class="tl-i"><div class="tl-dot d"></div><div class="tl-time">10:24 AM</div><div class="tl-title">Task completed</div><div class="tl-desc">Report generated successfully</div></div>
+        <div class="tl-i"><div class="tl-dot a"></div><div class="tl-time">10:28 AM</div><div class="tl-title">Analyzing data</div><div class="tl-desc">Processing 1,234 records</div></div>
+        <div class="tl-i"><div class="tl-dot"></div><div class="tl-time">Upcoming</div><div class="tl-title">Generate summary</div></div>
+      </div>
+    </div>
+
+    <!-- File Items -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:10px">File Items</span>
+      <div class="file"><div class="file-ic f">F</div><div><div class="file-nm">project-docs/</div><div class="file-meta">12 files · Today</div></div></div>
+      <div class="file"><div class="file-ic d">D</div><div><div class="file-nm">design-tokens.css</div><div class="file-meta">19 KB · CSS</div></div></div>
+      <div class="file"><div class="file-ic i">I</div><div><div class="file-nm">screenshot.png</div><div class="file-meta">2.4 MB · Image</div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- ═══════════ SKELETON · PROGRESS · EMPTY · TABS ═══════════ -->
+<section class="sec">
+  <span class="sec-label">States</span>
+  <h2 class="sec-title">Skeleton · Progress · Empty · Tabs</h2>
+
+  <div class="grid2" style="margin-top:20px">
+    <!-- Skeleton -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Skeleton Loading</span>
+      <div class="row" style="align-items:flex-start">
+        <div class="skel skel-a"></div>
+        <div style="flex:1"><div class="skel skel-t" style="width:70%"></div><div class="skel skel-t" style="width:40%"></div></div>
+      </div>
+      <div class="skel skel-c" style="margin-top:12px"></div>
+    </div>
+
+    <!-- Progress -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Progress</span>
+      <div style="margin-bottom:12px">
+        <div class="prog"><div class="prog-bar" style="width:68%"></div></div>
+        <div style="font-size:12px;color:var(--tx3);margin-top:4px">68% · 3.2 MB / 4.7 MB</div>
+      </div>
+      <div>
+        <div class="prog"><div class="prog-ind"></div></div>
+        <div style="font-size:12px;color:var(--tx3);margin-top:4px">Indeterminate</div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="empty">
+        <div class="empty-icon">+</div>
+        <div class="empty-title">No workspaces yet</div>
+        <div class="empty-desc">Create your first workspace to start collaborating with AI agents.</div>
+        <button class="btn btn-p btn-sm">Create Workspace</button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:12px">Tabs</span>
+      <div class="tabs">
+        <button class="tab on">All</button>
+        <button class="tab">Writing</button>
+        <button class="tab">Coding</button>
+        <button class="tab">Analysis</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- ═══════════ WORKSPACE · MODEL · AGENT CARDS ═══════════ -->
+<section class="sec">
+  <span class="sec-label">Domain Components</span>
+  <h2 class="sec-title">Workspace · Model · Agent</h2>
+
+  <div class="grid3" style="margin-top:20px">
+    <!-- Workspace Card -->
+    <div class="ws-card">
+      <div class="ws-card-head"><span class="ws-card-name">Writing Studio</span><span class="badge badge-g">Active</span></div>
+      <div class="ws-card-desc">Novel drafts, article editing, and content planning with 3 specialized agents.</div>
+      <div class="ws-card-meta"><span>3 Agents</span><span>12 Memories</span><span>2 min ago</span></div>
+    </div>
+    <div class="ws-card">
+      <div class="ws-card-head"><span class="ws-card-name">Code Lab</span><span class="badge badge-a">Idle</span></div>
+      <div class="ws-card-desc">Full-stack development with code review, testing, and deployment agents.</div>
+      <div class="ws-card-meta"><span>2 Agents</span><span>8 Memories</span><span>1 hr ago</span></div>
+    </div>
+
+    <!-- Model Card -->
+    <div class="m-card">
+      <div class="m-card-header"><span class="m-card-name">DeepSeek V4</span><span class="m-card-rating">4.9</span></div>
+      <div class="m-card-specs">128K context · $0.50/1M tokens</div>
+      <div class="m-card-tags"><span class="m-card-tag">Writing</span><span class="m-card-tag">Coding</span><span class="m-card-tag">Analysis</span></div>
+      <button class="btn btn-p btn-sm" style="width:100%">Install</button>
+    </div>
+    <div class="m-card" style="border-color:var(--green);border-width:1.5px">
+      <div class="m-card-header"><span class="m-card-name">Gemma-4</span><span class="m-card-rating">4.6</span></div>
+      <div class="m-card-specs">32K context · Free · Local</div>
+      <div class="m-card-tags"><span class="m-card-tag">Chat</span><span class="m-card-tag">Translation</span></div>
+      <button class="btn btn-s btn-sm" style="width:100%">Installed ✓</button>
+    </div>
+  </div>
+
+  <!-- Agent Rows -->
+  <div class="card" style="margin-top:16px">
+    <span class="sec-label" style="margin-bottom:10px">Agent Configuration Rows</span>
+    <div class="agent-row"><div class="av">W</div><div class="agent-info"><div class="agent-name">Writer</div><div class="agent-role">Main content generation</div></div><span class="badge badge-a">DeepSeek V4</span><span class="badge badge-g">Active</span></div>
+    <div class="agent-row"><div class="av" style="background:var(--accent-bg);color:var(--accent)">S</div><div class="agent-info"><div class="agent-name">Searcher</div><div class="agent-role">Web research & fact-checking</div></div><span class="badge badge-a">Auto</span><span class="badge badge-g">Active</span></div>
+    <div class="agent-row"><div class="av" style="background:rgba(255,159,10,0.10);color:var(--amber)">R</div><div class="agent-info"><div class="agent-name">Reviewer</div><div class="agent-role">Quality check & editing</div></div><span class="badge badge-w">Paused</span></div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- ═══════════ COMMAND PALETTE · HERMES PANEL · DND · SETTINGS ═══════════ -->
+<section class="sec">
+  <span class="sec-label">Desktop Patterns</span>
+  <h2 class="sec-title">Command Palette · Settings · DnD</h2>
+
+  <div class="grid2" style="margin-top:20px">
+    <!-- Command Palette -->
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="cp">
+        <div class="cp-input"><input placeholder="Type a command..." value="new"></div>
+        <div class="cp-results">
+          <div class="cp-grp">Navigation</div>
+          <div class="cp-item sel">New Chat<span class="short">⌘N</span></div>
+          <div class="cp-item">Workspace<span class="short">⌘1</span></div>
+          <div class="cp-grp">Actions</div>
+          <div class="cp-item">Search Files<span class="short">⌘G</span></div>
+          <div class="cp-item">Settings<span class="short">⌘,</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hermes Quick Panel -->
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="hermes-panel" style="max-height:280px">
+        <div class="hermes-header">
+          <div class="av av-sm" style="background:var(--accent-bg);color:var(--accent)">H</div>
+          <div><div style="font-size:13px;font-weight:600">Hermes</div><div style="font-size:11px;color:var(--tx3)">Quick access · ⌃Space</div></div>
+        </div>
+        <div class="hermes-body">
+          <div class="msg-ai"><div class="msg-meta"><span style="font-weight:600">Hermes</span></div><p style="font-size:13px">Hey, I'm here. Ask me anything across all workspaces.</p></div>
+        </div>
+        <div class="hermes-input"><input placeholder="Message Hermes..."></div>
+      </div>
+    </div>
+
+    <!-- Drag & Drop -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:10px">File Drop Zone</span>
+      <div class="dnd">
+        <div class="dnd-icon">+</div>
+        <div class="dnd-title">Drop files here</div>
+        <div class="dnd-desc">PDF · DOCX · Images · Code · CSV</div>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:10px">Settings Panel</span>
+      <div class="set-row"><div><div class="set-label">Default Model</div><div class="set-desc">Auto-selects the best model</div></div><span class="badge badge-a">Auto</span></div>
+      <div class="set-row"><div><div class="set-label">Theme</div></div><div class="dd"><button class="dd-btn" style="font-size:13px;padding:4px 10px">Night ▾</button></div></div>
+      <div class="set-row"><div><div class="set-label">Telemetry</div><div class="set-desc">Help improve the product</div></div><div class="tgl off"></div></div>
+      <div class="set-row"><div><div class="set-label">Auto-start</div><div class="set-desc">Launch on system boot</div></div><div class="tgl on"></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- ═══════════ AVATAR · KEYBOARD ═══════════ -->
+<section class="sec" style="padding-bottom:40px">
+  <span class="sec-label">Utilities</span>
+  <h2 class="sec-title">Avatar · Keyboard Shortcuts</h2>
+  <div class="grid2" style="margin-top:20px">
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:10px">Avatar Sizes</span>
+      <div class="row" style="align-items:flex-end;gap:12px">
+        <div><div class="av av-sm">S</div><div style="font-size:10px;color:var(--tx3);margin-top:4px;text-align:center">sm 24</div></div>
+        <div><div class="av">M</div><div style="font-size:10px;color:var(--tx3);margin-top:4px;text-align:center">md 32</div></div>
+        <div><div class="av av-lg av-online">L</div><div style="font-size:10px;color:var(--tx3);margin-top:4px;text-align:center">lg 48</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <span class="sec-label" style="margin-bottom:10px">Keyboard Shortcuts</span>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+        <div class="row" style="justify-content:space-between"><span>New Chat</span><span class="kbd"><k>⌘</k><k>N</k></span></div>
+        <div class="row" style="justify-content:space-between"><span>Command Palette</span><span class="kbd"><k>⌘</k><k>K</k></span></div>
+        <div class="row" style="justify-content:space-between"><span>Quick Hermes</span><span class="kbd"><k>⌃</k><k>Space</k></span></div>
+        <div class="row" style="justify-content:space-between"><span>Send Message</span><span class="kbd"><k>⌘</k><k>Enter</k></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- THEME TOGGLE -->
+<div style="position:fixed;bottom:20px;right:20px;display:flex;gap:2px;padding:2px;background:var(--bg3);border-radius:999px;z-index:500">
+  <button onclick="setTheme('night')" id="tn" style="width:30px;height:30px;border-radius:50%;border:none;background:var(--accent-bg);color:var(--accent);cursor:pointer;font-size:13px;transition:all 0.1s">◉</button>
+  <button onclick="setTheme('day')" id="td" style="width:30px;height:30px;border-radius:50%;border:none;background:transparent;color:var(--tx3);cursor:pointer;font-size:13px;transition:all 0.1s">◎</button>
+</div>
+
+<script>
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  var n=document.getElementById('tn'),d=document.getElementById('td');
+  if(t==='night'){n.style.background='var(--accent-bg)';n.style.color='var(--accent)';d.style.background='transparent';d.style.color='var(--tx3)'}
+  else{d.style.background='var(--accent-bg)';d.style.color='var(--accent)';n.style.background='transparent';n.style.color='var(--tx3)'}
+}
+
+function showToast(type,title,desc){
+  var t=document.getElementById('toastArea');
+  var el=document.createElement('div');
+  el.className='toast toast-'+type;
+  var icons={s:'OK',e:'!',w:'△',i:'i'};
+  el.innerHTML='<div class="toast-icon">'+icons[type]+'</div><div class="toast-body"><div class="toast-title">'+title+'</div><div class="toast-desc">'+desc+'</div></div><button class="toast-close" onclick="this.parentElement.remove()">×</button>';
+  t.appendChild(el);
+  if(t.children.length>2)t.firstChild.remove();
+  setTimeout(function(){if(el.parentElement)el.remove()},type==='e'?0:4000);
+}
+
+document.addEventListener('click',function(e){
+  if(!e.target.closest('#dd-demo'))document.getElementById('dd-menu').classList.remove('open');
+});
+</script>
+</body>
+</html>

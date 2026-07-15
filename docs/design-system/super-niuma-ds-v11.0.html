@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>超级牛马 · DS v11.0 — 下一代桌面端设计系统</title>
+<style>
+/* ============================================================
+   NEON PULSE v11.0 — Complete Design System (Standalone)
+   超级牛马下一代桌面端设计系统 · 39 Components
+   ============================================================ */
+
+/* ── FONTS ── */
+@font-face{font-family:Geist;src:local('Geist'),local('GeistVF');font-weight:100 900;font-display:swap}
+@font-face{font-family:GeistMono;src:local('GeistMono'),local('GeistMonoVF');font-weight:100 900;font-display:swap}
+
+/* ═══════════════════════════════════════
+   L1: PRIMITIVE TOKENS
+   ═══════════════════════════════════════ */
+:root{
+  --font-display: Geist, "Space Grotesk", "Clash Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-sans: Geist, "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: GeistMono, "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
+
+  /* Spacing */
+  --s-0:0;--s-1:4px;--s-2:8px;--s-3:12px;--s-4:16px;--s-5:20px;--s-6:24px;--s-8:32px;--s-10:40px;--s-12:48px;--s-16:64px;--s-20:80px;--s-24:96px;
+
+  /* Type Scale */
+  --t-2xs:.6875rem;--t-xs:.75rem;--t-sm:.8125rem;--t-base:.9375rem;--t-md:1.0625rem;--t-lg:1.25rem;--t-xl:1.5rem;--t-2xl:1.875rem;--t-3xl:2.5rem;
+  --w-n:400;--w-m:500;--w-sb:600;--w-b:700;--w-blk:800;
+  --lh-t:1.25;--lh-s:1.35;--lh-n:1.5;--lh-r:1.65;
+
+  /* Radius */
+  --r-2xs:3.6px;--r-xs:7.2px;--r-sm:10.8px;--r-md:14.4px;--r-lg:19.2px;--r-xl:24px;--r-2xl:32px;--r-full:9999px;
+
+  /* Easing */
+  --e-spring:cubic-bezier(.34,1.56,.64,1);--e-out:cubic-bezier(0,0,.2,1);--e-smooth:cubic-bezier(0.16,1,0.3,1);--e-emph:cubic-bezier(0.05,0.7,0.1,1);
+
+  /* Duration */
+  --d-fast:150ms;--d-n:250ms;--d-slow:350ms;--d-page:500ms;--d-enter:700ms;
+
+  /* z-index */
+  --z-dd:100;--z-sticky:200;--z-overlay:300;--z-modal:400;--z-toast:500;--z-tip:600;
+}
+
+/* ═══════════════════════════════════════
+   L2: SEMANTIC TOKENS (Night default)
+   ═══════════════════════════════════════ */
+:root{
+  --bg-root:#080B12;--bg-surface:#0E131F;--bg-elevated:#192237;--bg-overlay:#192237;--bg-input:#131928;
+  --bg-subtle:rgba(255,255,255,.04);--bg-hover:rgba(255,255,255,.06);--bg-active:rgba(255,255,255,.09);
+  --tx-p:#EDF0F5;--tx-s:#8895AB;--tx-t:#8895AB;--tx-dim:#748399;--tx-on-b:#FFFFFF;
+  --bd-s:rgba(237,240,245,.06);--bd:rgba(237,240,245,.10);--bd-h:rgba(237,240,245,.16);
+  --br:#4DA8F0;--br-h:#6BBFFC;--br-a:#2B7AB8;--br-m:rgba(77,168,240,.08);--br-g:rgba(77,168,240,.10);
+  --bd-br:rgba(77,168,240,.22);
+  --sc:#34D399;--sc-bg:rgba(52,211,153,.10);--wn:#FBBF24;--wn-bg:rgba(251,191,36,.10);
+  --er:#F87171;--er-bg:rgba(248,113,113,.10);--er-bd:rgba(248,113,113,.40);
+  --in:#22D3EE;--in-bg:rgba(34,211,238,.10);
+  --pu:#8B5CF6;--te:#2DD4BF;
+  --gl-bg:rgba(14,19,31,.76);--gl-h:rgba(14,19,31,.88);--gl-m:rgba(14,19,31,.58);--gl-l:rgba(14,19,31,.46);
+  --sh-xs:0 1px 2px -1px rgba(0,0,0,.18),0 2px 4px -2px rgba(0,0,0,.12);
+  --sh-sm:0 1px 2px -1px rgba(0,0,0,.18),0 4px 8px -3px rgba(0,0,0,.14),0 10px 20px -7px rgba(0,0,0,.12);
+  --sh-md:0 1px 2px -1px rgba(0,0,0,.18),0 4px 12px -3px rgba(0,0,0,.16),0 14px 32px -8px rgba(0,0,0,.14);
+  --sh-lg:0 1px 2px -1px rgba(0,0,0,.18),0 8px 24px -6px rgba(0,0,0,.18),0 20px 48px -12px rgba(0,0,0,.16);
+  --sh-xl:0 1px 2px -1px rgba(0,0,0,.20),0 12px 32px -8px rgba(0,0,0,.22);
+  --sh-br:0 0 0 1px rgba(77,168,240,.06),0 0 20px rgba(77,168,240,.10);
+  --sh-br-s:0 0 0 1px rgba(77,168,240,.10),0 0 32px rgba(77,168,240,.16);
+  --sh-inner:inset 0 1px 0 rgba(255,255,255,.06);
+  --sh-inner-h:inset 0 1px 0 rgba(255,255,255,.10);
+  --gr:linear-gradient(135deg,#4DA8F0,#5ED6C0,#8B5CF6);
+  --gr-sub:linear-gradient(135deg,#4DA8F0,#5ED6C0);
+  --ov-bg:rgba(3,7,18,.65);
+  --noise-op:.02;
+  --sbar:rgba(255,255,255,.10);--sbar-h:rgba(255,255,255,.18);
+}
+
+/* ═══════════════════════════════════════
+   L2b: DAY THEME
+   ═══════════════════════════════════════ */
+[data-theme="day"]{
+  --bg-root:#F7F8FB;--bg-surface:#FFF;--bg-elevated:#F2F4F8;--bg-overlay:#EBEEF4;--bg-input:#FFF;
+  --bg-subtle:rgba(17,21,29,.04);--bg-hover:rgba(17,21,29,.06);--bg-active:rgba(17,21,29,.09);
+  --tx-p:#11151D;--tx-s:#657083;--tx-t:#6B758A;--tx-dim:#9CA3AF;
+  --bd-s:rgba(17,21,29,.06);--bd:rgba(17,21,29,.10);--bd-h:rgba(17,21,29,.16);
+  --br:#3B8FD9;--br-h:#4DA8F0;--br-a:#236DAE;--br-m:rgba(59,143,217,.08);--br-g:rgba(59,143,217,.10);--bd-br:rgba(59,143,217,.22);
+  --sc:#10B981;--sc-bg:rgba(16,185,129,.10);--wn:#D97706;--wn-bg:rgba(217,119,6,.10);
+  --er:#DC2626;--er-bg:rgba(220,38,38,.10);--er-bd:rgba(220,38,38,.40);
+  --in:#06B6D4;--in-bg:rgba(6,182,212,.10);--pu:#7C3AED;--te:#14B8A6;
+  --gl-bg:rgba(255,255,255,.82);--gl-h:rgba(255,255,255,.94);--gl-m:rgba(255,255,255,.64);--gl-l:rgba(255,255,255,.52);
+  --sh-xs:0 1px 2px -1px rgba(0,0,0,.04),0 2px 4px -2px rgba(0,0,0,.03);
+  --sh-sm:0 1px 2px -1px rgba(0,0,0,.04),0 4px 8px -3px rgba(0,0,0,.05);
+  --sh-md:0 1px 2px -1px rgba(0,0,0,.04),0 4px 12px -3px rgba(0,0,0,.06);
+  --sh-lg:0 1px 2px -1px rgba(0,0,0,.04),0 8px 24px -6px rgba(0,0,0,.07);
+  --sh-xl:0 1px 2px -1px rgba(0,0,0,.06),0 12px 32px -8px rgba(0,0,0,.09);
+  --sh-br:0 0 0 1px rgba(59,143,217,.06),0 0 20px rgba(59,143,217,.08);
+  --sh-br-s:0 0 0 1px rgba(59,143,217,.10),0 0 28px rgba(59,143,217,.14);
+  --sh-inner:inset 0 1px 0 rgba(255,255,255,.30);
+  --sh-inner-h:inset 0 1px 0 rgba(255,255,255,.50);
+  --gr:linear-gradient(135deg,#3B8FD9,#06B6D4,#8B5CF6);
+  --gr-sub:linear-gradient(135deg,#3B8FD9,#06B6D4);
+  --ov-bg:rgba(15,23,42,.25);--noise-op:.02;
+  --sbar:rgba(0,0,0,.12);--sbar-h:rgba(0,0,0,.20);
+}
+
+/* ═══════════════════════════════════════
+   L2c: CLASSIC THEME
+   ═══════════════════════════════════════ */
+[data-theme="classic"]{
+  --bg-root:#F2EDE5;--bg-surface:#EDE6DC;--bg-elevated:#F9F5EF;--bg-overlay:#E5DDD0;--bg-input:#FDFBF7;
+  --bg-subtle:rgba(38,32,25,.04);--bg-hover:rgba(38,32,25,.06);--bg-active:rgba(38,32,25,.09);
+  --tx-p:#262019;--tx-s:#6B5D50;--tx-t:#5C534B;--tx-dim:#786E65;
+  --bd-s:rgba(38,32,25,.08);--bd:rgba(38,32,25,.14);--bd-h:rgba(38,32,25,.18);
+  --br:#467DA8;--br-h:#5D96C0;--br-a:#326088;--br-m:rgba(70,125,168,.08);--br-g:rgba(70,125,168,.12);--bd-br:rgba(70,125,168,.22);
+  --sc:#5B8C5A;--sc-bg:rgba(91,140,90,.10);--wn:#C49A4A;--wn-bg:rgba(196,154,74,.10);
+  --er:#C96A5E;--er-bg:rgba(201,106,94,.10);--er-bd:rgba(201,106,94,.40);
+  --in:#3B8FA5;--in-bg:rgba(59,143,165,.10);--pu:#7B6E9A;--te:#14B8A6;
+  --gl-bg:rgba(249,245,239,.88);--gl-h:rgba(249,245,239,.96);--gl-m:rgba(249,245,239,.70);--gl-l:rgba(249,245,239,.58);
+  --sh-xs:0 1px 2px -1px rgba(38,32,25,.06),0 2px 4px -2px rgba(38,32,25,.04);
+  --sh-sm:0 1px 2px -1px rgba(38,32,25,.06),0 4px 8px -3px rgba(38,32,25,.07);
+  --sh-md:0 1px 2px -1px rgba(38,32,25,.06),0 4px 12px -3px rgba(38,32,25,.08);
+  --sh-lg:0 1px 2px -1px rgba(38,32,25,.06),0 8px 24px -6px rgba(38,32,25,.09);
+  --sh-xl:0 1px 2px -1px rgba(38,32,25,.08),0 12px 32px -8px rgba(38,32,25,.12);
+  --sh-br:0 0 0 1px rgba(70,125,168,.06),0 0 16px rgba(70,125,168,.08);
+  --sh-br-s:0 0 0 1px rgba(70,125,168,.10),0 0 26px rgba(70,125,168,.12);
+  --sh-inner:inset 0 1px 0 rgba(255,255,255,.30);
+  --sh-inner-h:inset 0 1px 0 rgba(255,255,255,.45);
+  --gr:linear-gradient(135deg,#467DA8,#3D9278,#7B6E9A);
+  --gr-sub:linear-gradient(135deg,#467DA8,#3D9278);
+  --ov-bg:rgba(60,40,20,.22);--noise-op:.02;
+  --sbar:rgba(38,32,25,.12);--sbar-h:rgba(38,32,25,.22);
+}
+
+/* ═══════════════════════════════════════
+   L3: BASE & LAYOUT
+   ═══════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--font-sans);background:var(--bg-root);color:var(--tx-p);line-height:1.6;min-height:100vh;transition:background var(--d-slow) var(--e-out),color var(--d-slow) var(--e-out)}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 80% 60% at 20% 10%,var(--br-g) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 50% at 75% 85%,rgba(139,92,246,.08) 0%,transparent 55%),
+    radial-gradient(ellipse 70% 40% at 50% 50%,rgba(45,212,191,.04) 0%,transparent 60%)}
+::selection{background:var(--br-m);color:var(--tx-p)}
+html{scrollbar-width:thin;scrollbar-color:var(--sbar) transparent}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--sbar);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:var(--sbar-h)}
+
+.c{max-width:1280px;margin:0 auto;padding:0 var(--s-8);position:relative;z-index:1}
+h1{font-family:var(--font-display);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:750;letter-spacing:-.03em;line-height:1.1}
+h2{font-family:var(--font-display);font-size:1.35rem;font-weight:650;letter-spacing:-.02em}
+h3{font-family:var(--font-display);font-size:1rem;font-weight:600}
+.lbl{font-size:10px;text-transform:uppercase;letter-spacing:.14em;font-weight:600;color:var(--tx-t);margin-bottom:var(--s-2)}
+.tg{background:var(--gr);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sec{padding:var(--s-20) 0}
+.sh{margin-bottom:var(--s-8)}
+.sh p{color:var(--tx-s);margin-top:4px;font-size:.92rem}
+.hr{height:1px;background:var(--bd);margin:var(--s-12) 0}
+.g2{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:var(--s-6)}
+.g3{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--s-4)}
+.g4{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:var(--s-3)}
+.rw{display:flex;gap:var(--s-4);flex-wrap:wrap;align-items:flex-start}
+.pf{animation:fadeIn 600ms var(--e-smooth)}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes progSlide{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
+
+/* Theme Switcher */
+.ts{position:fixed;top:var(--s-4);right:var(--s-4);z-index:500;display:flex;gap:var(--s-1);background:var(--gl-h);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-full);padding:3px;box-shadow:var(--sh-br)}
+.ts button{width:36px;height:36px;border-radius:50%;border:none;background:transparent;color:var(--tx-s);font-size:14px;cursor:pointer;transition:all var(--d-n) var(--e-spring);display:flex;align-items:center;justify-content:center}
+.ts button:hover{color:var(--tx-p)}
+.ts button.active{background:var(--br-m);color:var(--br);box-shadow:var(--sh-xs)}
+
+/* Sidebar Nav */
+.snav{position:fixed;left:0;top:0;bottom:0;width:200px;background:var(--bg-surface);border-right:1px solid var(--bd);z-index:400;display:flex;flex-direction:column;padding:var(--s-3);overflow-y:auto;transition:transform var(--d-n) var(--e-smooth)}
+.snav-ttl{padding:var(--s-3) var(--s-3) var(--s-6);font-family:var(--font-display);font-weight:700;font-size:1rem;letter-spacing:-.02em}
+.snav-ttl span{color:var(--br)}
+.snav a{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--r-sm);color:var(--tx-s);font-size:.85rem;text-decoration:none;transition:all var(--d-fast) var(--e-smooth);margin-bottom:2px}
+.snav a:hover{background:var(--bg-hover);color:var(--tx-p)}
+.snav a.active{background:var(--br-m);color:var(--br)}
+.snav .sn-sep{font-size:9px;text-transform:uppercase;letter-spacing:.10em;color:var(--tx-dim);padding:var(--s-4) 12px var(--s-2);font-weight:600}
+.main{margin-left:200px}
+
+/* ═══════════════════════════════════════
+   COMPONENT STYLES
+   ═══════════════════════════════════════ */
+
+/* ── Token Swatches ── */
+.swatch-grid{display:flex;gap:var(--s-2);flex-wrap:wrap}
+.swatch{width:64px;height:64px;border-radius:var(--r-sm);border:1px solid var(--bd);position:relative;overflow:hidden;transition:transform var(--d-fast) var(--e-spring)}
+.swatch:hover{transform:scale(1.08);z-index:2;box-shadow:var(--sh-md)}
+.swatch-lbl{position:absolute;bottom:4px;left:4px;right:4px;font-size:9px;font-family:var(--font-mono);color:rgba(255,255,255,.85);background:rgba(0,0,0,.35);padding:1px 5px;border-radius:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ── Spacing Scale Boxes ── */
+.sp-box{background:var(--br-m);border:1px dashed var(--bd-br);border-radius:var(--r-xs);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:10px;color:var(--tx-t);min-width:20px}
+
+/* ── Typography Specimen ── */
+.type-spec{padding:var(--s-3) 0;border-bottom:1px solid var(--bd-s)}
+.type-spec:last-child{border-bottom:none}
+.type-meta{font-family:var(--font-mono);font-size:var(--t-2xs);color:var(--tx-dim);margin-top:2px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:var(--r-full);border:none;background:var(--gr);color:#fff;font-size:.9rem;font-weight:550;cursor:pointer;transition:all var(--d-n) var(--e-spring);box-shadow:0 6px 24px var(--br-g);position:relative;font-family:var(--font-sans)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 64px var(--br-g),0 16px 40px rgba(0,0,0,.35)}
+.btn:active{transform:scale(.97)}
+.btn-sec{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:var(--r-full);border:1px solid var(--bd);background:var(--gl-m);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--tx-p);font-size:.85rem;font-weight:500;cursor:pointer;transition:all var(--d-n) var(--e-smooth);box-shadow:var(--sh-inner);font-family:var(--font-sans)}
+.btn-sec:hover{border-color:var(--bd-h);box-shadow:var(--sh-sm),var(--sh-inner-h);transform:translateY(-1px)}
+.btn-gh{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:var(--r-sm);border:none;background:transparent;color:var(--tx-s);font-size:.8rem;cursor:pointer;transition:all var(--d-fast) var(--e-smooth);font-family:var(--font-sans)}
+.btn-gh:hover{background:var(--bg-hover);color:var(--tx-p)}
+.btn-gh.danger:hover{background:var(--er-bg);color:var(--er)}
+.btn-ico{width:38px;height:38px;border-radius:var(--r-sm);border:1px solid var(--bd);background:var(--gl-m);display:flex;align-items:center;justify-content:center;color:var(--tx-s);cursor:pointer;transition:all var(--d-fast) var(--e-spring);font-family:var(--font-sans)}
+.btn-ico:hover{border-color:var(--bd-h);color:var(--tx-p);box-shadow:var(--sh-xs)}
+.btn-sm{padding:6px 14px;font-size:.75rem;border-radius:var(--r-sm)}
+.btn-lg{padding:14px 28px;font-size:1rem}
+
+/* ── INPUT ── */
+.inp{width:100%;padding:11px 16px;border-radius:var(--r-md);border:1px solid var(--bd);background:var(--gl-m);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--tx-p);font-size:.88rem;outline:none;transition:all var(--d-n) var(--e-smooth);font-family:var(--font-sans);box-shadow:var(--sh-inner)}
+.inp::placeholder{color:var(--tx-t)}
+.inp:focus{border-color:var(--br);box-shadow:0 0 0 3px var(--br-m),var(--sh-inner)}
+.inp-err{border-color:var(--er-bd);box-shadow:0 0 0 3px var(--er-bg)}
+.inp-err:focus{border-color:var(--er);box-shadow:0 0 0 3px var(--er-bg)}
+.txta{width:100%;padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--bd);background:var(--gl-m);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--tx-p);font-size:.9rem;font-family:var(--font-sans);outline:none;resize:vertical;min-height:90px;transition:all var(--d-n) var(--e-smooth);box-shadow:var(--sh-inner)}
+.txta:focus{border-color:var(--br);box-shadow:0 0 0 3px var(--br-m),var(--sh-inner)}
+
+/* ── BADGE / DOT ── */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 11px;border-radius:var(--r-xs);font-size:11px;font-weight:550;letter-spacing:.02em}
+.badge.br{background:var(--br-m);color:var(--br)}
+.badge.gn{background:var(--sc-bg);color:var(--sc)}
+.badge.am{background:var(--wn-bg);color:var(--wn)}
+.badge.er{background:var(--er-bg);color:var(--er)}
+.badge.pu{background:rgba(139,92,246,.10);color:var(--pu)}
+.badge.te{background:rgba(45,212,191,.10);color:var(--te)}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
+.dot.on{background:var(--sc);box-shadow:0 0 8px rgba(52,211,153,.35)}
+.dot.warn{background:var(--wn);box-shadow:0 0 8px rgba(251,191,36,.35)}
+.dot.off{background:var(--tx-dim)}
+
+/* ── AVATAR ── */
+.av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:.88rem;flex-shrink:0;position:relative;user-select:none}
+.av.br{background:var(--br-m);color:var(--br)}
+.av.pu{background:rgba(139,92,246,.12);color:var(--pu)}
+.av.gn{background:var(--sc-bg);color:var(--sc)}
+.av.am{background:var(--wn-bg);color:var(--wn)}
+.av.xs{width:24px;height:24px;font-size:.6rem}
+.av.sm{width:28px;height:28px;font-size:.7rem}
+.av.lg{width:54px;height:54px;font-size:1.2rem}
+.av.xl{width:72px;height:72px;font-size:1.6rem}
+.av.online::after{content:'';position:absolute;bottom:0;right:0;width:12px;height:12px;border-radius:50%;background:var(--sc);border:2.5px solid var(--bg-elevated);box-shadow:0 0 6px rgba(52,211,153,.35)}
+.av-stack{display:flex}
+.av-stack .av{margin-left:-10px;border:2px solid var(--bg-surface);transition:transform var(--d-fast) var(--e-spring)}
+.av-stack .av:first-child{margin-left:0}
+.av-stack .av:hover{transform:translateY(-4px);z-index:2}
+
+/* ── TOGGLE ── */
+.tgl{position:relative;width:46px;height:25px;border-radius:var(--r-full);background:var(--bg-overlay);border:1px solid var(--bd);cursor:pointer;transition:all var(--d-n) var(--e-spring);flex-shrink:0}
+.tgl::after{content:'';position:absolute;top:2px;left:2px;width:19px;height:19px;border-radius:50%;background:var(--tx-t);transition:all var(--d-n) var(--e-spring);box-shadow:var(--sh-xs)}
+.tgl.on{background:var(--br);border-color:var(--br)}
+.tgl.on::after{left:23px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.20)}
+
+/* ── CHECKBOX / RADIO ── */
+.chk,.rad{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:.9rem;color:var(--tx-p)}
+.chk input,.rad input{position:absolute;opacity:0;width:0;height:0}
+.chk-box{width:20px;height:20px;border-radius:var(--r-2xs);border:1.5px solid var(--bd-h);background:var(--gl-m);display:flex;align-items:center;justify-content:center;transition:all var(--d-fast) var(--e-smooth);flex-shrink:0}
+.chk input:checked+.chk-box{background:var(--br);border-color:var(--br)}
+.chk input:checked+.chk-box::after{content:'';width:5px;height:9px;border:solid white;border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-1px)}
+.rad-box{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--bd-h);background:var(--gl-m);display:flex;align-items:center;justify-content:center;transition:all var(--d-fast) var(--e-smooth);flex-shrink:0}
+.rad input:checked+.rad-box{border-color:var(--br)}
+.rad input:checked+.rad-box::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--br)}
+
+/* ── TAG / CHIP ── */
+.tag{display:inline-flex;align-items:center;gap:4px;padding:5px 13px;border-radius:var(--r-full);font-size:.75rem;font-weight:500;background:var(--gl-m);border:1px solid var(--bd);color:var(--tx-s);cursor:pointer;transition:all var(--d-fast) var(--e-smooth);font-family:var(--font-sans)}
+.tag:hover{border-color:var(--bd-h);color:var(--tx-p)}
+.tag.active{background:var(--br-m);border-color:var(--bd-br);color:var(--br)}
+.tag .tag-x{margin-left:2px;opacity:.5;cursor:pointer;font-weight:700;font-size:14px;line-height:1}
+.tag .tag-x:hover{opacity:1;color:var(--er)}
+
+/* ── SPINNER ── */
+.spin{width:24px;height:24px;border:2.5px solid var(--bd);border-top-color:var(--br);border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+.spin-sm{width:16px;height:16px;border-width:2px}
+.spin-lg{width:38px;height:38px;border-width:3px}
+
+/* ── PROGRESS ── */
+.prog{height:6px;border-radius:3px;background:var(--bg-overlay);overflow:hidden;width:100%}
+.prog-bar{height:100%;border-radius:inherit;background:var(--gr-sub);transition:width var(--d-slow) var(--e-smooth)}
+.prog-ind{height:100%;width:35%;border-radius:inherit;background:var(--gr-sub);animation:progSlide 1.6s infinite var(--e-smooth)}
+
+/* ── SKELETON ── */
+.skel{background:linear-gradient(90deg,var(--bg-overlay) 25%,var(--bg-elevated) 50%,var(--bg-overlay) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--r-sm)}
+.skel-t{height:15px;margin-bottom:8px}
+.skel-t:last-child{width:60%}
+.skel-a{width:42px;height:42px;border-radius:50%}
+.skel-c{height:130px;border-radius:var(--r-md)}
+
+/* ── CARDS ── */
+.cd-el{background:var(--bg-elevated);border:1px solid var(--bd);border-radius:var(--r-lg);padding:var(--s-6);box-shadow:var(--sh-sm);transition:all var(--d-slow) var(--e-smooth)}
+.cd-el:hover{border-color:var(--bd-h);box-shadow:var(--sh-md);transform:translateY(-1px)}
+.cd-ol{border:1px solid var(--bd);border-radius:var(--r-lg);padding:var(--s-6);background:transparent}
+.cd-gr{background:linear-gradient(135deg,var(--br-m),rgba(45,212,191,.03));border:1px solid var(--bd-br);border-radius:var(--r-lg);padding:var(--s-6)}
+.cd-sp{position:relative;border-radius:var(--r-lg);overflow:hidden;background:var(--bg-elevated);border:1px solid var(--bd);padding:var(--s-6);transition:border-color var(--d-slow) var(--e-smooth)}
+.cd-sp::before{content:'';position:absolute;inset:-1px;border-radius:inherit;background:var(--gr);opacity:0;z-index:-1;transition:opacity var(--d-slow) var(--e-smooth)}
+.cd-sp:hover::before{opacity:.10}
+.cd-sp:hover{border-color:var(--bd-br)}
+
+/* ── GLASS CONTAINERS ── */
+.gc-h{background:var(--gl-h);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-lg);padding:var(--s-6);box-shadow:var(--sh-inner);transition:all var(--d-slow) var(--e-smooth)}
+.gc-h:hover{border-color:var(--bd-h);box-shadow:var(--sh-br),var(--sh-inner-h);transform:translateY(-2px)}
+.gc-m{background:var(--gl-m);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--bd);border-radius:var(--r-lg);padding:var(--s-6)}
+.gc-l{background:var(--gl-l);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--bd);border-radius:var(--r-lg);padding:var(--s-6)}
+
+/* ── DOUBLE-BEZEL ── */
+.db-sh{position:relative;padding:var(--s-1);border-radius:var(--r-xl);background:var(--bd);transition:all var(--d-slow) var(--e-smooth)}
+.db-sh:hover{background:var(--bd-br);box-shadow:var(--sh-br);transform:translateY(-3px)}
+.db-co{background:var(--bg-elevated);border-radius:calc(var(--r-xl) - 2px);padding:var(--s-6);position:relative;overflow:hidden;box-shadow:var(--sh-inner)}
+.db-co::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--sh-inner-h),transparent 60%);pointer-events:none}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:4px;background:var(--bg-overlay);border-radius:var(--r-sm);padding:4px;width:fit-content}
+.tab{padding:7px 18px;border-radius:var(--r-xs);border:none;background:transparent;color:var(--tx-s);font-size:.85rem;font-weight:500;cursor:pointer;transition:all var(--d-n) var(--e-smooth);font-family:var(--font-sans)}
+.tab:hover{color:var(--tx-p)}
+.tab.active{background:var(--bg-elevated);color:var(--tx-p);box-shadow:var(--sh-xs)}
+
+/* ── DROPDOWN ── */
+.dd{position:relative;display:inline-block}
+.dd-btn{display:flex;align-items:center;gap:8px;padding:9px 16px;border-radius:var(--r-sm);border:1px solid var(--bd);background:var(--gl-m);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--tx-p);font-size:.85rem;font-weight:500;cursor:pointer;transition:all var(--d-fast) var(--e-smooth);box-shadow:var(--sh-inner);font-family:var(--font-sans)}
+.dd-btn:hover{border-color:var(--bd-h)}
+.dd-m{position:absolute;top:calc(100% + 8px);left:0;min-width:200px;background:var(--gl-h);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-md);padding:6px;box-shadow:var(--sh-br);z-index:50;opacity:0;transform:translateY(-8px);pointer-events:none;transition:all var(--d-fast) var(--e-smooth)}
+.dd-m.open{opacity:1;transform:translateY(0);pointer-events:auto}
+.dd-it{padding:10px 14px;border-radius:var(--r-xs);font-size:.85rem;color:var(--tx-s);cursor:pointer;transition:all var(--d-fast) var(--e-smooth);display:flex;align-items:center;gap:8px}
+.dd-it:hover{background:var(--bg-hover);color:var(--tx-p)}
+.dd-it.sel{color:var(--br);background:var(--br-m)}
+.dd-div{height:1px;background:var(--bd);margin:4px 0}
+
+/* ── DIALOG OVERLAY (hidden by default, shown on trigger) ── */
+.dlg-ovr{position:fixed;inset:0;background:var(--ov-bg);display:flex;align-items:center;justify-content:center;z-index:900;animation:fadeIn 200ms var(--e-out)}
+.dlg{background:var(--gl-h);backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-xl);width:500px;max-width:92vw;max-height:85vh;padding:var(--s-8);box-shadow:0 0 64px var(--br-g),var(--sh-xl);animation:scaleIn 400ms var(--e-spring);overflow-y:auto}
+.dlg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s-6)}
+.dlg-foot{display:flex;justify-content:flex-end;gap:var(--s-3);margin-top:var(--s-6);padding-top:var(--s-4);border-top:1px solid var(--bd)}
+.dlg-ovr.hidden{display:none}
+
+/* ── TOOLTIP ── */
+.tip{position:relative;display:inline-block}
+.tip-txt{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);padding:6px 12px;background:var(--gl-h);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--bd);border-radius:var(--r-sm);font-size:.75rem;color:var(--tx-p);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity var(--d-fast) var(--e-smooth);box-shadow:var(--sh-md);z-index:var(--z-tip)}
+.tip:hover .tip-txt{opacity:1}
+
+/* ── TOAST ── */
+.toast-row{display:flex;flex-direction:column;gap:var(--s-2)}
+.toast{display:flex;align-items:center;gap:10px;padding:14px 18px;border-radius:var(--r-md);background:var(--gl-h);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--bd);max-width:380px;box-shadow:var(--sh-md);font-size:.88rem;animation:slideUp 400ms var(--e-spring)}
+.toast.sc{border-left:3px solid var(--sc)}
+.toast.er{border-left:3px solid var(--er)}
+.toast.wn{border-left:3px solid var(--wn)}
+.toast.in{border-left:3px solid var(--in)}
+
+/* ── CONTEXT MENU ── */
+.ctx{min-width:180px;background:var(--gl-h);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-sm);padding:4px;box-shadow:var(--sh-lg)}
+.ctx-item{padding:8px 12px;border-radius:var(--r-xs);font-size:.82rem;color:var(--tx-s);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;transition:all var(--d-fast) var(--e-smooth)}
+.ctx-item:hover{background:var(--bg-hover);color:var(--tx-p)}
+.ctx-item .ctx-short{font-size:.7rem;color:var(--tx-dim);font-family:var(--font-mono)}
+.ctx-div{height:1px;background:var(--bd);margin:4px 0}
+.ctx-item.danger:hover{background:var(--er-bg);color:var(--er)}
+
+/* ── FILE ITEM ── */
+.fi{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--r-sm);border:1px solid transparent;cursor:pointer;transition:all var(--d-fast) var(--e-smooth)}
+.fi:hover{background:var(--gl-l);border-color:var(--bd)}
+.fi-ic{width:38px;height:38px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.fi-ic.fld{background:var(--wn-bg);color:var(--wn)}
+.fi-ic.doc{background:var(--br-m);color:var(--br)}
+.fi-ic.img{background:rgba(139,92,246,.10);color:var(--pu)}
+.fi-ic.code{background:var(--sc-bg);color:var(--sc)}
+.fi-nm{font-size:.85rem;font-weight:500}
+.fi-meta{font-size:.68rem;color:var(--tx-t);margin-top:2px}
+
+/* ── EMPTY STATE ── */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:var(--s-16) var(--s-8);text-align:center;background:var(--bg-elevated);border-radius:var(--r-lg);border:1px dashed var(--bd)}
+.empty-ic{width:68px;height:68px;border-radius:50%;background:var(--bg-overlay);display:flex;align-items:center;justify-content:center;margin-bottom:var(--s-4);color:var(--tx-dim);font-size:28px}
+.empty-title{font-size:1.05rem;font-weight:600;margin-bottom:6px}
+.empty-desc{font-size:.85rem;color:var(--tx-t);max-width:340px}
+
+/* ── CODE BLOCK ── */
+.cb{background:rgba(0,0,0,.35);border:1px solid var(--bd);border-radius:var(--r-md);overflow:hidden;font-family:var(--font-mono)}
+.cb-head{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd)}
+.cb-lang{font-size:.7rem;color:var(--tx-t);text-transform:uppercase;letter-spacing:.06em}
+.cb-copy{font-size:.7rem;color:var(--tx-t);cursor:pointer;background:none;border:none;padding:3px 10px;border-radius:var(--r-2xs);transition:all var(--d-fast);font-family:var(--font-sans)}
+.cb-copy:hover{color:var(--br);background:var(--br-m)}
+.cb-body{padding:16px 20px;font-size:.82rem;line-height:1.7;overflow-x:auto;color:var(--tx-s)}
+.cb-body .kw{color:var(--pu)}.cb-body .str{color:var(--sc)}.cb-body .fn{color:var(--br)}.cb-body .cm{color:var(--tx-dim)}
+
+/* ── TABLE ── */
+.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
+.tbl th{text-align:left;padding:10px 14px;color:var(--tx-t);font-weight:550;font-size:.73rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--bd)}
+.tbl td{padding:12px 14px;border-bottom:1px solid var(--bd);color:var(--tx-s)}
+.tbl tr:hover td{background:var(--gl-l)}
+.tbl tr:last-child td{border-bottom:none}
+
+/* ── TIMELINE ── */
+.tl{position:relative;padding-left:26px}
+.tl::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:var(--bd)}
+.tl-item{position:relative;padding-bottom:var(--s-6)}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:-26px;top:4px;width:17px;height:17px;border-radius:50%;border:2px solid var(--bd);background:var(--bg-elevated)}
+.tl-dot.active{background:var(--br);border-color:var(--br);box-shadow:0 0 10px var(--br-g)}
+.tl-dot.done{background:var(--sc);border-color:var(--sc)}
+.tl-time{font-size:.7rem;color:var(--tx-t);margin-bottom:2px}
+
+/* ── NAV RAIL ── */
+.nr{display:flex;flex-direction:column;align-items:center;gap:var(--s-2);padding:var(--s-3) var(--s-2);background:var(--gl-h);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-xl);width:68px;box-shadow:var(--sh-inner),var(--sh-br)}
+.nr-icon{width:46px;height:46px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;color:var(--tx-t);cursor:pointer;transition:all var(--d-fast) var(--e-spring);position:relative;font-size:20px}
+.nr-icon:hover{color:var(--tx-p);background:var(--bg-hover)}
+.nr-icon.active{color:var(--br);background:var(--br-m)}
+.nr-dot::after{content:'';position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:var(--er);border:2px solid var(--bg-surface)}
+
+/* ── MESSAGE BUBBLES ── */
+.bub-u{max-width:480px;margin-left:auto;margin-right:var(--s-4);padding:13px 18px;border-radius:20px 20px 6px 20px;background:var(--br-m);border:1px solid var(--bd-br);color:var(--tx-p);font-size:.9rem;line-height:1.55}
+.bub-ai{max-width:640px;margin-left:var(--s-4);margin-right:auto;padding:16px 22px;border-radius:6px 20px 20px 20px;background:var(--gl-h);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--bd);color:var(--tx-p);font-size:.9rem;line-height:1.65;box-shadow:var(--sh-inner)}
+
+/* ── CHAT INPUT ── */
+.chat-inp-wrap{display:flex;align-items:flex-end;gap:var(--s-2);padding:var(--s-3);background:var(--gl-h);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--bd);border-radius:var(--r-xl);box-shadow:var(--sh-br)}
+.chat-inp-wrap textarea{flex:1;border:none;background:transparent;color:var(--tx-p);font-size:.9rem;font-family:var(--font-sans);resize:none;outline:none;padding:8px 4px;min-height:24px;max-height:120px;line-height:1.5}
+.chat-inp-wrap textarea::placeholder{color:var(--tx-t)}
+.chat-send{width:38px;height:38px;border-radius:50%;border:none;background:var(--gr);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--d-fast) var(--e-spring);flex-shrink:0;font-size:18px}
+.chat-send:hover{transform:scale(1.08);box-shadow:0 0 20px var(--br-g)}
+
+/* ── SPLIT PANE ── */
+.split{display:flex;height:400px;background:var(--bg-surface);border:1px solid var(--bd);border-radius:var(--r-lg);overflow:hidden}
+.split-l{width:200px;background:var(--bg-elevated);border-right:1px solid var(--bd);padding:var(--s-4)}
+.split-c{flex:1;padding:var(--s-4);overflow:auto}
+.split-r{width:280px;background:var(--bg-elevated);border-left:1px solid var(--bd);padding:var(--s-4)}
+
+/* ── WINDOW CHROME ── */
+.win-chrome{display:flex;align-items:center;justify-content:space-between;height:38px;padding:0 var(--s-3);background:var(--bg-surface);border-bottom:1px solid var(--bd);user-select:none;-webkit-app-region:drag}
+.win-chrome-ttl{font-size:.78rem;font-weight:600;color:var(--tx-s);display:flex;align-items:center;gap:6px}
+.win-chrome-ctls{display:flex;gap:8px;-webkit-app-region:no-drag}
+.win-ctl{width:14px;height:14px;border-radius:50%;cursor:pointer;transition:opacity var(--d-fast)}
+.win-ctl.min{background:#FBBF24}
+.win-ctl.max{background:#34D399}
+.win-ctl.close{background:#F87171}
+.win-ctl:hover{opacity:.8}
+
+/* ── COMMAND PALETTE ── */
+.cp{width:560px;max-width:92vw;background:var(--gl-h);backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-lg);box-shadow:0 0 64px var(--br-g),var(--sh-xl);overflow:hidden}
+.cp-input{padding:14px 18px;border-bottom:1px solid var(--bd)}
+.cp-input input{width:100%;border:none;background:transparent;color:var(--tx-p);font-size:1rem;font-family:var(--font-sans);outline:none}
+.cp-input input::placeholder{color:var(--tx-t)}
+.cp-results{max-height:300px;overflow-y:auto;padding:6px}
+.cp-item{padding:10px 14px;border-radius:var(--r-xs);display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;transition:all var(--d-fast);font-size:.88rem}
+.cp-item:hover,.cp-item.sel{background:var(--br-m);color:var(--br)}
+.cp-item .cp-short{font-size:.7rem;color:var(--tx-dim);font-family:var(--font-mono)}
+.cp-grp{padding:8px 14px 4px;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--tx-dim);font-weight:600}
+
+/* ── DRAG & DROP ZONE ── */
+.ddz{border:2px dashed var(--bd);border-radius:var(--r-lg);padding:var(--s-12);text-align:center;transition:all var(--d-n) var(--e-smooth);cursor:pointer;background:var(--bg-elevated)}
+.ddz:hover,.ddz.drag-over{border-color:var(--br);background:var(--br-m);box-shadow:0 0 32px var(--br-g)}
+.ddz-ic{font-size:40px;margin-bottom:var(--s-3);color:var(--tx-dim)}
+.ddz:hover .ddz-ic,.ddz.drag-over .ddz-ic{color:var(--br)}
+.ddz-ttl{font-size:1rem;font-weight:600;margin-bottom:4px}
+.ddz-desc{font-size:.82rem;color:var(--tx-t)}
+
+/* ── Component Demo Labels ── */
+.comp-demo{background:var(--bg-elevated);border:1px solid var(--bd);border-radius:var(--r-lg);padding:var(--s-6)}
+.comp-name{font-family:var(--font-mono);font-size:var(--t-xs);color:var(--br);font-weight:600;margin-bottom:var(--s-3)}
+.comp-row{display:flex;gap:var(--s-3);align-items:center;flex-wrap:wrap;padding:var(--s-2) 0}
+
+/* ── Responsive ── */
+@media(max-width:900px){.snav{transform:translateX(-100%)}.main{margin-left:0}}
+</style>
+</head>
+<body>
+
+<!-- Theme Switcher -->
+<div class="ts">
+  <button onclick="setTheme('night')" class="active" title="Night">🌙</button>
+  <button onclick="setTheme('day')" title="Day">☀️</button>
+  <button onclick="setTheme('classic')" title="Classic">📜</button>
+</div>
+
+<!-- Sidebar -->
+<nav class="snav">
+  <div class="snav-ttl"><span>⚡</span> DS v11.0</div>
+  <div class="sn-sep">Design Tokens</div>
+  <a href="#colors">🎨 Colors</a>
+  <a href="#typography">🔤 Typography</a>
+  <a href="#spacing">📏 Spacing</a>
+  <a href="#radius">⭕ Radius & Shadows</a>
+  <div class="sn-sep">Atoms</div>
+  <a href="#a-btn">Button</a>
+  <a href="#a-input">Input</a>
+  <a href="#a-badge">Badge</a>
+  <a href="#a-avatar">Avatar</a>
+  <a href="#a-toggle">Toggle</a>
+  <a href="#a-check">Checkbox / Radio</a>
+  <a href="#a-tag">Tag / Chip</a>
+  <a href="#a-spin">Spinner / Progress / Skeleton</a>
+  <div class="sn-sep">Molecules</div>
+  <a href="#m-card">Card</a>
+  <a href="#m-glass">Glass · Double-Bezel</a>
+  <a href="#m-tabs">Tabs</a>
+  <a href="#m-dropdown">Dropdown</a>
+  <a href="#m-dialog">Dialog / Modal</a>
+  <a href="#m-tooltip">Tooltip</a>
+  <a href="#m-toast">Toast</a>
+  <a href="#m-context">Context Menu</a>
+  <a href="#m-file">File Item</a>
+  <a href="#m-empty">Empty State</a>
+  <a href="#m-code">Code Block</a>
+  <div class="sn-sep">Organisms</div>
+  <a href="#o-navrail">Nav Rail</a>
+  <a href="#o-bubbles">Message Bubbles</a>
+  <a href="#o-chatinput">Chat Input</a>
+  <a href="#o-table">Table</a>
+  <a href="#o-timeline">Timeline</a>
+  <a href="#o-split">Split Pane</a>
+  <div class="sn-sep">Desktop</div>
+  <a href="#d-chrome">Window Chrome</a>
+  <a href="#d-cmd">Command Palette</a>
+  <a href="#d-drag">Drag &amp; Drop</a>
+</nav>
+
+<main class="main">
+
+<!-- ══════════════════════════════════ HERO ══════════════════════════════════ -->
+<section class="sec" style="padding-top:var(--s-24)">
+  <div class="c">
+    <span class="badge br" style="margin-bottom:var(--s-3)">v11.0 · NEON PULSE</span>
+    <h1>超级牛马<br><span class="tg">下一代桌面端设计系统</span></h1>
+    <p style="color:var(--tx-s);font-size:1.1rem;margin-top:var(--s-3);max-width:600px">
+      三层令牌引擎 · 39 组件 · 3 主题 · 桌面原生<br>
+      品牌色牛马蓝 #4DA8F0 · 默认暗色 Night · 零粉紫色 · 全 SVG
+    </p>
+    <div class="rw" style="margin-top:var(--s-6)">
+      <div style="text-align:center;padding:var(--s-4) var(--s-6);background:var(--gl-h);border-radius:var(--r-md);border:1px solid var(--bd)">
+        <div style="font-family:var(--font-mono);font-size:.65rem;color:var(--tx-t);text-transform:uppercase;letter-spacing:.06em">v10 Monolith</div>
+        <div style="font-size:1.6rem;font-weight:700;color:var(--tx-dim)">11,520</div>
+        <div style="font-size:.7rem;color:var(--tx-t)">lines</div>
+      </div>
+      <div style="color:var(--tx-dim);font-size:1.5rem;display:flex;align-items:center">→</div>
+      <div style="text-align:center;padding:var(--s-4) var(--s-6);background:var(--br-m);border-radius:var(--r-md);border:1px solid var(--bd-br)">
+        <div style="font-family:var(--font-mono);font-size:.65rem;color:var(--br);text-transform:uppercase;letter-spacing:.06em">v11 Modules</div>
+        <div style="font-size:1.6rem;font-weight:700;color:var(--br)">952</div>
+        <div style="font-size:.7rem;color:var(--br)">lines (−91.7%)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ TOKENS ══════════════════════════════════ -->
+<section class="sec" id="colors"><div class="c">
+<div class="sh"><span class="lbl">Design Tokens</span><h2>🎨 Color Palette</h2><p>5 色克制体系 + 4 级深度背景 + 语义色</p></div>
+
+<h3 style="margin:var(--s-4) 0 var(--s-2)">Background Depth Scale</h3>
+<div class="swatch-grid">
+  <div class="swatch" style="background:var(--bg-root)"><span class="swatch-lbl">bg-root</span></div>
+  <div class="swatch" style="background:var(--bg-surface)"><span class="swatch-lbl">bg-surface</span></div>
+  <div class="swatch" style="background:var(--bg-elevated)"><span class="swatch-lbl">bg-elevated</span></div>
+  <div class="swatch" style="background:var(--bg-overlay)"><span class="swatch-lbl">bg-overlay</span></div>
+  <div class="swatch" style="background:var(--bg-input)"><span class="swatch-lbl">bg-input</span></div>
+</div>
+
+<h3 style="margin:var(--s-6) 0 var(--s-2)">Brand & Semantic</h3>
+<div class="swatch-grid">
+  <div class="swatch" style="background:var(--br)"><span class="swatch-lbl">brand</span></div>
+  <div class="swatch" style="background:var(--br-h)"><span class="swatch-lbl">hover</span></div>
+  <div class="swatch" style="background:var(--sc)"><span class="swatch-lbl">success</span></div>
+  <div class="swatch" style="background:var(--wn)"><span class="swatch-lbl">warning</span></div>
+  <div class="swatch" style="background:var(--er)"><span class="swatch-lbl">error</span></div>
+  <div class="swatch" style="background:var(--in)"><span class="swatch-lbl">info</span></div>
+  <div class="swatch" style="background:var(--pu)"><span class="swatch-lbl">purple</span></div>
+  <div class="swatch" style="background:var(--te)"><span class="swatch-lbl">teal</span></div>
+</div>
+
+<h3 style="margin:var(--s-6) 0 var(--s-2)">Text Contrast</h3>
+<div class="swatch-grid">
+  <div class="swatch" style="background:var(--tx-p)"><span class="swatch-lbl">primary</span></div>
+  <div class="swatch" style="background:var(--tx-s)"><span class="swatch-lbl">secondary</span></div>
+  <div class="swatch" style="background:#64748B"><span class="swatch-lbl">tertiary</span></div>
+  <div class="swatch" style="background:var(--tx-dim)"><span class="swatch-lbl">dim</span></div>
+</div>
+</div></section>
+
+<section class="sec" id="typography"><div class="c">
+<div class="sh"><span class="lbl">Design Tokens</span><h2>🔤 Typography</h2><p>Geist / Space Grotesk × 9 级字号</p></div>
+<div class="comp-demo">
+  <div class="type-spec"><div style="font-size:var(--t-3xl);font-weight:var(--w-blk);line-height:var(--lh-t)">Display XL — 40px / 2.5rem</div><div class="type-meta">--text-3xl · weight-black · leading-tight</div></div>
+  <div class="type-spec"><div style="font-size:var(--t-2xl);font-weight:var(--w-b);line-height:var(--lh-t)">Display LG — 30px / 1.875rem</div><div class="type-meta">--text-2xl · weight-bold</div></div>
+  <div class="type-spec"><div style="font-size:var(--t-xl);font-weight:var(--w-sb)">Heading — 24px / 1.5rem</div><div class="type-meta">--text-xl · weight-semibold</div></div>
+  <div class="type-spec"><div style="font-size:var(--t-lg);font-weight:var(--w-m)">Title — 20px / 1.25rem</div><div class="type-meta">--text-lg · weight-medium</div></div>
+  <div class="type-spec"><div style="font-size:var(--t-md)">Body Large — 17px / 1.0625rem — 用于段落正文，确保呼吸感与可读性</div><div class="type-meta">--text-md</div></div>
+  <div class="type-spec"><div style="font-size:var(--t-base)">Body — 15px / 0.9375rem — 默认正文，界面主要阅读字号</div><div class="type-meta">--text-base</div></div>
+  <div class="type-spec"><div style="font-size:var(--t-sm)">Small — 13px / 0.8125rem — 辅助信息、标签、描述</div><div class="type-meta">--text-sm</div></div>
+  <div class="type-spec"><div style="font-size:var(--t-xs)">Caption — 12px / 0.75rem — 图片说明、时间戳</div><div class="type-meta">--text-xs</div></div>
+  <div class="type-spec"><div style="font-size:var(--t-2xs);color:var(--tx-dim)">Micro — 11px / 0.6875rem — 法律文本、键盘快捷键</div><div class="type-meta">--text-2xs · color: text-dim</div></div>
+  <div class="type-spec"><div style="font-family:var(--font-mono);font-size:.82rem">Monospace — JetBrains Mono · Fira Code — <span style="color:var(--pu)">const</span> <span style="color:var(--sc)">x</span> = <span style="color:var(--br)">42</span>;</div><div class="type-meta">--font-mono · 代码块</div></div>
+</div>
+</div></section>
+
+<section class="sec" id="spacing"><div class="c">
+<div class="sh"><span class="lbl">Design Tokens</span><h2>📏 Spacing Scale</h2><p>4px 基 × 12 级 · 呼吸感源于充足间距</p></div>
+<div class="comp-demo">
+  <div class="rw" style="align-items:flex-end">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div class="sp-box" style="width:var(--s-1);height:var(--s-1)">1</div><span style="font-size:9px;color:var(--tx-dim);margin-top:4px">4px</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div class="sp-box" style="width:var(--s-2);height:var(--s-2)">2</div><span style="font-size:9px;color:var(--tx-dim);margin-top:4px">8px</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div class="sp-box" style="width:var(--s-3);height:var(--s-3)">3</div><span style="font-size:9px;color:var(--tx-dim);margin-top:4px">12px</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div class="sp-box" style="width:var(--s-4);height:var(--s-4)">4</div><span style="font-size:9px;color:var(--tx-dim);margin-top:4px">16px</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div class="sp-box" style="width:var(--s-6);height:var(--s-6)">6</div><span style="font-size:9px;color:var(--tx-dim);margin-top:4px">24px</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div class="sp-box" style="width:var(--s-8);height:var(--s-8)">8</div><span style="font-size:9px;color:var(--tx-dim);margin-top:4px">32px</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div class="sp-box" style="width:var(--s-10);height:var(--s-10)">10</div><span style="font-size:9px;color:var(--tx-dim);margin-top:4px">40px</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div class="sp-box" style="width:var(--s-12);height:var(--s-12)">12</div><span style="font-size:9px;color:var(--tx-dim);margin-top:4px">48px</span></div>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="radius"><div class="c">
+<div class="sh"><span class="lbl">Design Tokens</span><h2>⭕ Radius & Shadows</h2><p>0.6 曲率标量 · 4 级 niuma 阴影叠加</p></div>
+<div class="g2">
+  <div class="comp-demo"><h3>Radius Scale</h3>
+    <div class="rw" style="margin-top:var(--s-3)">
+      <div style="width:48px;height:48px;background:var(--br-m);border:1px solid var(--bd-br);border-radius:var(--r-2xs);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--tx-dim)">2xs</div>
+      <div style="width:48px;height:48px;background:var(--br-m);border:1px solid var(--bd-br);border-radius:var(--r-xs);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--tx-dim)">xs</div>
+      <div style="width:48px;height:48px;background:var(--br-m);border:1px solid var(--bd-br);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--tx-dim)">sm</div>
+      <div style="width:48px;height:48px;background:var(--br-m);border:1px solid var(--bd-br);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--tx-dim)">md</div>
+      <div style="width:48px;height:48px;background:var(--br-m);border:1px solid var(--bd-br);border-radius:var(--r-lg);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--tx-dim)">lg</div>
+      <div style="width:48px;height:48px;background:var(--br-m);border:1px solid var(--bd-br);border-radius:var(--r-full);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--tx-dim)">full</div>
+    </div>
+  </div>
+  <div class="comp-demo"><h3>Shadow Scale</h3>
+    <div style="display:flex;flex-direction:column;gap:var(--s-3);margin-top:var(--s-3)">
+      <div style="padding:var(--s-3);border-radius:var(--r-sm);background:var(--bg-elevated);box-shadow:var(--sh-xs)">shadow-xs — subtle lift</div>
+      <div style="padding:var(--s-3);border-radius:var(--r-sm);background:var(--bg-elevated);box-shadow:var(--sh-sm)">shadow-sm — card default</div>
+      <div style="padding:var(--s-3);border-radius:var(--r-sm);background:var(--bg-elevated);box-shadow:var(--sh-md)">shadow-md — dropdown</div>
+      <div style="padding:var(--s-3);border-radius:var(--r-sm);background:var(--bg-elevated);box-shadow:var(--sh-lg)">shadow-lg — modal</div>
+      <div style="padding:var(--s-3);border-radius:var(--r-sm);background:var(--bg-elevated);box-shadow:var(--sh-br)">shadow-brand — glow</div>
+    </div>
+  </div>
+</div>
+</div></section>
+
+<div class="c"><div class="hr"></div></div>
+
+<!-- ══════════════════════════════════ ATOMS ══════════════════════════════════ -->
+<section class="sec" id="a-btn"><div class="c">
+<div class="sh"><span class="lbl">Atoms</span><h2>🔘 Button</h2><p>5 variants × 3 sizes × 6 states</p></div>
+<div class="comp-demo">
+  <div class="comp-name">btn — Primary Gradient</div>
+  <div class="comp-row">
+    <button class="btn">✨ Primary</button>
+    <button class="btn" disabled>Disabled</button>
+    <button class="btn btn-sm">Small</button>
+    <button class="btn btn-lg">Large</button>
+  </div>
+  <div class="comp-name" style="margin-top:var(--s-4)">btn-sec — Secondary Glass</div>
+  <div class="comp-row">
+    <button class="btn-sec">Secondary</button>
+    <button class="btn-sec" disabled>Disabled</button>
+    <button class="btn-sec btn-sm">Small</button>
+  </div>
+  <div class="comp-name" style="margin-top:var(--s-4)">btn-gh — Ghost</div>
+  <div class="comp-row">
+    <button class="btn-gh">Ghost</button>
+    <button class="btn-gh danger">Danger</button>
+  </div>
+  <div class="comp-name" style="margin-top:var(--s-4)">btn-ico — Icon Button</div>
+  <div class="comp-row">
+    <button class="btn-ico">⚙</button>
+    <button class="btn-ico">🔍</button>
+    <button class="btn-ico">✕</button>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="a-input"><div class="c">
+<div class="sh"><span class="lbl">Atoms</span><h2>📝 Input</h2><p>Text / Textarea / Select / Error state</p></div>
+<div class="comp-demo">
+  <div class="comp-name">inp — Text Input</div>
+  <div style="max-width:360px">
+    <input class="inp" placeholder="Search anything..." style="margin-bottom:var(--s-3)">
+    <input class="inp" value="Default value" style="margin-bottom:var(--s-3)">
+    <input class="inp inp-err" value="Error state" style="margin-bottom:var(--s-3)">
+    <input class="inp" placeholder="Disabled" disabled>
+  </div>
+  <div class="comp-name" style="margin-top:var(--s-4)">txta — Textarea</div>
+  <textarea class="txta" placeholder="Write your message...">超级牛马是一款本地优先的 AI Agent 协作工作台。三层令牌引擎驱动，默认暗色主题，零粉紫色。</textarea>
+</div>
+</div></section>
+
+<section class="sec" id="a-badge"><div class="c">
+<div class="sh"><span class="lbl">Atoms</span><h2>🏷 Badge & Dot</h2><p>6 semantic colors · Status indicators</p></div>
+<div class="comp-demo">
+  <div class="comp-name">badge — Semantic Badges</div>
+  <div class="comp-row">
+    <span class="badge br">Brand</span>
+    <span class="badge gn">Success</span>
+    <span class="badge am">Warning</span>
+    <span class="badge er">Error</span>
+    <span class="badge pu">Purple</span>
+    <span class="badge te">Teal</span>
+  </div>
+  <div class="comp-name" style="margin-top:var(--s-4)">dot — Status Dots</div>
+  <div class="comp-row">
+    <span class="dot on"></span> Online
+    <span class="dot warn"></span> Warning
+    <span class="dot off"></span> Offline
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="a-avatar"><div class="c">
+<div class="sh"><span class="lbl">Atoms</span><h2>👤 Avatar</h2><p>5 Sizes · Online indicator · Stacked group</p></div>
+<div class="comp-demo">
+  <div class="comp-name">av — Sizes (xs → xl)</div>
+  <div class="comp-row">
+    <div class="av xs br">A</div>
+    <div class="av sm br">B</div>
+    <div class="av br">刘</div>
+    <div class="av lg br online">淮</div>
+    <div class="av xl br">安</div>
+  </div>
+  <div class="comp-name" style="margin-top:var(--s-4)">av — Colors</div>
+  <div class="comp-row">
+    <div class="av br">B</div>
+    <div class="av pu">P</div>
+    <div class="av gn">G</div>
+    <div class="av am">A</div>
+  </div>
+  <div class="comp-name" style="margin-top:var(--s-4)">av-stack — Stacked Group</div>
+  <div class="av-stack">
+    <div class="av br">刘</div>
+    <div class="av pu">李</div>
+    <div class="av gn">王</div>
+    <div class="av am">张</div>
+    <div class="av br" style="font-size:.65rem">+3</div>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="a-toggle"><div class="c">
+<div class="sh"><span class="lbl">Atoms</span><h2>🔳 Toggle · Checkbox · Radio</h2><p>Selection controls</p></div>
+<div class="comp-demo">
+  <div class="g3">
+    <div>
+      <div class="comp-name">tgl — Toggle Switch</div>
+      <div class="comp-row">
+        <div class="tgl off" onclick="this.classList.toggle('on');this.classList.toggle('off')"></div>
+        <span style="font-size:.85rem">Click to toggle</span>
+      </div>
+    </div>
+    <div>
+      <div class="comp-name">chk — Checkbox</div>
+      <label class="chk"><input type="checkbox" checked><span class="chk-box"></span> Enabled</label>
+      <label class="chk" style="margin-top:var(--s-2)"><input type="checkbox"><span class="chk-box"></span> Disabled option</label>
+    </div>
+    <div>
+      <div class="comp-name">rad — Radio</div>
+      <label class="rad"><input type="radio" name="r1" checked><span class="rad-box"></span> Option A</label>
+      <label class="rad" style="margin-top:var(--s-2)"><input type="radio" name="r1"><span class="rad-box"></span> Option B</label>
+    </div>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="a-tag"><div class="c">
+<div class="sh"><span class="lbl">Atoms</span><h2>🏷 Tag / Chip</h2><p>Filter chips · Removable tags</p></div>
+<div class="comp-demo">
+  <div class="comp-name">tag — Filter Chips</div>
+  <div class="comp-row">
+    <span class="tag active">All</span>
+    <span class="tag">Python</span>
+    <span class="tag">TypeScript</span>
+    <span class="tag">Rust</span>
+    <span class="tag">Design</span>
+  </div>
+  <div class="comp-name" style="margin-top:var(--s-4)">tag — Removable</div>
+  <div class="comp-row">
+    <span class="tag">Vue 3 <span class="tag-x">×</span></span>
+    <span class="tag">FastAPI <span class="tag-x">×</span></span>
+    <span class="tag">Taiji Engine <span class="tag-x">×</span></span>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="a-spin"><div class="c">
+<div class="sh"><span class="lbl">Atoms</span><h2>⏳ Spinner · Progress · Skeleton</h2><p>Loading states</p></div>
+<div class="comp-demo g2">
+  <div>
+    <div class="comp-name">spin — 3 Sizes</div>
+    <div class="comp-row">
+      <div class="spin spin-sm"></div>
+      <div class="spin"></div>
+      <div class="spin spin-lg"></div>
+    </div>
+  </div>
+  <div>
+    <div class="comp-name">prog — Determinate & Indeterminate</div>
+    <div class="prog" style="margin-bottom:var(--s-2)"><div class="prog-bar" style="width:68%"></div></div>
+    <span style="font-size:11px;color:var(--tx-dim)">68% complete</span>
+    <div class="prog" style="margin-top:var(--s-2)"><div class="prog-ind"></div></div>
+    <span style="font-size:11px;color:var(--tx-dim)">Indeterminate</span>
+  </div>
+</div>
+<div class="comp-demo" style="margin-top:var(--s-4)">
+  <div class="comp-name">skel — Skeleton Loading</div>
+  <div style="display:flex;gap:var(--s-4);align-items:flex-start">
+    <div class="skel skel-a"></div>
+    <div style="flex:1">
+      <div class="skel skel-t" style="width:70%"></div>
+      <div class="skel skel-t" style="width:40%"></div>
+      <div class="skel skel-t" style="width:90%"></div>
+    </div>
+  </div>
+</div>
+</div></section>
+
+<div class="c"><div class="hr"></div></div>
+
+<!-- ══════════════════════════════════ MOLECULES ══════════════════════════════════ -->
+<section class="sec" id="m-card"><div class="c">
+<div class="sh"><span class="lbl">Molecules</span><h2>🃏 Card</h2><p>4 Variants: Elevated / Outlined / Gradient / Special</p></div>
+<div class="g2">
+  <div class="cd-el">
+    <h3 style="font-size:1rem">Elevated Card</h3>
+    <p style="color:var(--tx-s);font-size:.85rem;margin-top:4px">Shadow + hover lift. The default card style for most content.</p>
+  </div>
+  <div class="cd-ol">
+    <h3 style="font-size:1rem">Outlined Card</h3>
+    <p style="color:var(--tx-s);font-size:.85rem;margin-top:4px">Border-only. Lightweight, no background fill.</p>
+  </div>
+  <div class="cd-gr">
+    <h3 style="font-size:1rem">Gradient Card</h3>
+    <p style="color:var(--tx-s);font-size:.85rem;margin-top:4px">Brand gradient border + subtle tint.</p>
+  </div>
+  <div class="cd-sp">
+    <h3 style="font-size:1rem">Special Card</h3>
+    <p style="color:var(--tx-s);font-size:.85rem;margin-top:4px">Gradient border glow on hover. For featured content.</p>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="m-glass"><div class="c">
+<div class="sh"><span class="lbl">Molecules</span><h2>🪟 Glass & Double-Bezel</h2><p>Frosted glass surfaces · 双层边框特效</p></div>
+<div class="g3">
+  <div class="gc-h"><h3 style="font-size:.95rem">Glass Heavy</h3><p style="color:var(--tx-s);font-size:.8rem;margin-top:4px">blur(28px) · saturate(180%)</p></div>
+  <div class="gc-m"><h3 style="font-size:.95rem">Glass Medium</h3><p style="color:var(--tx-s);font-size:.8rem;margin-top:4px">blur(18px) · Modals & dropdowns</p></div>
+  <div class="gc-l"><h3 style="font-size:.95rem">Glass Light</h3><p style="color:var(--tx-s);font-size:.8rem;margin-top:4px">blur(12px) · Subtle overlays</p></div>
+</div>
+<div class="g2" style="margin-top:var(--s-6)">
+  <div class="db-sh"><div class="db-co">
+    <h3 style="font-size:1rem">Double-Bezel Card</h3>
+    <p style="color:var(--tx-s);font-size:.85rem;margin-top:4px">Outer border + inner gradient sheen. Hover triggers brand glow.</p>
+  </div></div>
+</div>
+</div></section>
+
+<section class="sec" id="m-tabs"><div class="c">
+<div class="sh"><span class="lbl">Molecules</span><h2>📑 Tabs</h2><p>Horizontal navigation pills</p></div>
+<div class="comp-demo">
+  <div class="tabs">
+    <button class="tab active">Overview</button>
+    <button class="tab">Analytics</button>
+    <button class="tab">Settings</button>
+    <button class="tab">Logs</button>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="m-dropdown"><div class="c">
+<div class="sh"><span class="lbl">Molecules</span><h2>📋 Dropdown</h2><p>Single-select menu with sections</p></div>
+<div class="comp-demo" style="min-height:280px">
+  <div class="dd" id="dd-demo">
+    <button class="dd-btn" onclick="document.getElementById('dd-menu').classList.toggle('open')">Select Model ▾</button>
+    <div class="dd-m" id="dd-menu">
+      <div class="dd-it sel">Auto (Smart Router)</div>
+      <div class="dd-div"></div>
+      <div class="dd-it">DeepSeek V4</div>
+      <div class="dd-it">Claude Sonnet 4</div>
+      <div class="dd-it">GPT-5</div>
+      <div class="dd-div"></div>
+      <div class="dd-it">Llama 4 (Local)</div>
+    </div>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="m-dialog"><div class="c">
+<div class="sh"><span class="lbl">Molecules</span><h2>🪟 Dialog / Modal</h2><p>Glass backdrop · Spring animation</p></div>
+<div class="comp-demo">
+  <button class="btn-sec" onclick="document.getElementById('dlg-demo').classList.remove('hidden')">Open Dialog</button>
+</div>
+</div></section>
+
+<div class="dlg-ovr hidden" id="dlg-demo" onclick="if(event.target===this)this.classList.add('hidden')">
+  <div class="dlg">
+    <div class="dlg-head">
+      <h2>Confirm Action</h2>
+      <button class="btn-gh" onclick="document.getElementById('dlg-demo').classList.add('hidden')">✕</button>
+    </div>
+    <p style="color:var(--tx-s);line-height:1.6">This is a glass dialog with backdrop blur and spring animation. Click outside or press Escape to close.</p>
+    <div class="dlg-foot">
+      <button class="btn-gh" onclick="document.getElementById('dlg-demo').classList.add('hidden')">Cancel</button>
+      <button class="btn btn-sm" onclick="document.getElementById('dlg-demo').classList.add('hidden')">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<section class="sec" id="m-tooltip"><div class="c">
+<div class="sh"><span class="lbl">Molecules</span><h2>💬 Tooltip</h2><p>Hover to reveal contextual info</p></div>
+<div class="comp-demo">
+  <div class="comp-row">
+    <div class="tip">
+      <button class="btn-sec">Hover me</button>
+      <span class="tip-txt">This is a tooltip ✨</span>
+    </div>
+    <div class="tip">
+      <span class="badge br">Keyboard</span>
+      <span class="tip-txt">Shortcut: Ctrl+K</span>
+    </div>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="m-toast"><div class="c">
+<div class="sh"><span class="lbl">Molecules</span><h2>🔔 Toast / Notification</h2><p>Success · Error · Warning · Info</p></div>
+<div class="comp-demo">
+  <div class="toast-row">
+    <div class="toast sc">✅ File saved successfully</div>
+    <div class="toast er">❌ Connection failed — retry in 5s</div>
+    <div class="toast wn">⚠️ Token budget at 85%</div>
+    <div class="toast in">ℹ️ New model available: DeepSeek V4</div>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="m-context"><div class="c">
+<div class="sh"><span class="lbl">Molecules</span><h2>🖱 Context Menu</h2><p>Right-click menu with shortcuts</p></div>
+<div class="comp-demo">
+  <div class="ctx" style="width:220px">
+    <div class="ctx-item">✂️ Cut <span class="ctx-short">Ctrl+X</span></div>
+    <div class="ctx-item">📋 Copy <span class="ctx-short">Ctrl+C</span></div>
+    <div class="ctx-item">📌 Paste <span class="ctx-short">Ctrl+V</span></div>
+    <div class="ctx-div"></div>
+    <div class="ctx-item">🔍 Search</div>
+    <div class="ctx-item">🔄 Refresh</div>
+    <div class="ctx-div"></div>
+    <div class="ctx-item danger">🗑 Delete <span class="ctx-short">Del</span></div>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="m-file"><div class="c">
+<div class="sh"><span class="lbl">Molecules</span><h2>📁 File Item</h2><p>4 file type variants</p></div>
+<div class="comp-demo">
+  <div class="fi"><div class="fi-ic fld">📁</div><div><div class="fi-nm">project-docs/</div><div class="fi-meta">12 files · Modified today</div></div></div>
+  <div class="fi"><div class="fi-ic doc">📄</div><div><div class="fi-nm">design-tokens.css</div><div class="fi-meta">11.5 KB · CSS</div></div></div>
+  <div class="fi"><div class="fi-ic img">🖼</div><div><div class="fi-nm">screenshot.png</div><div class="fi-meta">2.4 MB · Image</div></div></div>
+  <div class="fi"><div class="fi-ic code">⟨⟩</div><div><div class="fi-nm">main.py</div><div class="fi-meta">3.2 KB · Python</div></div></div>
+</div>
+</div></section>
+
+<section class="sec" id="m-empty"><div class="c">
+<div class="sh"><span class="lbl">Molecules</span><h2>📭 Empty State</h2><p>Zero-data placeholder</p></div>
+<div class="comp-demo">
+  <div class="empty">
+    <div class="empty-ic">📂</div>
+    <div class="empty-title">No files yet</div>
+    <div class="empty-desc">Drop files here or click to upload. Supports PDF, DOCX, images, and code.</div>
+    <button class="btn btn-sm" style="margin-top:var(--s-4)">Upload File</button>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="m-code"><div class="c">
+<div class="sh"><span class="lbl">Molecules</span><h2>💻 Code Block</h2><p>Syntax highlighting · Copy button</p></div>
+<div class="comp-demo">
+  <div class="cb">
+    <div class="cb-head"><span class="cb-lang">Python</span><button class="cb-copy">Copy</button></div>
+    <div class="cb-body">
+<span class="kw">from</span> hermes_tools <span class="kw">import</span> terminal<br>
+<span class="kw">def</span> <span class="fn">greet</span>(name: <span class="kw">str</span>) -> <span class="kw">str</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="str">f"你好, {name} — 超级牛马 ⚡"</span><br>
+<span class="cm"># Taiji Engine v11.0 — 三层令牌</span>
+    </div>
+  </div>
+</div>
+</div></section>
+
+<div class="c"><div class="hr"></div></div>
+
+<!-- ══════════════════════════════════ ORGANISMS ══════════════════════════════════ -->
+<section class="sec" id="o-navrail"><div class="c">
+<div class="sh"><span class="lbl">Organisms</span><h2>🧭 Nav Rail</h2><p>Collapsed sidebar · 56px width · Icons + tooltips</p></div>
+<div class="comp-demo">
+  <div class="nr">
+    <div class="nr-icon active">💬<span class="nr-dot" style="display:none"></span></div>
+    <div class="nr-icon">🏠</div>
+    <div class="nr-icon nr-dot">📋</div>
+    <div class="nr-icon">🏪</div>
+    <div class="nr-icon">🧠</div>
+    <div class="nr-icon">🔌</div>
+    <div class="nr-icon">📊</div>
+    <div style="flex:1"></div>
+    <div class="av sm br" style="margin-top:auto">刘</div>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="o-bubbles"><div class="c">
+<div class="sh"><span class="lbl">Organisms</span><h2>💬 Message Bubbles</h2><p>User (right) · AI (left) · Glass backdrop</p></div>
+<div class="comp-demo">
+  <div style="display:flex;flex-direction:column;gap:var(--s-4);max-width:700px">
+    <div class="bub-u">帮我写一段关于三层令牌引擎的介绍。</div>
+    <div class="bub-ai">
+      超级牛马 v11.0 采用 <strong style="color:var(--br)">Primitives → Semantics → Components</strong> 三层令牌架构：<br><br>
+      • <strong>Primitives</strong> — 原始值（颜色阶/间距/字号），不随主题变化<br>
+      • <strong>Semantics</strong> — 语义令牌（bg-root/text-primary），主题覆写点<br>
+      • <strong>Components</strong> — 组件令牌（btn-padding/card-radius），出厂默认<br><br>
+      新增主题只需覆写语义层 ~40 行，相比 v10.0 的 ~200 行成本降低 80%。
+    </div>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="o-chatinput"><div class="c">
+<div class="sh"><span class="lbl">Organisms</span><h2>⌨ Chat Input</h2><p>Auto-expanding textarea · Brand gradient send</p></div>
+<div class="comp-demo">
+  <div class="chat-inp-wrap" style="max-width:700px">
+    <textarea placeholder="Ask Super Niuma anything..." rows="1">帮我重构设计令牌系统</textarea>
+    <button class="chat-send">↑</button>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="o-table"><div class="c">
+<div class="sh"><span class="lbl">Organisms</span><h2>📊 Table</h2><p>Sortable headers · Row hover</p></div>
+<div class="comp-demo">
+  <table class="tbl">
+    <thead><tr><th>Model</th><th>Provider</th><th>Context</th><th>Cost/1M</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>DeepSeek V4</td><td>DeepSeek</td><td>128K</td><td>$0.50</td><td><span class="dot on"></span> Active</td></tr>
+      <tr><td>Claude Sonnet 4</td><td>Anthropic</td><td>200K</td><td>$3.00</td><td><span class="dot on"></span> Active</td></tr>
+      <tr><td>GPT-5</td><td>OpenAI</td><td>256K</td><td>$5.00</td><td><span class="dot warn"></span> Rate limited</td></tr>
+      <tr><td>Llama 4</td><td>Local</td><td>32K</td><td>Free</td><td><span class="dot off"></span> Offline</td></tr>
+    </tbody>
+  </table>
+</div>
+</div></section>
+
+<section class="sec" id="o-timeline"><div class="c">
+<div class="sh"><span class="lbl">Organisms</span><h2>🕐 Timeline</h2><p>Vertical event log · Status dots</p></div>
+<div class="comp-demo">
+  <div class="tl">
+    <div class="tl-item">
+      <div class="tl-dot done"></div>
+      <div class="tl-time">10:24 AM</div>
+      <div style="font-weight:500">Phase 1 Complete</div>
+      <div style="font-size:.8rem;color:var(--tx-t)">Token engine migrated</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot active"></div>
+      <div class="tl-time">10:28 AM</div>
+      <div style="font-weight:500">Phase 2 In Progress</div>
+      <div style="font-size:.8rem;color:var(--tx-t)">Component library rendering</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-time">Upcoming</div>
+      <div style="font-weight:500">Phase 3 Planned</div>
+      <div style="font-size:.8rem;color:var(--tx-t)">Desktop-native layer</div>
+    </div>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="o-split"><div class="c">
+<div class="sh"><span class="lbl">Organisms</span><h2>📐 Split Pane</h2><p>Three-column layout: Nav · Content · Panel</p></div>
+<div class="comp-demo">
+  <div class="split">
+    <div class="split-l">
+      <div style="font-weight:600;font-size:.85rem;margin-bottom:var(--s-2)">Sidebar</div>
+      <div style="font-size:.78rem;color:var(--tx-t)">200px</div>
+    </div>
+    <div class="split-c">
+      <div style="font-weight:600;font-size:.85rem;margin-bottom:var(--s-2)">Main Content</div>
+      <div style="font-size:.78rem;color:var(--tx-t)">flex: 1 — auto-fill</div>
+    </div>
+    <div class="split-r">
+      <div style="font-weight:600;font-size:.85rem;margin-bottom:var(--s-2)">Panel</div>
+      <div style="font-size:.78rem;color:var(--tx-t)">280px</div>
+    </div>
+  </div>
+</div>
+</div></section>
+
+<div class="c"><div class="hr"></div></div>
+
+<!-- ══════════════════════════════════ DESKTOP ══════════════════════════════════ -->
+<section class="sec" id="d-chrome"><div class="c">
+<div class="sh"><span class="lbl">Desktop Native</span><h2>🪟 Window Chrome</h2><p>Custom titlebar · macOS-style traffic lights · Drag region</p></div>
+<div class="comp-demo" style="padding:0;overflow:hidden">
+  <div class="win-chrome">
+    <div style="display:flex;gap:8px;-webkit-app-region:no-drag">
+      <div class="win-ctl close"></div>
+      <div class="win-ctl min"></div>
+      <div class="win-ctl max"></div>
+    </div>
+    <div class="win-chrome-ttl">⚡ 超级牛马 Super Niuma</div>
+    <div style="width:46px"></div>
+  </div>
+  <div style="padding:var(--s-6)">
+    <p style="font-size:.85rem;color:var(--tx-s)">← Drag the titlebar to move the window. Traffic light buttons on the left (macOS) or right (Windows).</p>
+  </div>
+</div>
+<div class="comp-demo" style="margin-top:var(--s-4)">
+  <div class="comp-name">Window Controls — Right-aligned (Windows)</div>
+  <div class="win-chrome">
+    <div class="win-chrome-ttl">⚡ 超级牛马 Super Niuma</div>
+    <div class="win-chrome-ctls">
+      <div class="win-ctl min"></div>
+      <div class="win-ctl max"></div>
+      <div class="win-ctl close"></div>
+    </div>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="d-cmd"><div class="c">
+<div class="sh"><span class="lbl">Desktop Native</span><h2>⌨ Command Palette</h2><p>Ctrl+K · Fuzzy search · Keyboard navigable</p></div>
+<div class="comp-demo">
+  <div class="cp">
+    <div class="cp-input"><input placeholder="Type a command..."></div>
+    <div class="cp-results">
+      <div class="cp-grp">Navigation</div>
+      <div class="cp-item sel">💬 New Chat <span class="cp-short">Ctrl+N</span></div>
+      <div class="cp-item">🏠 Go to Workspace <span class="cp-short">Ctrl+1</span></div>
+      <div class="cp-item">📊 Dashboard <span class="cp-short">Ctrl+2</span></div>
+      <div class="cp-grp">Actions</div>
+      <div class="cp-item">🔍 Search Files <span class="cp-short">Ctrl+G</span></div>
+      <div class="cp-item">⚙ Settings <span class="cp-short">Ctrl+,</span></div>
+      <div class="cp-item">🌙 Toggle Theme <span class="cp-short">Ctrl+T</span></div>
+    </div>
+  </div>
+</div>
+</div></section>
+
+<section class="sec" id="d-drag"><div class="c">
+<div class="sh"><span class="lbl">Desktop Native</span><h2>📥 Drag & Drop Zone</h2><p>File drop target · Visual feedback on drag-over</p></div>
+<div class="comp-demo">
+  <div class="ddz">
+    <div class="ddz-ic">📂</div>
+    <div class="ddz-ttl">Drop files here</div>
+    <div class="ddz-desc">or click to browse. PDF · DOCX · Images · Code · CSV</div>
+    <button class="btn btn-sm" style="margin-top:var(--s-4)">Browse Files</button>
+  </div>
+</div>
+</div></section>
+
+<!-- ══════════════════════════════════ FOOTER ══════════════════════════════════ -->
+<section class="sec" style="padding-bottom:var(--s-24)">
+  <div class="c" style="text-align:center">
+    <div class="hr" style="margin-bottom:var(--s-8)"></div>
+    <p style="color:var(--tx-t);font-size:.85rem">
+      <span class="tg" style="font-weight:700">超级牛马 Super Niuma</span> · DS v11.0 · NEON PULSE<br>
+      品牌色 #4DA8F0 · 三层令牌引擎 · 39 组件 · 3 主题 · 桌面原生<br>
+      2026-07-10 · 刘淮安 LIUHUAIAN
+    </p>
+  </div>
+</section>
+
+</main>
+
+<script>
+// Theme switcher
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('.ts button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.ts button').forEach(b => {
+    if (b.textContent.includes(t==='night'?'🌙':t==='day'?'☀️':'📜')) b.classList.add('active');
+  });
+}
+// Close dropdown on outside click
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#dd-demo')) {
+    document.getElementById('dd-menu').classList.remove('open');
+  }
+});
+// Close dialog on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.getElementById('dlg-demo').classList.add('hidden');
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+/* ============================================================
+   NEON PULSE v11.0 — Theme Template
+   主题创作模板：复制此文件，替换 <theme-name> 和变量值
+   只需覆写语义令牌层，Primitives 和 Components 不变
+   ============================================================
+
+   创作指南：
+   1. 复制此文件，命名为 <your-theme>.css
+   2. 将 [data-theme="<theme-name>"] 替换为你的主题名
+   3. 修改以下 6 组语义令牌：
+      a) 背景色系 (4级深度)      — 必须保持 root<surface<elevated 对比
+      b) 文字色系               — primary 与 bg-root 对比度 ≥ 7:1
+      c) 品牌色系               — 建议保持蓝色基调
+      d) 语义色系               — 适配背景色温
+      e) Glass 表面             — 半透明 + 适配背景
+      f) 消息气泡 / 图标 / 渐变  — 微调即可
+   4. 在入口文件中 @import 你的主题
+   5. 严禁使用粉紫色系 (#E0B0FF, #D8B4FE 等) — 铁则
+   ============================================================ */
+
+/*
+[data-theme="<theme-name>"] {
+  --bg-root:     #...;
+  --bg-surface:  #...;
+  --bg-elevated: #...;
+  --bg-overlay:  #...;
+  --bg-input:    #...;
+
+  --bg-subtle:  rgba(...,...);
+  --bg-hover:   rgba(...,...);
+  --bg-active:  rgba(...,...);
+
+  --text-primary:   #...;
+  --text-secondary: #...;
+  --text-tertiary:  #...;
+  --text-dim:       #...;
+  --text-on-brand:  #FFFFFF;
+
+  --border-subtle:  rgba(...,...);
+  --border-default: rgba(...,...);
+  --border-strong:  rgba(...,...);
+
+  --brand:        #...;
+  --brand-hover:  #...;
+  --brand-active: #...;
+  --brand-muted:  rgba(...,...);
+  --brand-glow:   rgba(...,...);
+  --border-brand: rgba(...,...);
+
+  --success:    #...;   --success-bg: rgba(...,...);
+  --warning:    #...;   --warning-bg: rgba(...,...);
+  --error:      #...;   --error-bg:  rgba(...,...);
+  --info:       #...;   --info-bg:   rgba(...,...);
+
+  --glass-bg:     rgba(...,...);
+  --glass-heavy:  rgba(...,...);
+  --glass-medium: rgba(...,...);
+  --glass-light:  rgba(...,...);
+
+  --scrollbar-thumb:       rgba(...,...);
+  --scrollbar-thumb-hover: rgba(...,...);
+
+  --bubble-user-bg:     #...;
+  --bubble-user-border: rgba(...,...);
+  --bubble-user-text:   #...;
+  --bubble-ai-bg:       #...;
+  --bubble-ai-border:   rgba(...,...);
+
+  --surface-gradient: ...;
+
+  --icon-ollama: ...;  --icon-gbrain: ...;
+  --icon-mcp: ...;     --icon-rag: ...;
+
+  --icon-bg-purple: ...;   --icon-glow-purple: ...;
+  --icon-bg-green: ...;    --icon-glow-green: ...;
+  --icon-bg-cyan: ...;     --icon-glow-cyan: ...;
+  --icon-bg-amber: ...;    --icon-glow-amber: ...;
+}
+*/

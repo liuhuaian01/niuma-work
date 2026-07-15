@@ -1,0 +1,586 @@
+/* ============================================================
+   NEON PULSE v11.0 — Desktop Native Components
+   桌面原生组件：窗口 Chrome · 右键菜单 · 命令面板 · 拖放区
+   专为 WebView2 壳内运行设计
+   ============================================================ */
+
+/* ═══════════════════════════════════════════
+   WINDOW CHROME (自定义标题栏)
+   替代系统默认标题栏，提供统一视觉
+   ═══════════════════════════════════════════ */
+.win-chrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--chrome-height, 38px);
+  padding: 0 var(--s-3);
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--bd);
+  user-select: none;
+  -webkit-app-region: drag;       /* 整个标题栏可拖拽 */
+  flex-shrink: 0;
+}
+
+.win-chrome-title {
+  font-size: 0.78rem;
+  font-weight: var(--weight-semibold);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.win-chrome-title .win-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  background: var(--brand-gradient);
+}
+
+/* ── Windows 风格 (右侧控制按钮) ── */
+.win-ctls-right {
+  display: flex;
+  gap: 0;
+  -webkit-app-region: no-drag;    /* 按钮区域不可拖拽 */
+  margin-right: -4px;
+}
+
+.win-ctl {
+  width: 46px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--dur-fast) var(--ease-out);
+  -webkit-app-region: no-drag;
+  font-family: var(--font-sans);
+  line-height: 1;
+}
+
+.win-ctl:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.win-ctl.close:hover {
+  background: #E81123;
+  color: #FFFFFF;
+}
+
+/* ── macOS 风格 (左侧红绿灯) ── */
+.win-ctls-left {
+  display: flex;
+  gap: 8px;
+  -webkit-app-region: no-drag;
+  padding-left: 4px;
+}
+
+.win-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: filter var(--dur-fast);
+  -webkit-app-region: no-drag;
+}
+
+.win-dot.close  { background: #FF5F57; }
+.win-dot.min    { background: #FEBC2E; }
+.win-dot.max    { background: #28C840; }
+
+.win-dot:hover  { filter: brightness(0.85); }
+
+/* ═══════════════════════════════════════════
+   CONTEXT MENU (右键菜单)
+   分层 · 快捷键标注 · 危险操作高亮
+   ═══════════════════════════════════════════ */
+.ctx-menu {
+  min-width: var(--context-menu-min-width, 180px);
+  max-width: 280px;
+  background: var(--glass-heavy);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--border-default);
+  border-radius: var(--context-menu-radius, var(--radius-sm));
+  padding: var(--context-menu-padding, 4px);
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-modal);
+  animation: scaleIn 150ms var(--ease-spring);
+}
+
+.ctx-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: var(--context-menu-item-padding, 8px 12px);
+  border-radius: var(--radius-xs);
+  font-size: var(--context-menu-font-size, 0.82rem);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-smooth);
+  white-space: nowrap;
+  font-family: var(--font-sans);
+}
+
+.ctx-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.ctx-item .shortcut {
+  font-size: var(--context-menu-shortcut-font-size, 0.7rem);
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.ctx-item:active {
+  background: var(--bg-active);
+}
+
+/* 危险操作 */
+.ctx-item.danger { color: var(--text-secondary); }
+.ctx-item.danger:hover {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+/* 图标槽位（确保对齐） */
+.ctx-item .icon-slot {
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+/* 选中态 */
+.ctx-item.selected {
+  background: var(--brand-muted);
+  color: var(--brand);
+}
+
+.ctx-item.selected::before {
+  content: '✓';
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+/* 分隔线 */
+.ctx-sep {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 4px 8px;
+}
+
+/* 分组标题 */
+.ctx-label {
+  padding: 6px 12px 2px;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  font-weight: var(--weight-semibold);
+  cursor: default;
+}
+
+/* ── 禁用项 ── */
+.ctx-item.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════
+   COMMAND PALETTE (命令面板 Ctrl+K)
+   浮动搜索 · 分组结果 · 键盘导航
+   ═══════════════════════════════════════════ */
+.cmd-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--ov-bg);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 15vh;
+  z-index: var(--z-modal);
+  animation: fadeIn 150ms var(--ease-out);
+}
+
+.cmd-palette {
+  width: var(--cmd-palette-width, 560px);
+  max-width: 92vw;
+  background: var(--glass-heavy);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid var(--border-default);
+  border-radius: var(--cmd-palette-radius, var(--radius-lg));
+  box-shadow: 0 0 64px var(--brand-glow), var(--shadow-xl);
+  overflow: hidden;
+  animation: scaleIn 200ms var(--ease-spring);
+}
+
+.cmd-input-wrap {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cmd-input-wrap .search-icon {
+  color: var(--text-dim);
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.cmd-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: var(--font-sans);
+  outline: none;
+}
+
+.cmd-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.cmd-results {
+  max-height: var(--cmd-palette-max-height, 420px);
+  overflow-y: auto;
+  padding: 6px;
+}
+
+/* 结果分组 */
+.cmd-group-label {
+  padding: 8px 14px 4px;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  font-weight: var(--weight-semibold);
+}
+
+.cmd-result {
+  padding: 10px 14px;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-smooth);
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.cmd-result:hover,
+.cmd-result.active {
+  background: var(--brand-muted);
+  color: var(--brand);
+}
+
+.cmd-result .left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cmd-result .icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.cmd-result .shortcut {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+.cmd-result .desc {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ── 空结果 ── */
+.cmd-empty {
+  padding: var(--s-8);
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.88rem;
+}
+
+/* ═══════════════════════════════════════════
+   DRAG & DROP ZONE
+   文件拖放区域 · 视觉反馈
+   ═══════════════════════════════════════════ */
+.drag-zone {
+  border: 2px dashed var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--s-12);
+  text-align: center;
+  transition: all var(--dur-base) var(--ease-smooth);
+  cursor: pointer;
+  background: var(--bg-elevated);
+  position: relative;
+}
+
+.drag-zone:hover {
+  border-color: var(--border-brand);
+  background: var(--brand-muted);
+}
+
+.drag-zone.active {
+  border-color: var(--brand);
+  background: var(--brand-muted);
+  box-shadow: 0 0 32px var(--brand-glow);
+  transform: scale(1.01);
+}
+
+.drag-zone .dz-icon {
+  font-size: 40px;
+  margin-bottom: var(--s-3);
+  color: var(--text-dim);
+  transition: color var(--dur-fast);
+}
+
+.drag-zone:hover .dz-icon,
+.drag-zone.active .dz-icon {
+  color: var(--brand);
+}
+
+.drag-zone .dz-title {
+  font-size: 1rem;
+  font-weight: var(--weight-semibold);
+  margin-bottom: 4px;
+}
+
+.drag-zone .dz-desc {
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.drag-zone .dz-formats {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: var(--s-3);
+  flex-wrap: wrap;
+}
+
+.drag-zone .dz-format {
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: var(--bg-overlay);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+/* ═══════════════════════════════════════════
+   SYSTEM TRAY (系统托盘)
+   最小化到托盘的行为设计
+   ═══════════════════════════════════════════ */
+/* 托盘图标应为 16×16 / 32×32 PNG，以下为 CSS 示意 */
+.tray-menu {
+  position: fixed;
+  /* 定位由系统 API 决定，CSS 仅定义外观 */
+  min-width: 200px;
+  background: var(--glass-heavy);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-modal);
+  animation: scaleIn 150ms var(--ease-spring);
+}
+
+/* ═══════════════════════════════════════════
+   NATIVE NOTIFICATION (系统通知)
+   任务完成 / 错误提醒
+   ═══════════════════════════════════════════ */
+.notif-toast {
+  position: fixed;
+  bottom: var(--s-4);
+  right: var(--s-4);
+  max-width: 380px;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  background: var(--glass-heavy);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-toast);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  animation: slideUp 400ms var(--ease-spring);
+  transition: opacity var(--dur-slow), transform var(--dur-slow);
+}
+
+.notif-toast.dismissing {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+.notif-toast .notif-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 12px;
+}
+
+.notif-toast.success .notif-icon {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.notif-toast.error .notif-icon {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.notif-toast.warning .notif-icon {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+.notif-toast.info .notif-icon {
+  background: var(--info-bg);
+  color: var(--info);
+}
+
+.notif-toast .notif-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.notif-toast .notif-title {
+  font-weight: var(--weight-semibold);
+  font-size: 0.88rem;
+  margin-bottom: 2px;
+}
+
+.notif-toast .notif-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.notif-toast .notif-close {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 14px;
+  transition: all var(--dur-fast);
+  font-family: var(--font-sans);
+}
+
+.notif-toast .notif-close:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ═══════════════════════════════════════════
+   RESIZE HANDLES (窗口调整大小)
+   WebView2 边缘拖拽区域
+   ═══════════════════════════════════════════ */
+.resize-handle {
+  position: fixed;
+  z-index: var(--z-sticky);
+  /* 以下方向类需配合 JS 设置 cursor 和 resize 行为 */
+}
+
+.resize-n  { top: 0; left: 8px; right: 8px; height: 4px; cursor: n-resize; }
+.resize-s  { bottom: 0; left: 8px; right: 8px; height: 4px; cursor: s-resize; }
+.resize-e  { top: 8px; right: 0; bottom: 8px; width: 4px; cursor: e-resize; }
+.resize-w  { top: 8px; left: 0; bottom: 8px; width: 4px; cursor: w-resize; }
+.resize-ne { top: 0; right: 0; width: 8px; height: 8px; cursor: ne-resize; }
+.resize-nw { top: 0; left: 0; width: 8px; height: 8px; cursor: nw-resize; }
+.resize-se { bottom: 0; right: 0; width: 8px; height: 8px; cursor: se-resize; }
+.resize-sw { bottom: 0; left: 0; width: 8px; height: 8px; cursor: sw-resize; }
+
+/* ═══════════════════════════════════════════
+   KEYBOARD SHORTCUT BADGE (快捷键标注)
+   ═══════════════════════════════════════════ */
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.kbd key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 4px;
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-strong);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+  line-height: 1;
+  box-shadow: 0 1px 0 var(--border-subtle);
+}
+
+.kbd key + key::before {
+  content: '+';
+  margin: 0 2px;
+  color: var(--text-dim);
+  font-size: 0.6rem;
+  display: inline-block;
+  background: none;
+  border: none;
+  box-shadow: none;
+  min-width: auto;
+  height: auto;
+  padding: 0;
+}
+
+/* ═══════════════════════════════════════════
+   FOCUS RING (桌面版增强聚焦环)
+   ═══════════════════════════════════════════ */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* 对话框内元素聚焦 */
+.dlg :focus-visible,
+.cmd-palette :focus-visible {
+  outline-offset: -2px;
+}

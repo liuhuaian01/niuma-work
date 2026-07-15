@@ -1,0 +1,469 @@
+/* ============================================================
+   SUPER NIUMA — App Shell Layout v2.0
+   依赖: design-tokens.css (必须在之前加载)
+   
+   定义完整的应用布局骨架:
+   - App Shell (全屏容器)
+   - Nav Rail (左侧竖导航 56px)
+   - Main Content (右侧主区域)
+   - 各页面通用布局模式
+   
+   设计原则:
+   - 全部使用 Token 变量，支持三主题自动切换
+   - 桌面优先，1280×720 为最低分辨率
+   - Flexbox 布局，无 CSS Grid 复杂嵌套
+   ============================================================ */
+
+/* ==========================================================
+   1. APP SHELL (根容器)
+   ========================================================== */
+
+.app-shell {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--color-bg-root);
+  color: var(--color-text-primary);
+  transition: background var(--transition-smooth), color var(--transition-smooth);
+}
+
+/* ==========================================================
+   2. NAV RAIL (左侧竖导航 56px)
+   ========================================================== */
+
+.nav-rail {
+  width: var(--nav-rail-width);
+  min-width: var(--nav-rail-width);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--nav-rail-padding-y) var(--space-2);
+  background: var(--color-bg-sidebar);
+  border-right: 1px solid var(--color-border-subtle);
+  user-select: none;
+  z-index: var(--z-sticky);
+  transition: background var(--transition-smooth);
+}
+
+/* 品牌 Logo 区域 */
+.nav-rail__brand {
+  width: var(--nav-rail-brand-size);
+  height: var(--nav-rail-brand-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-xs);
+}
+
+.nav-rail__brand svg,
+.nav-rail__brand img {
+  width: 24px;
+  height: 24px;
+}
+
+/* 导航项目组 */
+.nav-rail__items {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nav-rail-gap);
+  width: 100%;
+}
+
+/* 单个导航项 */
+.nav-rail__item {
+  position: relative;
+  width: var(--nav-rail-item-size);
+  height: var(--nav-rail-item-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--nav-rail-item-radius);
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.nav-rail__item:hover {
+  color: var(--color-text-primary);
+  background: var(--color-bg-hover);
+}
+
+.nav-rail__item:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* 当前活跃项 */
+.nav-rail__item--active {
+  color: var(--color-brand);
+  background: var(--color-brand-muted);
+}
+
+.nav-rail__item--active::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--space-2) - 1px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 18px;
+  background: var(--color-brand);
+  border-radius: 1px;
+}
+
+/* 导航图标尺寸 */
+.nav-rail__item svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* 导航分隔线 */
+.nav-rail__divider {
+  width: 28px;
+  height: 1px;
+  background: var(--color-border-subtle);
+  margin: var(--space-2) 0;
+}
+
+/* 底部头像区域 */
+.nav-rail__avatar {
+  width: var(--nav-rail-item-size);
+  height: var(--nav-rail-item-size);
+  border-radius: var(--radius-xs);
+  background: var(--color-bg-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  overflow: hidden;
+}
+
+.nav-rail__avatar:hover {
+  background: var(--color-bg-active);
+}
+
+.nav-rail__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 在线状态点 */
+.nav-rail__status-dot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+  border: 2px solid var(--color-bg-sidebar);
+}
+
+.nav-rail__status-dot--offline {
+  background: var(--color-text-tertiary);
+}
+
+/* ==========================================================
+   3. MAIN CONTENT (右侧主区域)
+   ========================================================== */
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* 页面容器 */
+.page-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ==========================================================
+   4. CHAT LAYOUT (对话页专用 三栏布局)
+   ========================================================== */
+
+.chat-layout {
+  display: flex;
+  height: 100%;
+}
+
+/* 对话列表侧栏 (第二栏) */
+.chat-sidebar {
+  width: var(--chat-sidebar-width);
+  min-width: var(--chat-sidebar-min-width);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-surface);
+}
+
+.chat-sidebar__header {
+  height: var(--chat-sidebar-header-height);
+  padding: 0 var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.chat-sidebar__list {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-2);
+}
+
+/* 对话主区域 (第三栏) */
+.chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.chat-main__header {
+  height: var(--chat-header-height);
+  padding: 0 var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-surface);
+}
+
+.chat-main__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-6) 0;
+}
+
+.chat-main__input {
+  padding: var(--input-area-padding-y) var(--space-6) var(--input-area-padding-bottom);
+  border-top: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-surface);
+}
+
+/* 上下文面板 (右侧可选) */
+.chat-context-panel {
+  width: var(--chat-context-panel-width);
+  border-left: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-surface);
+  overflow-y: auto;
+}
+
+.chat-context-panel--hidden {
+  width: 0;
+  border: none;
+  overflow: hidden;
+}
+
+/* ==========================================================
+   5. PAGE LAYOUTS (通用页面布局)
+   ========================================================== */
+
+/* 标准页面：顶部标题栏 + 内容区 */
+.page-standard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.page-standard__header {
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-bg-surface);
+  min-height: 56px;
+}
+
+.page-standard__header h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.page-standard__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-6);
+}
+
+/* 两栏布局（设置页、工作室详情等） */
+.page-split {
+  display: flex;
+  height: 100%;
+}
+
+.page-split__sidebar {
+  width: var(--settings-sidebar-width);
+  min-width: var(--settings-sidebar-min-width);
+  border-right: 1px solid var(--color-border-subtle);
+  padding: var(--space-4);
+  overflow-y: auto;
+  background: var(--color-bg-surface);
+}
+
+.page-split__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--settings-detail-padding-x);
+  min-width: var(--settings-detail-min-width);
+}
+
+/* 看板/仪表盘布局 */
+.page-dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  padding: var(--space-6);
+}
+
+.page-dashboard__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--dashboard-card-min), 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+/* ==========================================================
+   6. KANBAN BOARD LAYOUT
+   ========================================================== */
+
+.kanban-board {
+  display: flex;
+  gap: var(--space-4);
+  height: 100%;
+  padding: var(--space-4);
+  overflow-x: auto;
+}
+
+.kanban-column {
+  flex: 1;
+  min-width: 280px;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.kanban-column__header {
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border-subtle);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-secondary);
+}
+
+.kanban-column__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-2);
+}
+
+.kanban-column__add {
+  padding: var(--space-2) var(--space-4);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+/* ==========================================================
+   7. RESPONSIVE (桌面优先，仅降级)
+   ========================================================== */
+
+/* 1280px 以下：隐藏上下文面板 */
+@media (max-width: 1280px) {
+  .chat-context-panel {
+    display: none;
+  }
+}
+
+/* 1024px 以下：隐藏对话列表侧栏 */
+@media (max-width: 1024px) {
+  .chat-sidebar {
+    display: none;
+  }
+  
+  .kanban-column {
+    min-width: 240px;
+  }
+}
+
+/* 768px 以下：最小可用状态 */
+@media (max-width: 768px) {
+  .page-split {
+    flex-direction: column;
+  }
+  
+  .page-split__sidebar {
+    width: 100%;
+    min-width: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+  
+  .page-dashboard__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================
+   8. ANIMATIONS
+   ========================================================== */
+
+/* 页面切换 */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity var(--dur-normal) var(--ease-out);
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}
+
+/* 面板滑入 */
+.panel-slide-enter-active,
+.panel-slide-leave-active {
+  transition: transform var(--dur-normal) var(--ease-smooth),
+              opacity var(--dur-normal) var(--ease-out);
+}
+
+.panel-slide-enter-from {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
+.panel-slide-leave-to {
+  transform: translateX(-20px);
+  opacity: 0;
+}
+
+/* prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

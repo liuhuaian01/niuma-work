@@ -1,0 +1,166 @@
+/* ============================================================
+   SUPER NIUMA — Admin Component Tokens v17.0
+   
+   后台管理组件令牌层。引用 design-tokens.css 的 L0/L1 Token。
+   覆盖：表格 · 分页 · 面包屑 · 选择器 · 选项框 · 抽屉 · 步骤条 · 
+         统计值 · 描述列表 · 时间轴 · 表单布局 · 输入组 · 顶部导航 · 
+         内容网格 · 树形控件 · 上传 · 日期选择器
+   
+   依赖: design-tokens.css 必须先加载
+   ============================================================ */
+
+:root,
+[data-theme="night"],
+[data-theme="day"],
+[data-theme="classic"] {
+
+  /* ── Button Group ── */
+  --btn-group-radius: var(--radius-sm);
+  --btn-group-divider: 1px solid var(--color-border-default);
+  --btn-group-hover-z: 1;
+
+  /* ── Enhanced Table ── */
+  --table-header-bg: var(--color-bg-subtle);
+  --table-header-weight: var(--fw-semibold);
+  --table-header-size: var(--text-xs);
+  --table-row-hover-bg: var(--color-bg-subtle);
+  --table-stripe-bg: color-mix(in srgb, var(--theme-foreground) 2%, transparent);
+  --table-border-color: var(--color-border-subtle);
+  --table-cell-padding-x: var(--space-4);
+  --table-cell-padding-y: var(--space-3);
+  --table-cell-padding-sm-x: var(--space-3);
+  --table-cell-padding-sm-y: var(--space-2);
+  --table-cell-padding-lg-x: var(--space-5);
+  --table-cell-padding-lg-y: var(--space-4);
+  --table-sorted-bg: color-mix(in srgb, var(--theme-accent) 4%, transparent);
+  --table-fixed-shadow: 0 0 10px rgba(0,0,0,0.08);
+  --table-selection-col-width: 48px;
+  --table-expand-col-width: 48px;
+
+  /* ── Pagination ── */
+  --pagination-item-size: 32px;
+  --pagination-item-radius: var(--radius-sm);
+  --pagination-item-gap: var(--space-2);
+  --pagination-active-bg: var(--color-brand);
+  --pagination-active-color: var(--color-text-on-brand);
+  --pagination-hover-bg: var(--color-bg-hover);
+  --pagination-disabled-opacity: 0.4;
+
+  /* ── Breadcrumb ── */
+  --breadcrumb-separator-color: var(--color-text-tertiary);
+  --breadcrumb-separator-margin: var(--space-2);
+  --breadcrumb-link-color: var(--color-text-secondary);
+  --breadcrumb-link-hover: var(--color-brand);
+  --breadcrumb-current-color: var(--color-text-primary);
+  --breadcrumb-font-size: var(--text-sm);
+
+  /* ── Select ── */
+  --select-dropdown-shadow: var(--shadow-niuma-lg);
+  --select-option-padding: var(--space-2) var(--space-4);
+  --select-option-selected-bg: var(--color-brand-muted);
+  --select-option-hover-bg: var(--color-bg-hover);
+  --select-tag-bg: var(--color-bg-subtle);
+
+  /* ── Checkbox / Radio ── */
+  --checkbox-size: 16px;
+  --checkbox-radius: var(--radius-xs);
+  --checkbox-border: 1px solid var(--color-border-default);
+  --checkbox-checked-bg: var(--color-brand);
+  --checkbox-hover-border: var(--color-brand);
+  --radio-size: 16px;
+  --radio-inner-size: 8px;
+
+  /* ── Switch (form item) ── */
+  --switch-width: 44px;
+  --switch-height: 22px;
+  --switch-thumb-size: 18px;
+
+  /* ── Drawer ── */
+  --drawer-width: 378px;
+  --drawer-width-lg: 736px;
+  --drawer-overlay-bg: color-mix(in srgb, var(--theme-bg-seed) 60%, transparent);
+  --drawer-header-padding: var(--space-4) var(--space-6);
+  --drawer-body-padding: var(--space-6);
+  --drawer-footer-padding: var(--space-4) var(--space-6);
+
+  /* ── Confirm Dialog ── */
+  --confirm-icon-size: 22px;
+  --confirm-body-gap: var(--space-4);
+
+  /* ── Steps ── */
+  --steps-icon-size: 32px;
+  --steps-icon-done-bg: var(--color-brand);
+  --steps-icon-active-bg: var(--color-brand);
+  --steps-icon-wait-bg: var(--color-bg-subtle);
+  --steps-icon-wait-border: var(--color-border-default);
+  --steps-connector-color: var(--color-border-subtle);
+  --steps-connector-done-color: var(--color-brand);
+  --steps-title-size: var(--text-sm);
+  --steps-desc-size: var(--text-xs);
+  --steps-horizontal-gap: var(--space-8);
+
+  /* ── Statistic ── */
+  --statistic-value-size: var(--text-2xl);
+  --statistic-value-weight: var(--fw-bold);
+  --statistic-label-size: var(--text-sm);
+  --statistic-prefix-size: var(--text-lg);
+
+  /* ── Descriptions ── */
+  --desc-label-width: 120px;
+  --desc-label-color: var(--color-text-secondary);
+  --desc-content-color: var(--color-text-primary);
+  --desc-border: 1px solid var(--color-border-subtle);
+  --desc-padding: var(--space-4) var(--space-6);
+  --desc-label-padding: var(--space-4) var(--space-6);
+
+  /* ── Timeline ── */
+  --timeline-dot-size: 10px;
+  --timeline-line-color: var(--color-border-subtle);
+  --timeline-line-width: 2px;
+  --timeline-content-gap: var(--space-4);
+
+  /* ── Form Layout ── */
+  --form-horizontal-label-width: 120px;
+  --form-item-margin-bottom: var(--space-6);
+  --form-item-label-gap: var(--space-2);
+  --form-item-required-color: var(--color-error);
+  --form-inline-item-gap: var(--space-4);
+
+  /* ── Input Addon ── */
+  --input-addon-bg: var(--color-bg-subtle);
+  --input-addon-color: var(--color-text-secondary);
+  --input-addon-padding: 0 var(--space-3);
+
+  /* ── Top Navigation ── */
+  --topnav-height: 56px;
+  --topnav-bg: var(--color-glass-bg-heavy);
+  --topnav-border: 1px solid var(--color-border-subtle);
+  --topnav-padding: 0 var(--space-6);
+
+  /* ── Content Grid ── */
+  --content-max-width: 1320px;
+
+  /* ── Card Grid ── */
+  --card-grid-gap: var(--space-4);
+  --card-grid-min: 280px;
+
+  /* ── Tree ── */
+  --tree-indent: var(--space-6);
+  --tree-node-height: 32px;
+  --tree-node-hover-bg: var(--color-bg-hover);
+  --tree-node-selected-bg: var(--color-brand-muted);
+  --tree-switcher-size: 16px;
+
+  /* ── Upload ── */
+  --upload-drag-bg: var(--color-bg-subtle);
+  --upload-drag-border: 1px dashed var(--color-border-default);
+  --upload-drag-hover-border: var(--color-brand);
+  --upload-picture-size: 104px;
+
+  /* ── DatePicker / TimePicker ── */
+  --picker-panel-bg: var(--color-glass-bg-heavy);
+  --picker-panel-shadow: var(--shadow-niuma-lg);
+  --picker-cell-hover-bg: var(--color-bg-hover);
+  --picker-cell-selected-bg: var(--color-brand);
+  --picker-cell-today-border: var(--color-brand);
+}

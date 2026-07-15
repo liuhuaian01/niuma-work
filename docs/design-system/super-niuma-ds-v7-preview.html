@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>超级牛马 · Design System v7.0 — Ethereal Glass + Bento + Magnetic Motion</title>
+<style>
+/* ============================================================
+   DESIGN SYSTEM v7.0 — PREVIEW
+   Ethereal Glass · Asymmetrical Bento · Double-Bezel · Magnetic Motion
+   ============================================================ */
+
+/* --- TOKENS --- */
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  --font-mono: "SF Mono", "Cascadia Code", "Fira Code", monospace;
+  --radius-sm: 8px; --radius-md: 14px; --radius-lg: 20px; --radius-xl: 28px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px;
+  --dur-fast: 180ms; --dur-normal: 300ms; --dur-slow: 500ms;
+  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Night Theme (Default) */
+[data-theme="night"] {
+  --bg-root: #070C14;
+  --bg-surface: #0D1525;
+  --bg-elevated: #131E2E;
+  --bg-overlay: #1A2738;
+  --bg-glass: rgba(19, 30, 46, 0.65);
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-tertiary: #64748B;
+  --text-dim: #475569;
+  --border-default: rgba(255,255,255,0.06);
+  --border-hover: rgba(255,255,255,0.12);
+  --border-glow: rgba(77, 168, 240, 0.25);
+  --brand: #4DA8F0;
+  --brand-hover: #70BDF8;
+  --brand-glow: rgba(77, 168, 240, 0.18);
+  --accent-gradient: linear-gradient(135deg, #4DA8F0 0%, #2DD4BF 100%);
+  --coral: #F87171; --green: #22C55E; --amber: #F59E0B; --purple: #A78BFA; --teal: #2DD4BF;
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.20);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.30);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.40);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.50);
+  --shadow-glass: 0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px rgba(77,168,240,0.06);
+  --shadow-glow: 0 0 32px rgba(77,168,240,0.15), 0 8px 24px rgba(0,0,0,0.30);
+  --shadow-glow-lg: 0 0 48px rgba(77,168,240,0.20), 0 16px 40px rgba(0,0,0,0.40);
+}
+
+/* Day Theme */
+[data-theme="day"] {
+  --bg-root: #F5F7FA;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #F0F2F5;
+  --bg-overlay: #E5E7EB;
+  --bg-glass: rgba(255, 255, 255, 0.82);
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-tertiary: #94A3B8;
+  --text-dim: #CBD5E1;
+  --border-default: rgba(0,0,0,0.06);
+  --border-hover: rgba(0,0,0,0.10);
+  --border-glow: rgba(37,99,235,0.20);
+  --brand: #2563EB;
+  --brand-hover: #1D4ED8;
+  --brand-glow: rgba(37,99,235,0.10);
+  --accent-gradient: linear-gradient(135deg, #2563EB 0%, #0891B2 100%);
+  --coral: #DC2626; --green: #16A34A; --amber: #D97706; --purple: #7C3AED; --teal: #0D9488;
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.10);
+  --shadow-glass: 0 8px 32px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+  --shadow-glow: 0 0 24px rgba(37,99,235,0.10), 0 8px 24px rgba(0,0,0,0.06);
+  --shadow-glow-lg: 0 0 40px rgba(37,99,235,0.14), 0 16px 40px rgba(0,0,0,0.08);
+}
+
+/* Classic Theme */
+[data-theme="classic"] {
+  --bg-root: #F8F4ED;
+  --bg-surface: #FCF9F3;
+  --bg-elevated: #F3EEE6;
+  --bg-overlay: #EAE4D9;
+  --bg-glass: rgba(252,249,243,0.88);
+  --text-primary: #2D251E;
+  --text-secondary: #6B5D4F;
+  --text-tertiary: #9B8C7E;
+  --text-dim: #C4B8A8;
+  --border-default: rgba(45,37,30,0.08);
+  --border-hover: rgba(45,37,30,0.14);
+  --border-glow: rgba(75,122,184,0.18);
+  --brand: #4B7AB8;
+  --brand-hover: #3D68A0;
+  --brand-glow: rgba(75,122,184,0.10);
+  --accent-gradient: linear-gradient(135deg, #4B7AB8 0%, #3A8278 100%);
+  --coral: #B84C3A; --green: #3B7A4F; --amber: #B8922A; --purple: #6B4F8C; --teal: #3A8278;
+  --shadow-xs: 0 1px 2px rgba(80,60,40,0.04);
+  --shadow-sm: 0 2px 8px rgba(80,60,40,0.06);
+  --shadow-md: 0 8px 24px rgba(80,60,40,0.08);
+  --shadow-lg: 0 16px 48px rgba(80,60,40,0.10);
+  --shadow-glass: 0 8px 32px rgba(80,60,40,0.06), 0 0 0 1px rgba(80,60,40,0.04);
+  --shadow-glow: 0 0 24px rgba(75,122,184,0.08), 0 8px 24px rgba(80,60,40,0.06);
+  --shadow-glow-lg: 0 0 40px rgba(75,122,184,0.12), 0 16px 40px rgba(80,60,40,0.08);
+}
+
+/* --- RESET & BASE --- */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-sans); background: var(--bg-root); color: var(--text-primary); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: 
+    radial-gradient(ellipse at 25% 15%, var(--brand-glow) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 85%, rgba(168,133,247,0.03) 0%, transparent 60%);
+}
+.container { max-width: 1280px; margin: 0 auto; padding: 0 var(--space-8); position: relative; z-index: 1; }
+
+/* --- TYPOGRAPHY --- */
+h1 { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; }
+h2 { font-size: 1.5rem; font-weight: 650; letter-spacing: -0.02em; }
+h3 { font-size: 1.1rem; font-weight: 600; }
+.label-sm { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; color: var(--text-tertiary); }
+.mono { font-family: var(--font-mono); font-size: 0.85em; }
+.text-gradient { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* --- THEME SWITCHER --- */
+.theme-switcher { position: fixed; top: var(--space-4); right: var(--space-4); z-index: 100; display: flex; gap: var(--space-1); background: var(--bg-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border-default); border-radius: 999px; padding: 3px; }
+.theme-switcher button { width: 36px; height: 36px; border-radius: 999px; border: none; background: transparent; color: var(--text-secondary); font-size: 16px; cursor: pointer; transition: all var(--dur-fast) var(--ease-spring); display: flex; align-items: center; justify-content: center; }
+.theme-switcher button:hover { color: var(--text-primary); }
+.theme-switcher button.active { background: var(--bg-elevated); color: var(--brand); box-shadow: var(--shadow-xs); }
+
+/* --- SECTION --- */
+.section { padding: var(--space-16) 0; }
+.section-header { margin-bottom: var(--space-8); }
+.section-header p { color: var(--text-secondary); margin-top: var(--space-2); font-size: 0.95rem; }
+.divider { height: 1px; background: var(--border-default); margin: var(--space-12) 0; }
+
+/* ============================================================
+   COMPONENT SHOWCASE
+   ============================================================ */
+
+/* --- Double-Bezel Card --- */
+.ds-card-shell {
+  position: relative;
+  padding: 1.5px;
+  border-radius: var(--radius-lg);
+  background: var(--border-default);
+  transition: all 400ms var(--ease-spring);
+}
+.ds-card-shell:hover {
+  background: var(--border-glow);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+.ds-card-core {
+  background: var(--bg-elevated);
+  border-radius: calc(var(--radius-lg) - 1.5px);
+  padding: var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+.ds-card-core::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* --- Glass Card --- */
+.ds-glass-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  transition: all 400ms var(--ease-spring);
+  position: relative;
+}
+.ds-glass-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-glass);
+  transform: translateY(-1px);
+}
+
+/* --- Fluid Island Nav --- */
+.ds-fluid-nav {
+  display: flex; align-items: center; gap: var(--space-1);
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-default);
+  border-radius: 999px;
+  padding: 4px;
+  width: fit-content;
+  margin: 0 auto var(--space-8);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.ds-fluid-nav-btn {
+  padding: 8px 20px;
+  border-radius: 999px; border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.875rem; font-weight: 500; font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 250ms var(--ease-spring);
+}
+.ds-fluid-nav-btn:hover { color: var(--text-primary); }
+.ds-fluid-nav-btn.active { background: var(--bg-elevated); color: var(--text-primary); box-shadow: var(--shadow-xs); }
+
+/* --- Magnetic Button --- */
+.ds-btn-magnetic {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: none;
+  background: var(--accent-gradient);
+  color: #fff;
+  font-size: 0.9rem; font-weight: 550; font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 350ms var(--ease-spring);
+  box-shadow: 0 4px 16px var(--brand-glow);
+}
+.ds-btn-magnetic:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow-lg);
+}
+.ds-btn-magnetic:active { transform: scale(0.97); }
+.ds-btn-magnetic .btn-icon-circle {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 250ms var(--ease-spring);
+}
+.ds-btn-magnetic:hover .btn-icon-circle {
+  transform: translateX(2px) translateY(-1px) scale(1.08);
+}
+
+.ds-btn-secondary {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--border-default);
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  color: var(--text-primary);
+  font-size: 0.875rem; font-weight: 500; font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 300ms var(--ease-spring);
+}
+.ds-btn-secondary:hover { border-color: var(--border-hover); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+.ds-btn-secondary:active { transform: scale(0.97); }
+
+.ds-btn-ghost {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 7px 14px; border-radius: 8px; border: none;
+  background: transparent; color: var(--text-secondary);
+  font-size: 0.8rem; font-family: var(--font-sans); cursor: pointer;
+  transition: all 200ms var(--ease-spring);
+}
+.ds-btn-ghost:hover { background: var(--bg-overlay); color: var(--text-primary); }
+.ds-btn-ghost.danger:hover { background: rgba(248,113,113,0.10); color: var(--coral); }
+
+/* --- Morphing Toggle (Pill Switch) --- */
+.ds-toggle-pill {
+  position: relative;
+  width: 48px; height: 26px;
+  border-radius: 999px;
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  transition: all 350ms var(--ease-spring);
+  flex-shrink: 0;
+}
+.ds-toggle-pill::after {
+  content: '';
+  position: absolute; top: 2px; left: 2px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--text-tertiary);
+  transition: all 350ms var(--ease-spring);
+  box-shadow: var(--shadow-xs);
+}
+.ds-toggle-pill.on { background: var(--brand); border-color: var(--brand); }
+.ds-toggle-pill.on::after { left: 24px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+
+/* --- Animated Tabs --- */
+.ds-tabs { display: flex; gap: 4px; background: var(--bg-overlay); border-radius: 10px; padding: 4px; width: fit-content; }
+.ds-tab { padding: 7px 18px; border-radius: 7px; border: none; background: transparent; color: var(--text-secondary); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 250ms var(--ease-spring); font-family: var(--font-sans); }
+.ds-tab:hover { color: var(--text-primary); }
+.ds-tab.active { background: var(--bg-elevated); color: var(--text-primary); box-shadow: var(--shadow-xs); }
+
+/* --- Spotlight Border --- */
+.ds-spotlight {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  padding: var(--space-6);
+  transition: border-color 400ms var(--ease-spring);
+}
+.ds-spotlight::before {
+  content: '';
+  position: absolute; inset: -1px;
+  border-radius: inherit;
+  background: var(--accent-gradient);
+  opacity: 0; z-index: -1;
+  transition: opacity 400ms var(--ease-spring);
+}
+.ds-spotlight:hover::before { opacity: 0.12; }
+.ds-spotlight:hover { border-color: var(--border-glow); }
+
+/* --- Color Swatches --- */
+.swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--space-3); }
+.swatch { padding: var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--border-default); }
+.swatch-preview { width: 100%; height: 48px; border-radius: var(--radius-sm); margin-bottom: var(--space-2); }
+.swatch-name { font-size: 0.8rem; font-weight: 600; }
+.swatch-hex { font-size: 0.7rem; color: var(--text-tertiary); font-family: var(--font-mono); }
+
+/* --- Shadow Demo --- */
+.shadow-demo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-4); }
+.shadow-demo { height: 80px; border-radius: var(--radius-md); background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--text-secondary); font-weight: 500; }
+
+/* --- Bento Grid --- */
+.bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: auto; gap: var(--space-4); grid-auto-flow: dense; }
+.bento-grid > * { min-height: 120px; }
+.bento-col-2 { grid-column: span 2; }
+.bento-col-3 { grid-column: span 3; }
+.bento-row-2 { grid-row: span 2; }
+
+/* --- Type Scale --- */
+.type-demo { display: flex; flex-direction: column; gap: var(--space-3); }
+.type-row { display: flex; align-items: baseline; gap: var(--space-4); padding: var(--space-2) 0; border-bottom: 1px solid var(--border-default); }
+.type-label { font-size: 0.7rem; color: var(--text-tertiary); font-family: var(--font-mono); min-width: 60px; text-transform: uppercase; }
+
+/* --- Status Dot --- */
+.ds-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.ds-dot.online { background: var(--green); box-shadow: 0 0 8px var(--green); }
+.ds-dot.warn { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+.ds-dot.off { background: var(--text-tertiary); }
+
+/* --- Badge --- */
+.ds-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 6px; font-size: 11px; font-weight: 550; }
+.ds-badge.brand { background: var(--brand-glow); color: var(--brand); }
+.ds-badge.green { background: rgba(34,197,94,0.10); color: var(--green); }
+.ds-badge.amber { background: rgba(245,158,11,0.10); color: var(--amber); }
+.ds-badge.purple { background: rgba(168,133,247,0.10); color: var(--purple); }
+
+/* --- Input Glass --- */
+.ds-input-glass {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  color: var(--text-primary);
+  font-size: 0.9rem; font-family: var(--font-sans);
+  outline: none;
+  transition: all 300ms var(--ease-spring);
+}
+.ds-input-glass::placeholder { color: var(--text-tertiary); }
+.ds-input-glass:focus { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-glow); }
+
+/* --- Skeleton Shimmer --- */
+.ds-skeleton {
+  background: linear-gradient(90deg, var(--bg-overlay) 25%, var(--bg-elevated) 50%, var(--bg-overlay) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+  height: 16px;
+}
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* --- Toast --- */
+.ds-toast {
+  background: var(--bg-glass); backdrop-filter: blur(20px);
+  border: 1px solid var(--border-default); border-radius: var(--radius-md);
+  padding: 12px 20px; display: flex; align-items: center; gap: 10px;
+  box-shadow: var(--shadow-glass);
+  color: var(--text-primary); font-size: 0.85rem;
+}
+
+/* --- Page Transition Demo --- */
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.page-demo { animation: pageFadeIn 400ms var(--ease-out); }
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .container { padding: 0 var(--space-4); }
+  .bento-grid { grid-template-columns: 1fr; }
+  .bento-col-2, .bento-col-3 { grid-column: span 1; }
+  .bento-row-2 { grid-row: span 1; }
+  h1 { font-size: 1.5rem; }
+}
+
+/* --- Glass Surface Demo Background --- */
+.glass-demo-bg { position: relative; padding: var(--space-8); border-radius: var(--radius-xl); overflow: hidden; }
+.glass-demo-bg::before {
+  content: ''; position: absolute; inset: 0;
+  background: 
+    linear-gradient(135deg, rgba(77,168,240,0.06) 0%, transparent 40%),
+    linear-gradient(-135deg, rgba(168,133,247,0.04) 0%, transparent 40%);
+}
+</style>
+</head>
+<body>
+
+<div class="theme-switcher">
+  <button onclick="setTheme('night')" class="active" title="夜间">🌙</button>
+  <button onclick="setTheme('day')" title="日间">☀️</button>
+  <button onclick="setTheme('classic')" title="经典">📖</button>
+</div>
+
+<div class="container page-demo">
+
+  <!-- ===== HERO ===== -->
+  <section class="section" style="padding-top: 80px;">
+    <div style="max-width: 720px;">
+      <div class="ds-badge brand" style="margin-bottom: 16px;">v7.0 · Ethereal Glass</div>
+      <h1 style="margin-bottom: 12px;">超级牛马 <span class="text-gradient">Design System</span></h1>
+      <p style="font-size: 1.1rem; color: var(--text-secondary);">
+        Double-Bezel卡片 · Fluid Island导航 · Magnetic Button · Spotlight边框 · Bento网格 · 玻璃态光晕 · 弹性动效曲线
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== FLUID ISLAND NAV ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="label-sm">Component</div>
+      <h2>Fluid Island 导航</h2>
+      <p>浮动玻璃胶囊，backdrop-blur-2xl + 内阴影高光。3主题自适应。</p>
+    </div>
+    <div class="ds-fluid-nav">
+      <button class="ds-fluid-nav-btn active">对话</button>
+      <button class="ds-fluid-nav-btn">广场</button>
+      <button class="ds-fluid-nav-btn">项目</button>
+      <button class="ds-fluid-nav-btn">记忆</button>
+      <button class="ds-fluid-nav-btn">实验室</button>
+    </div>
+    <p style="text-align:center; color:var(--text-tertiary); font-size:0.8rem; margin-top:8px;">← mx-auto 居中 · 自适应宽度 · 点击激活态动画 →</p>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ===== COLOR PALETTE ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="label-sm">Tokens — Colors</div>
+      <h2>色彩系统</h2>
+      <p>品牌蓝 + 语义色 + 玻璃态背景层。暗/日/经典三主题。</p>
+    </div>
+
+    <h3 style="margin-bottom:12px;">Brand & Semantic</h3>
+    <div class="swatch-grid" style="margin-bottom:var(--space-8);">
+      <div class="swatch"><div class="swatch-preview" style="background:var(--brand);"></div><div class="swatch-name">Brand</div><div class="swatch-hex">--brand</div></div>
+      <div class="swatch"><div class="swatch-preview" style="background:var(--coral);"></div><div class="swatch-name">Coral</div><div class="swatch-hex">--coral</div></div>
+      <div class="swatch"><div class="swatch-preview" style="background:var(--green);"></div><div class="swatch-name">Green</div><div class="swatch-hex">--green</div></div>
+      <div class="swatch"><div class="swatch-preview" style="background:var(--amber);"></div><div class="swatch-name">Amber</div><div class="swatch-hex">--amber</div></div>
+      <div class="swatch"><div class="swatch-preview" style="background:var(--purple);"></div><div class="swatch-name">Purple</div><div class="swatch-hex">--purple</div></div>
+      <div class="swatch"><div class="swatch-preview" style="background:var(--teal);"></div><div class="swatch-name">Teal</div><div class="swatch-hex">--teal</div></div>
+      <div class="swatch"><div class="swatch-preview" style="background:var(--accent-gradient);"></div><div class="swatch-name">Gradient</div><div class="swatch-hex">--accent-gradient</div></div>
+    </div>
+
+    <h3 style="margin-bottom:12px;">Background Layers</h3>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-preview" style="background:var(--bg-root); border:1px solid var(--border-default);"></div><div class="swatch-name">bg-root</div><div class="swatch-hex">页面底色</div></div>
+      <div class="swatch"><div class="swatch-preview" style="background:var(--bg-surface);"></div><div class="swatch-name">bg-surface</div><div class="swatch-hex">表面层</div></div>
+      <div class="swatch"><div class="swatch-preview" style="background:var(--bg-elevated);"></div><div class="swatch-name">bg-elevated</div><div class="swatch-hex">抬升层</div></div>
+      <div class="swatch"><div class="swatch-preview" style="background:var(--bg-overlay);"></div><div class="swatch-name">bg-overlay</div><div class="swatch-hex">覆盖层</div></div>
+      <div class="swatch"><div class="swatch-preview" style="background:var(--bg-glass); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);"></div><div class="swatch-name">bg-glass</div><div class="swatch-hex">玻璃态</div></div>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ===== TYPOGRAPHY ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="label-sm">Tokens — Typography</div>
+      <h2>字体系统</h2>
+      <p>System Font Stack（零CDN） · Geist风格 · 清晰层级</p>
+    </div>
+    <div class="type-demo">
+      <div class="type-row"><span class="type-label">H1</span><span style="font-size:2.25rem; font-weight:700; letter-spacing:-0.03em;">超级牛马标题</span><span class="mono" style="color:var(--text-dim);">2.25rem · 700</span></div>
+      <div class="type-row"><span class="type-label">H2</span><span style="font-size:1.5rem; font-weight:650;">二级标题</span><span class="mono" style="color:var(--text-dim);">1.5rem · 650</span></div>
+      <div class="type-row"><span class="type-label">H3</span><span style="font-size:1.1rem; font-weight:600;">三级标题</span><span class="mono" style="color:var(--text-dim);">1.1rem · 600</span></div>
+      <div class="type-row"><span class="type-label">Body</span><span style="font-size:0.95rem;">正文段落，行高1.6，系统字体栈</span><span class="mono" style="color:var(--text-dim);">0.95rem · 400</span></div>
+      <div class="type-row"><span class="type-label">Small</span><span style="font-size:0.8rem; color:var(--text-secondary);">辅助文字</span><span class="mono" style="color:var(--text-dim);">0.8rem · --text-secondary</span></div>
+      <div class="type-row"><span class="type-label">Mono</span><span class="mono">const token = 'v7.0'</span><span class="mono" style="color:var(--text-dim);">SF Mono · Fira Code</span></div>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ===== DOUBLE-BEZEL CARDS ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="label-sm">Component</div>
+      <h2>Double-Bezel 卡片</h2>
+      <p>外壳+内核双层嵌套。悬停时边框光晕扩散 + 微上浮。</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:var(--space-4);">
+      <div class="ds-card-shell">
+        <div class="ds-card-core">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+            <div style="width:40px;height:40px;border-radius:10px;background:var(--brand-glow);display:flex;align-items:center;justify-content:center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            <div><div style="font-weight:600;">数据分析</div><div class="ds-badge brand">内置</div></div>
+          </div>
+          <p style="color:var(--text-secondary); font-size:0.85rem;">自动生成图表与统计报告</p>
+          <div style="display:flex; justify-content:flex-end; margin-top:16px;">
+            <div class="ds-toggle-pill on"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ds-card-shell">
+        <div class="ds-card-core">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(168,133,247,0.10);display:flex;align-items:center;justify-content:center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div><div style="font-weight:600;">深度研究</div><div class="ds-badge purple">推荐</div></div>
+          </div>
+          <p style="color:var(--text-secondary); font-size:0.85rem;">多Agent并行搜索 · 4.1k stars</p>
+          <div style="display:flex; justify-content:flex-end; margin-top:16px;">
+            <button class="ds-btn-magnetic" style="padding:6px 16px; font-size:0.8rem; gap:4px;">
+              添加
+              <span class="btn-icon-circle" style="width:20px;height:20px;">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="ds-card-shell">
+        <div class="ds-card-core">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(45,212,191,0.10);display:flex;align-items:center;justify-content:center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div><div style="font-weight:600;">SEO优化</div><div class="ds-badge green">热门</div></div>
+          </div>
+          <p style="color:var(--text-secondary); font-size:0.85rem;">关键词分析 · meta标签生成</p>
+          <div style="display:flex; justify-content:flex-end; margin-top:16px;">
+            <button class="ds-btn-magnetic" style="padding:6px 16px; font-size:0.8rem; gap:4px;">
+              添加
+              <span class="btn-icon-circle" style="width:20px;height:20px;">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ===== MAGNETIC BUTTONS ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="label-sm">Component</div>
+      <h2>Magnetic 按钮系统</h2>
+      <p>品牌渐变主按钮 · 玻璃态次要按钮 · Ghost按钮。内部箭头圆形独立wrapper，hover时磁吸平移动效。</p>
+    </div>
+    <div style="display:flex; gap:var(--space-3); flex-wrap:wrap; align-items:center;">
+      <button class="ds-btn-magnetic">
+        发送消息
+        <span class="btn-icon-circle">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </button>
+      <button class="ds-btn-magnetic">
+        安装 Skill
+        <span class="btn-icon-circle">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg>
+        </span>
+      </button>
+      <button class="ds-btn-secondary">取消</button>
+      <button class="ds-btn-secondary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        搜索
+      </button>
+      <button class="ds-btn-ghost">更多</button>
+      <button class="ds-btn-ghost danger">删除</button>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ===== MORPHING TOGGLE ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="label-sm">Component</div>
+      <h2>Morphing Toggle 胶囊开关</h2>
+      <p>平滑过渡的pill开关，用于Skill/模型的启用/禁用状态。</p>
+    </div>
+    <div style="display:flex; gap:var(--space-6); align-items:center; flex-wrap:wrap;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div class="ds-toggle-pill on" onclick="this.classList.toggle('on')"></div>
+        <span style="font-size:0.85rem;">已启用</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div class="ds-toggle-pill" onclick="this.classList.toggle('on')"></div>
+        <span style="font-size:0.85rem;">已关闭</span>
+      </div>
+      <span style="font-size:0.75rem; color:var(--text-tertiary);">← 点击切换 →</span>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ===== ANIMATED TABS ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="label-sm">Component</div>
+      <h2>Animated Tabs</h2>
+      <p>Pill激活态 · 平滑背景切换 · 无下划线。</p>
+    </div>
+    <div class="ds-tabs">
+      <button class="ds-tab active">全部</button>
+      <button class="ds-tab">内置</button>
+      <button class="ds-tab">自创建</button>
+      <button class="ds-tab">推荐</button>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ===== GLASS INPUT ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="label-sm">Component</div>
+      <h2>Glass Input 输入框</h2>
+      <p>玻璃态背景 + backdrop-blur + 品牌光晕focus环。</p>
+    </div>
+    <div style="max-width:480px;">
+      <input class="ds-input-glass" placeholder="输入消息，按 Enter 发送..." type="text">
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ===== SHADOWS ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="label-sm">Tokens — Shadows</div>
+      <h2>阴影 & 光晕</h2>
+      <p>6级阴影 + 2级品牌光晕。暗主题更深、日间主题更柔。</p>
+    </div>
+    <div class="shadow-demo-grid">
+      <div class="shadow-demo" style="box-shadow:var(--shadow-xs);">shadow-xs</div>
+      <div class="shadow-demo" style="box-shadow:var(--shadow-sm);">shadow-sm</div>
+      <div class="shadow-demo" style="box-shadow:var(--shadow-md);">shadow-md</div>
+      <div class="shadow-demo" style="box-shadow:var(--shadow-lg);">shadow-lg</div>
+      <div class="shadow-demo" style="box-shadow:var(--shadow-glass);">shadow-glass</div>
+      <div class="shadow-demo" style="box-shadow:var(--shadow-glow);">shadow-glow</div>
+      <div class="shadow-demo" style="box-shadow:var(--shadow-glow-lg);">shadow-glow-lg</div>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ===== SPOTLIGHT BORDER ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="label-sm">Component</div>
+      <h2>Spotlight Border 光效边框</h2>
+      <p>悬停时边框出现品牌渐变光效，无生硬阴影。</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:var(--space-4);">
+      <div class="ds-spotlight" style="text-align:center; padding:var(--space-8);">
+        <div style="font-size:2rem; margin-bottom:8px;">🔮</div>
+        <div style="font-weight:600;">光效边框</div>
+        <div style="font-size:0.75rem; color:var(--text-tertiary);">hover me</div>
+      </div>
+      <div class="ds-spotlight" style="text-align:center; padding:var(--space-8);">
+        <div style="font-size:2rem; margin-bottom:8px;">⚡</div>
+        <div style="font-weight:600;">渐变光晕</div>
+        <div style="font-size:0.75rem; color:var(--text-tertiary);">hover me</div>
+      </div>
+      <div class="ds-spotlight" style="text-align:center; padding:var(--space-8);">
+        <div style="font-size:2rem; margin-bottom:8px;">✨</div>
+        <div style="font-weight:600;">微边框</div>
+        <div style="font-size:0.75rem; color:var(--text-tertiary);">hover me</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ===== BENTO GRID ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="label-sm">Layout</div>
+      <h2>Bento Grid 不对称网格</h2>
+      <p>4列不对称布局 · grid-auto-flow: dense · 零空隙。实验室/记忆页专用。</p>
+    </div>
+    <div class="bento-grid">
+      <div class="ds-card-shell bento-col-2 bento-row-2">
+        <div class="ds-card-core" style="height:100%; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="ds-badge brand" style="margin-bottom:8px;">太极引擎</div>
+            <h3 style="margin-bottom:4px;">递归进化引擎</h3>
+            <p style="font-size:0.8rem; color:var(--text-secondary);">微型周期 · 每日周期 · 意识流追踪</p>
+          </div>
+          <div style="display:flex; gap:12px; align-items:center;">
+            <span class="ds-dot online"></span>
+            <span style="font-size:0.8rem; color:var(--text-secondary);">运行中 · v1.7</span>
+          </div>
+        </div>
+      </div>
+      <div class="ds-card-shell">
+        <div class="ds-card-core">
+          <div style="font-size:2rem; font-weight:700; margin-bottom:4px;">47</div>
+          <div style="font-size:0.75rem; color:var(--text-tertiary);">活跃模块</div>
+        </div>
+      </div>
+      <div class="ds-card-shell">
+        <div class="ds-card-core">
+          <div style="font-size:2rem; font-weight:700; margin-bottom:4px; color:var(--teal);">12.4K</div>
+          <div style="font-size:0.75rem; color:var(--text-tertiary);">今日Token</div>
+        </div>
+      </div>
+      <div class="ds-card-shell bento-col-2">
+        <div class="ds-card-core">
+          <div class="ds-badge amber" style="margin-bottom:8px;">涌现</div>
+          <h3 style="margin-bottom:4px; font-size:0.95rem;">模块协同洞察</h3>
+          <p style="font-size:0.75rem; color:var(--text-secondary);">compression_engine + memory 产生 3 个新行为模式</p>
+        </div>
+      </div>
+      <div class="ds-card-shell">
+        <div class="ds-card-core">
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:8px;">Token压缩率</div>
+          <div style="display:flex; align-items:flex-end; gap:4px; margin-bottom:8px;">
+            <span style="font-size:1.8rem; font-weight:700;">68</span>
+            <span style="font-size:1rem; color:var(--green);">%</span>
+          </div>
+          <div class="ds-skeleton" style="height:6px; width:100%; border-radius:3px;"></div>
+        </div>
+      </div>
+      <div class="ds-card-shell">
+        <div class="ds-card-core" style="display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;">
+          <div style="width:56px; height:56px; border-radius:50%; background:var(--accent-gradient); display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-glow);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <span style="font-size:0.75rem; color:var(--text-secondary);">系统健康</span>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ===== GLASS SURFACE + TOAST ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="label-sm">Component</div>
+      <h2>Glass Surface + Toast</h2>
+      <p>玻璃态面板 + 通知弹窗。多层级叠加。</p>
+    </div>
+    <div class="glass-demo-bg">
+      <div class="ds-glass-card" style="max-width:480px; margin:0 auto;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+          <span class="ds-dot online"></span>
+          <span style="font-weight:600;">太极引擎</span>
+          <span class="ds-badge green" style="margin-left:auto;">v1.7</span>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:16px;">
+          43模块 · 7元平衡 · 不烧Token · 越用越强
+        </p>
+        <div class="ds-toast">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>涌现洞察：发现 3 个新行为模式</span>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ===== STATUS BADGES ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="label-sm">Component</div>
+      <h2>Badges & Status</h2>
+      <p>标签徽章 + 状态光点。</p>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+      <span class="ds-badge brand">内置</span>
+      <span class="ds-badge green">已安装</span>
+      <span class="ds-badge amber">推荐</span>
+      <span class="ds-badge purple">自创建</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;"><span class="ds-dot online"></span> 在线</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;"><span class="ds-dot warn"></span> 警告</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;"><span class="ds-dot off"></span> 离线</span>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ===== MOTION CURVES ===== -->
+  <section class="section" style="padding-bottom:var(--space-16);">
+    <div class="section-header">
+      <div class="label-sm">Tokens — Motion</div>
+      <h2>动效曲线</h2>
+      <p>弹性终止曲线 · 无linear · 有物理感。</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:var(--space-4);">
+      <div class="ds-card-shell">
+        <div class="ds-card-core">
+          <div class="mono" style="font-size:0.75rem; color:var(--teal); margin-bottom:8px;">--ease-spring</div>
+          <code style="font-size:0.7rem; color:var(--text-tertiary);">cubic-bezier(0.32,0.72,0,1)</code>
+          <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:8px;">按钮/卡片/开关 · 弹性终止</p>
+        </div>
+      </div>
+      <div class="ds-card-shell">
+        <div class="ds-card-core">
+          <div class="mono" style="font-size:0.75rem; color:var(--teal); margin-bottom:8px;">--ease-out</div>
+          <code style="font-size:0.7rem; color:var(--text-tertiary);">cubic-bezier(0.16,1,0.3,1)</code>
+          <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:8px;">页面入场 · 平滑淡入</p>
+        </div>
+      </div>
+      <div class="ds-card-shell">
+        <div class="ds-card-core">
+          <div class="mono" style="font-size:0.75rem; color:var(--teal); margin-bottom:8px;">Duration</div>
+          <code style="font-size:0.7rem; color:var(--text-tertiary);">180ms / 300ms / 500ms</code>
+          <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:8px;">快/中/慢三档</p>
+        </div>
+      </div>
+      <div class="ds-card-shell">
+        <div class="ds-card-core">
+          <div class="mono" style="font-size:0.75rem; color:var(--teal); margin-bottom:8px;">Stagger</div>
+          <code style="font-size:0.7rem; color:var(--text-tertiary);">calc(var(--i) × 60ms)</code>
+          <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:8px;">卡片交错入场延迟</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="text-align:center; padding:var(--space-12) 0; color:var(--text-tertiary); font-size:0.8rem;">
+    超级牛马 · Design System v7.0 · Ethereal Glass + Bento + Magnetic Motion
+  </footer>
+</div>
+
+<script>
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-switcher button').forEach(function(b) {
+    b.classList.remove('active');
+    var tt = b.textContent.includes('月') ? 'night' : b.textContent.includes('日') ? 'day' : 'classic';
+    if (tt === t) b.classList.add('active');
+  });
+}
+// Tab click demo
+document.querySelectorAll('.ds-tabs').forEach(function(tabs) {
+  tabs.querySelectorAll('.ds-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      tabs.querySelectorAll('.ds-tab').forEach(function(t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+    });
+  });
+});
+</script>
+</body>
+</html>

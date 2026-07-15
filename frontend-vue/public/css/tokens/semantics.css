@@ -1,0 +1,121 @@
+/* ============================================================
+   NEON PULSE v11.0 — Semantic Tokens
+   语义令牌层：按用途命名，回答"这个颜色用来做什么"
+   默认值 = Night 主题（:root）
+   主题只需覆写此层的值
+   ============================================================ */
+
+:root {
+  /* ═══════════════════════════════════════════
+     背景色系 (4 级深度)
+     ═══════════════════════════════════════════ */
+  --bg-root:    #080B12;
+  --bg-surface: #0E131F;
+  --bg-elevated:#192237;
+  --bg-overlay: #192237;
+  --bg-input:   #131928;
+
+  /* 交互态背景 */
+  --bg-subtle:  rgba(255,255,255,.04);
+  --bg-hover:   rgba(255,255,255,.06);
+  --bg-active:  rgba(255,255,255,.09);
+
+  /* ═══════════════════════════════════════════
+     文字色系 (4 级对比)
+     ═══════════════════════════════════════════ */
+  --text-primary:   #EDF0F5;
+  --text-secondary: #8895AB;
+  --text-tertiary:  #8895AB;
+  --text-dim:       #748399;
+  --text-on-brand:  #FFFFFF;
+
+  /* ═══════════════════════════════════════════
+     边框色系 (3 级强度)
+     ═══════════════════════════════════════════ */
+  --border-subtle:  rgba(237,240,245,.06);
+  --border-default: rgba(237,240,245,.10);
+  --border-strong:  rgba(237,240,245,.16);
+
+  /* ═══════════════════════════════════════════
+     品牌色系
+     ═══════════════════════════════════════════ */
+  --brand:        #4DA8F0;
+  --brand-hover:  #6BBFFC;
+  --brand-active: #2B7AB8;
+  --brand-muted:  rgba(77,168,240,.08);
+  --brand-glow:   rgba(77,168,240,.10);
+
+  --border-brand: rgba(77,168,240,.22);
+  --border-focus: var(--brand);
+
+  /* ═══════════════════════════════════════════
+     语义色 (Success / Warning / Error / Info)
+     ═══════════════════════════════════════════ */
+  --success:       #34D399;
+  --success-bg:    rgba(52,211,153,.10);
+  --warning:       #FBBF24;
+  --warning-bg:    rgba(251,191,36,.10);
+  --error:         #F87171;
+  --error-bg:      rgba(248,113,113,.10);
+  --error-border:  rgba(248,113,113,.40);
+  --info:          #22D3EE;
+  --info-bg:       rgba(34,211,238,.10);
+
+  /* 扩展语义色（图标/装饰用） */
+  --color-purple:  #8B5CF6;
+  --color-teal:    #2DD4BF;
+
+  /* ═══════════════════════════════════════════
+     Glass 表面 (4 级透明度)
+     ═══════════════════════════════════════════ */
+  --glass-bg:       rgba(14,19,31,.76);
+  --glass-heavy:    rgba(14,19,31,.88);
+  --glass-medium:   rgba(14,19,31,.58);
+  --glass-light:    rgba(14,19,31,.46);
+
+  /* ═══════════════════════════════════════════
+     Scrollbar
+     ═══════════════════════════════════════════ */
+  --scrollbar-thumb:       rgba(255,255,255,.10);
+  --scrollbar-thumb-hover: rgba(255,255,255,.18);
+
+  /* ═══════════════════════════════════════════
+     消息气泡
+     ═══════════════════════════════════════════ */
+  --bubble-user-bg:     #1E1C25;
+  --bubble-user-border: rgba(220,210,200,.08);
+  --bubble-user-text:   #F1FAEE;
+  --bubble-ai-bg:       #1A2332;
+  --bubble-ai-border:   rgba(255,255,255,.10);
+
+  /* ═══════════════════════════════════════════
+     表面渐变 (theme-aware ambient)
+     ═══════════════════════════════════════════ */
+  --surface-gradient:
+    radial-gradient(ellipse 120% 80% at 50% 0%, rgba(77,168,240,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(126,200,248,0.03) 0%, transparent 50%);
+
+  /* ═══════════════════════════════════════════
+     App 连接器图标色（主题感知）
+     ═══════════════════════════════════════════ */
+  --icon-ollama: linear-gradient(135deg,#4a90d9,#67b8e3);
+  --icon-gbrain: linear-gradient(135deg,#8b5cf6,#c084fc);
+  --icon-mcp:    linear-gradient(135deg,#f59e0b,#fbbf24);
+  --icon-rag:    linear-gradient(135deg,#10b981,#34d399);
+
+  --icon-bg-purple:   rgba(139,92,246,.12);
+  --icon-glow-purple: rgba(139,92,246,.15);
+  --icon-bg-green:    rgba(34,197,94,.12);
+  --icon-glow-green:  rgba(34,197,94,.15);
+  --icon-bg-cyan:     rgba(34,211,238,.12);
+  --icon-glow-cyan:   rgba(34,211,238,.15);
+  --icon-bg-amber:    rgba(245,158,11,.12);
+  --icon-glow-amber:  rgba(245,158,11,.15);
+  --icon-bg-wip:      rgba(100,116,139,.06);
+  --icon-ring-wip:    rgba(100,116,139,.15);
+
+  /* ═══════════════════════════════════════════
+     品牌渐变
+     ═══════════════════════════════════════════ */
+  --brand-gradient: linear-gradient(135deg, var(--brand), color-mix(in srgb, var(--brand) 85%, var(--color-purple)));
+}

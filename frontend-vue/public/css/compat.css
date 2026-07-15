@@ -1,0 +1,102 @@
+/* ============================================================
+   NEON PULSE v11.0 — v10.0 向后兼容别名
+   桥接旧名称 → 新名称，确保现有代码平滑过渡
+   所有旧代码无需修改即可运行
+   ============================================================ */
+
+:root {
+  /* ── v10.0 背景别名 ── */
+  --bg-base:           var(--bg-root);
+  --color-bg-root:     var(--bg-root);
+  --color-bg-surface:  var(--bg-surface);
+  --color-bg-card:     var(--bg-elevated);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-sidebar:  var(--bg-root);
+  --color-bg-input:    var(--bg-input);
+  --color-bg-subtle:   var(--bg-subtle);
+  --color-bg-hover:    var(--bg-hover);
+  --color-bg-active:   var(--bg-active);
+  --color-bg-selected: var(--brand-muted);
+
+  /* ── v10.0 文字别名 ── */
+  --color-text-primary:   var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary:  var(--text-tertiary);
+  --color-text-disabled:  var(--text-dim);
+  --color-text-on-brand:  var(--text-on-brand);
+
+  /* ── v10.0 品牌别名 ── */
+  --color-brand:        var(--brand);
+  --color-brand-hover:  var(--brand-hover);
+  --color-brand-active: var(--brand-active);
+  --color-brand-muted:  var(--brand-muted);
+  --color-brand-subtle: var(--brand-glow);
+
+  /* ── v10.0 边框别名 ── */
+  --color-border-subtle:  var(--border-subtle);
+  --color-border-default: var(--border-default);
+  --color-border-strong:  var(--border-strong);
+  --color-border-brand:   var(--border-brand);
+  --color-border-focus:   var(--border-focus);
+
+  /* ── v10.0 语义别名 ── */
+  --color-success:    var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-warning:    var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-error:      var(--error);
+  --color-error-bg:   var(--error-bg);
+  --color-info:       var(--info);
+  --color-info-bg:    var(--info-bg);
+
+  /* ── v10.0 Glass 别名 ── */
+  --color-glass-bg:       var(--glass-bg);
+  --color-glass-bg-light: var(--glass-light);
+  --color-glass-bg-heavy: var(--glass-heavy);
+
+  /* ── v10.0 阴影别名 ── */
+  --elevation-1: var(--shadow-sm);
+  --elevation-2: var(--shadow-md);
+  --elevation-3: var(--shadow-lg);
+  --elevation-4: var(--shadow-xs);
+  --shadow-niuma:    var(--shadow-sm);
+  --shadow-niuma-lg: var(--shadow-lg);
+
+  /* ── v10.0 动效别名 ── */
+  --duration-fast:   var(--dur-fast);
+  --duration-normal: var(--dur-base);
+  --duration-slow:   var(--dur-slow);
+
+  /* ── v10.0 字重别名 ── */
+  --fw-normal:   var(--weight-normal);
+  --fw-medium:   var(--weight-medium);
+  --fw-semibold: var(--weight-semibold);
+  --fw-bold:     var(--weight-bold);
+  --fw-black:    var(--weight-black);
+
+  /* ── v10.0 杂项别名 ── */
+  --secondary: var(--text-secondary);
+  --accent:    var(--brand);
+  --gn:        var(--success);   /* 旧绿色简写 */
+  --silver:    #C0C0CC;          /* 保持不变 */
+  --silver-light: #E8E8EE;
+  --silver-dark:  #6B6B80;
+  --silver-glow:  rgba(224,224,232,0.10);
+
+  --input-bg:     var(--bg-input);
+  --glass-bg:     var(--glass-bg);
+  --glass-bg-nav: var(--glass-heavy);
+
+  --gradient-pulse:      var(--brand-gradient);
+  --gradient-glass-dark: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  --gradient-glass-light:linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.4));
+  --energy-gradient:     linear-gradient(135deg, #FBBF24, #F59E0B);
+
+  --border-error:  var(--error-border);
+  --shadow-brand:  var(--shadow-brand);
+  --shadow-danger: var(--shadow-danger);
+
+  --code-bg: var(--code-bg, rgba(0,0,0,.35));
+  --e-ring-bg: rgba(255,255,255,.05);
+  --e-tag-bg:  rgba(34,197,94,.1);
+}

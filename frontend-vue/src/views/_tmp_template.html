@@ -1,0 +1,276 @@
+
+  <div class="page-view active">
+    <div class="project-detail-body">
+      <!-- ================================================================
+           COL 3: Embedded Project Chat View (shown when user sends message)
+           ================================================================ -->
+      <div class="project-chat-view" :class="{ active: showChat }">
+        <div class="project-chat-header">
+          <button class="project-chat-back" @click="showChat = false" title="返回项目">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div class="project-chat-info">
+            <div class="project-chat-name">{{ project.name }} · 对话</div>
+            <div class="project-chat-subtitle">项目内对话 · 自动同步到动态</div>
+          </div>
+        </div>
+        <div class="project-chat-messages" ref="chatMessages">
+          <div class="project-chat-empty" v-if="chatHistory.length === 0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <div class="project-chat-empty-title">项目对话</div>
+            <div class="project-chat-empty-desc">在此与项目 AI 助手进行对话，所有消息将同步到项目动态。</div>
+          </div>
+          <div v-for="(msg, idx) in chatHistory" :key="idx" class="project-chat-msg" :class="msg.role">
+            <div class="project-chat-msg-bubble">{{ msg.content }}</div>
+            <div class="project-chat-msg-time">{{ msg.time }}</div>
+          </div>
+          <div v-if="chatThinking" class="project-chat-msg ai">
+            <div class="project-chat-msg-bubble thinking">思考中<span class="stream-indicator"><span></span><span></span><span></span></span></div>
+          </div>
+        </div>
+        <div class="project-chat-input-wrap">
+          <div class="input-area" style="padding:0;">
+            <div class="input-card">
+              <div class="input-status-bar" v-if="chatThinking">
+                <span class="input-status-icon">&#128161;</span>
+                <span class="input-status-label">思考中...</span>
+                <span class="input-status-timer">0.8s</span>
+              </div>
+              <textarea class="input-textarea" placeholder="描述任务，/ 快捷调用，@ 添加上下文" rows="1" aria-label="输入消息" maxlength="10000"
+                v-model="chatDraft"
+                @keydown.enter.exact.prevent="sendChatMessage"
+              ></textarea>
+              <div class="input-toolbar">
+                <div style="position:relative;">
+                  <button class="toolbar-plus-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  </button>
+                </div>
+                <div class="toolbar-spacer"></div>
+                <button class="send-btn" :class="{ 'has-content': chatDraft.trim() }" @click="sendChatMessage">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+                </button>
+                <button class="stop-btn hidden">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================
+           COL 1: Vertical Tab Nav
+           ================================================================ -->
+      <div class="project-detail-tab-nav">
+        <div class="project-detail-nav-header">
+          <div class="project-name">{{ project.name }}</div>
+          <div class="project-desc">{{ project.desc }}</div>
+        </div>
+        <nav class="project-detail-tab-list">
+          <button class="project-detail-tab-nav-item" :class="{ active: activePanel === 'activity' }" @click="activePanel = 'activity'">
+            <svg class="tab-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><polyline points="10 5 10 10 14 10"/></svg>
+            <span class="tab-label">动态</span>
+          </button>
+          <button class="project-detail-tab-nav-item" :class="{ active: activePanel === 'sop' }" @click="activePanel = 'sop'">
+            <svg class="tab-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="16" height="14" rx="2"/><line x1="6" y1="8" x2="14" y2="8"/><line x1="6" y1="12" x2="12" y2="12"/></svg>
+            <span class="tab-label">SOP</span>
+          </button>
+          <button class="project-detail-tab-nav-item" :class="{ active: activePanel === 'tasks' }" @click="activePanel = 'tasks'">
+            <svg class="tab-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><polyline points="10 6 10 12 14"/></svg>
+            <span class="tab-label">自动化</span>
+          </button>
+          <button class="project-detail-tab-nav-item" :class="{ active: activePanel === 'assets' }" @click="activePanel = 'assets'">
+            <svg class="tab-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="12" rx="2"/><line x1="10" y1="4" x2="10" y2="16"/><line x1="3" y1="10" x2="17" y2="10"/></svg>
+            <span class="tab-label">资产</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- ================================================================
+           COL 2: Main Content
+           ================================================================ -->
+      <div class="project-detail-main">
+        <div class="project-detail-content">
+          <!-- Activity Panel -->
+          <div class="project-detail-panel" :class="{ active: activePanel === 'activity' }">
+            <div class="panel-title-bar">动态</div>
+            <div class="project-activity-list">
+              <div class="activity-card-list">
+                <div class="activity-card">
+                  <div class="activity-avatar" style="background:var(--gradient-brand);">H</div>
+                  <div class="activity-body">
+                    <div class="activity-title-row"><span class="activity-name">Hermes</span><span class="activity-type-tag ai">AI 动作</span></div>
+                    <div class="activity-desc">完成了 <b>SOP 步骤 2：开发执行</b>，生成代码审查报告</div>
+                    <div class="activity-time">3 分钟前</div>
+                  </div>
+                </div>
+                <div class="activity-card">
+                  <div class="activity-avatar" style="background:var(--color-info-bg); color:var(--color-info);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  </div>
+                  <div class="activity-body">
+                    <div class="activity-title-row"><span class="activity-name">刘老爷</span><span class="activity-type-tag file">文件</span></div>
+                    <div class="activity-desc">上传了 <b>需求文档_v3.pdf</b> (2.4 MB)</div>
+                    <div class="activity-time">1 小时前</div>
+                  </div>
+                </div>
+                <div class="activity-card" style="opacity:0.7">
+                  <div class="activity-avatar" style="background:var(--color-warning-bg); color:var(--color-warning);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                  </div>
+                  <div class="activity-body">
+                    <div class="activity-title-row"><span class="activity-name">系统</span><span class="activity-type-tag event">事件</span></div>
+                    <div class="activity-desc">项目 <b>{{ project.name }}</b> 创建成功，3个 Agent 已加入</div>
+                    <div class="activity-time">昨天 14:32</div>
+                  </div>
+                </div>
+                <div class="activity-card">
+                  <div class="activity-avatar" style="background:rgba(139,92,246,.15); color:#8B5CF6;">刘</div>
+                  <div class="activity-body">
+                    <div class="activity-title-row"><span class="activity-name">刘老爷</span><span class="activity-type-tag member">成员</span></div>
+                    <div class="activity-desc">将 <b>{{ project.name }}</b> 指定为当前活跃项目</div>
+                    <div class="activity-time">昨天 16:45</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tasks Panel -->
+          <div class="project-detail-panel" :class="{ active: activePanel === 'tasks' }">
+            <div class="panel-title-bar">
+              <span>后台任务</span>
+              <div class="panel-title-actions">
+                <button class="panel-action-btn" @click="showToast('新建任务')" title="新建任务">
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="10" y1="4" x2="10" y2="16"/><line x1="4" y1="10" x2="16" y2="10"/></svg>
+                  新建任务
+                </button>
+              </div>
+            </div>
+            <div class="bg-tasks-list">
+              <div v-for="task in projectTasks" :key="task.id" class="bg-task-card" :class="task.status">
+                <div class="bg-task-icon" :class="task.status">
+                  <svg v-if="task.status === 'running'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <svg v-else-if="task.status === 'completed'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><polyline points="20 6 9 17 4 12"/></svg>
+                  <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                </div>
+                <div class="bg-task-body">
+                  <div class="bg-task-name">{{ task.name }}</div>
+                  <div class="bg-task-desc">{{ task.desc }}</div>
+                </div>
+                <div class="bg-task-right">
+                  <div v-if="task.status === 'running'" class="bg-task-progress-bar"><div class="bg-task-progress-fill" :style="{ width: task.progress + '%' }"></div></div>
+                  <button v-if="task.status === 'running'" class="bg-task-stop-btn" title="终止" @click="stopProjectTask(task.id)">■</button>
+                  <span v-else-if="task.status === 'completed'" class="bg-task-status completed">✓ 成功</span>
+                  <span v-else class="bg-task-status failed">⚠ 失败</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Assets Panel -->
+          <div class="project-detail-panel" :class="{ active: activePanel === 'assets' }">
+            <div class="panel-title-bar">
+              <span>资产</span>
+              <div class="panel-title-actions">
+                <button class="panel-action-btn" @click="showToast('新建文件夹')" title="新建文件夹">
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 4l4-2 2 2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4z"/><line x1="10" y1="8" x2="10" y2="16"/><line x1="6" y1="12" x2="14" y2="12"/></svg>
+                  新建文件夹
+                </button>
+                <button class="panel-action-btn" @click="showToast('上传文件')" title="上传文件">
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3v10"/><path d="M6 7l4-4 4 4"/><path d="M3 14v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3"/></svg>
+                  上传文件
+                </button>
+              </div>
+            </div>
+            <div class="asset-toolbar">
+              <div class="asset-filter-group">
+                <button class="asset-filter-btn active" @click="assetFilter = 'all'">全部</button>
+                <button class="asset-filter-btn" @click="assetFilter = 'folder'">文件夹</button>
+                <button class="asset-filter-btn" @click="assetFilter = 'doc'">文档</button>
+                <button class="asset-filter-btn" @click="assetFilter = 'image'">图片</button>
+                <button class="asset-filter-btn" @click="assetFilter = 'code'">代码</button>
+                <button class="asset-filter-btn" @click="assetFilter = 'other'">其他</button>
+              </div>
+              <div class="asset-search-box">
+                <svg class="asset-search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="5"/><line x1="11" y1="11" x2="14" y2="14"/></svg>
+                <input type="text" class="asset-search-input" placeholder="搜索文件..." v-model="assetSearch">
+              </div>
+            </div>
+            <div class="asset-file-list">
+              <div class="asset-file-item asset-folder" @click="showToast('打开文件夹: 设计稿')">
+                <svg class="asset-file-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l7-4 7 4v8l-7 4-7-4V6z"/><path d="M3 6l7 4 7-4"/><path d="M10 10v8"/></svg>
+                <div class="asset-file-info">
+                  <div class="asset-file-name">设计稿</div>
+                  <div class="asset-file-meta">12 个文件 · 2026-06-22</div>
+                </div>
+                <button class="asset-file-action" @click.stop="showToast('文件菜单')"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+              </div>
+              <div class="asset-file-item asset-folder" @click="showToast('打开文件夹: 需求文档')">
+                <svg class="asset-file-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l7-4 7 4v8l-7 4-7-4V6z"/><path d="M3 6l7 4 7-4"/><path d="M10 10v8"/></svg>
+                <div class="asset-file-info">
+                  <div class="asset-file-name">需求文档</div>
+                  <div class="asset-file-meta">8 个文件 · 2026-06-20</div>
+                </div>
+                <button class="asset-file-action" @click.stop="showToast('文件菜单')"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+              </div>
+              <div class="asset-file-item asset-doc">
+                <svg class="asset-file-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <div class="asset-file-info">
+                  <div class="asset-file-name">产品需求规格书_v3.2.docx</div>
+                  <div class="asset-file-meta">2.4 MB · 2026-06-21</div>
+                </div>
+                <button class="asset-file-action" @click.stop="showToast('文件菜单')"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+              </div>
+              <div class="asset-file-item asset-image">
+                <svg class="asset-file-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2" width="14" height="16" rx="2" ry="2"/><circle cx="8.5" cy="7.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <div class="asset-file-info">
+                  <div class="asset-file-name">UI_首页设计稿_final.png</div>
+                  <div class="asset-file-meta">3.1 MB · 2026-06-19</div>
+                </div>
+                <button class="asset-file-action" @click.stop="showToast('文件菜单')"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+              </div>
+              <div class="asset-file-item asset-code">
+                <svg class="asset-file-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                <div class="asset-file-info">
+                  <div class="asset-file-name">agent_core.py</div>
+                  <div class="asset-file-meta">45 KB · 2026-06-18</div>
+                </div>
+                <button class="asset-file-action" @click.stop="showToast('文件菜单')"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+              </div>
+              <div class="asset-file-item asset-other">
+                <svg class="asset-file-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><rect x="8" y="6" width="4" height="4" rx="1"/><path d="M8 12h4"/></svg>
+                <div class="asset-file-info">
+                  <div class="asset-file-name">模型训练数据_v2.zip</div>
+                  <div class="asset-file-meta">156 MB · 2026-06-15</div>
+                </div>
+                <button class="asset-file-action" @click.stop="showToast('文件菜单')"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SOP Panel -->
+          <div class="project-detail-panel" :class="{ active: activePanel === 'sop' }">
+            <div class="project-sop-panel active">
+              <div class="panel-title-bar">
+                <span>SOP</span>
+                <div class="panel-title-actions">
+                  <button class="panel-action-btn panel-action-btn-primary" @click="showToast('AI 构建 SOP')" title="AI 构建">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="11 2 2 13 10 13 9 18 18 7 10 7 11 2"/></svg>
+                    AI 构建
+                  </button>
+                  <button class="panel-action-btn" @click="showToast('添加步骤')" title="添加步骤">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="10" y1="4" x2="10" y2="16"/><line x1="4" y1="10" x2="16" y2="10"/></svg>
+                    添加步骤
+                  </button>
+                </div>
+              </div>
+              <div class="project-sop-steps">
+                <div v-for="(step, idx) in sopSteps" :key="idx" class="sop-step-row" :class="{ pending: !step.done && !step.active }">
+                  <div class="sop-step-num" :class="{ active: step.active, completed: step.done, pending: !step.done && !step.active }">{{ idx + 1 }}</div>
+                  <div class="sop-step-body">
+                    <div class="sop-step-title">{{ step.name }}</div>
+                    <div class="sop-step-desc">{{ step.desc }}</div>
+                    <div class="sop-step-state" :class="{ active: step.active, completed: step.done, pending: !step.done && !step.active }">
+                      <template v-if="step.active">● 进行中

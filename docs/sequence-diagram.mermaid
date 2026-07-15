@@ -1,0 +1,138 @@
+sequenceDiagram
+    actor User
+    participant View as ProjectsView.vue
+    participant Comp as useProjects
+    participant Async as useAsync
+    participant API as api.ts (fetch)
+    participant BE as FastAPI :18080
+
+    %% ═══ 工作间列表加载 ═══
+    rect rgb(240, 248, 255)
+        Note over User,BE: P0-4: 项目页 — 工作间列表加载
+        User->>View: 进入项目页
+        View->>Comp: loadWorkspaces()
+        Comp->>Async: execute(() => api.workspaces.list())
+        Async->>Async: loading = true
+        Async->>API: GET /api/v1/workspaces
+        API->>BE: fetch()
+        BE-->>API: { code:0, data:{items:[...],pagination:{...}} }
+        API->>API: unwrapResponse() → 检查 code
+        API-->>Async: WorkspaceItem[]
+        Async->>Async: data = result, loading = false
+        Async-->>Comp: 返回数据
+        Comp->>Comp: workspaces.value = data
+        View-->>User: 渲染工作间卡片网格
+    end
+
+    %% ═══ Kanban 加载 ═══
+    rect rgb(255, 248, 240)
+        Note over User,BE: P0-4: 项目页 — Kanban Agents 加载
+        User->>View: 点击工作间卡片
+        View->>Comp: selectWorkspace(ws)
+        Comp->>Comp: activeWorkspace = ws
+        Comp->>Async: execute(() => api.workspaces.getAgents(ws.id))
+        Async->>API: GET /api/v1/workspaces/{id}/agents
+        API->>BE: fetch()
+        BE-->>API: { code:0, data:[AgentItem,...] }
+        API-->>Async: AgentItem[]
+        Comp->>Comp: agents.value = result
+        Comp->>Comp: 按 status 映射到 Kanban 4列
+        View-->>User: 渲染 Kanban 看板
+    end
+
+    %% ═══ 记忆页 — L1 日记 ═══
+    rect rgb(240, 255, 240)
+        Note over User,BE: P0-5: 记忆页 — L1/L2/L3 Tab 切换
+        User->>View: 进入记忆页 (diary tab)
+        View->>Comp: watch(activeTab) → loadL1(wsId)
+        Comp->>API: GET /api/v1/memory/l1/{wsId}
+        API->>BE: fetch()
+        BE-->>API: { code:0, data:{session_id,message_count,...} }
+        API-->>Comp: L1SessionInfo
+        Comp->>Comp: l1Snapshot = data
+        View-->>User: 渲染日记列表
+
+        User->>View: 切换到「梦境」Tab
+        View->>Comp: activeTab = 'dreams'
+        Comp->>Comp: watch → loadL2(wsId, 'compress_event')
+        Comp->>API: GET /api/v1/memory/l2/{wsId}?entry_type=compress_event
+        BE-->>Comp: L2MemoryEntry[]
+        Comp->>Comp: l2Entries = data
+        View-->>User: 渲染梦境列表
+
+        User->>View: 切换到「长期记忆」Tab
+        View->>Comp: activeTab = 'longterm'
+        Comp->>Comp: watch → loadL3(wsId)
+        Comp->>API: GET /api/v1/memory/l3/{wsId}
+        BE-->>Comp: { total_entries, by_schema, ... }
+        Comp->>Comp: l3Overview = data
+        View-->>User: 渲染长期记忆文件列表
+    end
+
+    %% ═══ 广场页 ═══
+    rect rgb(248, 240, 255)
+        Note over User,BE: P1-1: 广场页 — Skills/Experts/Models
+        User->>View: 进入广场页 (skills tab)
+        View->>Comp: loadSkills()
+        Comp->>API: GET /api/v1/skills/market
+        BE-->>Comp: SkillItem[]
+        Comp->>Comp: marketSkills = data
+        View-->>User: 渲染 Skills 网格
+
+        User->>View: 切换到「Models」Tab
+        View->>Comp: loadModels()
+        Comp->>API: GET /api/v1/models/marketplace
+        BE-->>Comp: ModelMarketItem[]
+        Comp->>Comp: models = data
+        View-->>User: 渲染 Models 网格
+    end
+
+    %% ═══ 实验室页 ═══
+    rect rgb(255, 240, 240)
+        Note over User,BE: P1-2: 实验室页 — Dashboard/Mesh/Emergence
+        User->>View: 进入实验室页 (dashboard tab)
+        View->>Comp: loadDashboard()
+        Comp->>API: GET /api/v1/dashboard/overview
+        BE-->>Comp: DashboardOverview
+        Comp->>Comp: overview = data
+        View-->>User: 渲染 Token 仪表盘
+
+        User->>View: 切换到「太极网格」Tab
+        View->>Comp: loadMesh()
+        Comp->>API: GET /api/v1/mesh/status
+        BE-->>Comp: MeshStatus
+        Comp->>API: GET /api/v1/mesh/peers
+        BE-->>Comp: MeshPeer[]
+        Comp->>Comp: meshStatus + meshPeers = data
+        View-->>User: 渲染网格节点列表
+    end
+
+    %% ═══ 统一错误处理 ═══
+    rect rgb(255, 255, 240)
+        Note over User,BE: P0-6: 统一错误处理流程
+        Comp->>API: 任意 API 调用
+        API->>BE: fetch()
+        BE-->>API: { code:"WORKSPACE_NOT_FOUND", data:null, message:"工作间不存在" }
+        API->>API: unwrapResponse() → code !== 0
+        API-->>Comp: throw ApiError("工作间不存在", "WORKSPACE_NOT_FOUND")
+        Comp->>Comp: catch(e) → error.value = e.message
+        Comp->>Comp: loading = false
+        View-->>User: 显示错误信息 + 重试按钮
+    end
+
+    %% ═══ 备份/导出 ═══
+    rect rgb(240, 255, 255)
+        Note over User,BE: P1-4: 文件页 — 备份/导出
+        User->>View: 进入文件页
+        View->>Comp: loadBackups()
+        Comp->>API: GET /api/v1/backup
+        BE-->>Comp: BackupItem[]
+        Comp->>Comp: backups = data
+        View-->>User: 渲染备份文件列表
+
+        User->>View: 点击「导出聊天」
+        View->>Comp: exportChat(wsId)
+        Comp->>API: GET /api/v1/export/chat-history?workspace_id=
+        BE-->>Comp: ChatExportRecord[]
+        Comp-->>View: 触发浏览器下载
+    end

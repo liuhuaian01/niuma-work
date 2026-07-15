@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Niuma — Infinite Canvas</title>
+<style>
+:root{
+  --font:system-ui,-apple-system,'SF Pro Text','PingFang SC','Microsoft YaHei',sans-serif;
+  --font-display:system-ui,-apple-system,'SF Pro Display','PingFang SC',sans-serif;
+  --font-mono:'SF Mono','JetBrains Mono',Consolas,monospace;
+}
+[data-theme="night"]{
+  --bg:#0A0A0A;--bg2:#141414;--bg3:#1C1C1E;--bg4:#242426;
+  --tx1:#FFFFFF;--tx2:#98989D;--tx3:#636366;
+  --edge:rgba(255,255,255,0.06);--edge-h:rgba(255,255,255,0.12);
+  --accent:#58A6FF;--accent-bg:rgba(88,166,255,0.08);
+  --green:#3FB950;--red:#F85149;--amber:#D29922;
+  --glass:rgba(20,20,22,0.80);--glass-h:rgba(20,20,22,0.92);
+  --sh1:0 1px 2px rgba(0,0,0,0.4);--sh2:0 4px 16px rgba(0,0,0,0.5);--sh3:0 8px 32px rgba(0,0,0,0.6);
+  --kbd-bg:#2C2C2E;--kbd-edge:rgba(255,255,255,0.10);
+}
+[data-theme="day"]{
+  --bg:#F5F5F7;--bg2:#FFFFFF;--bg3:#F0F0F2;--bg4:#E8E8ED;
+  --tx1:#1D1D1F;--tx2:#6E6E73;--tx3:#AEAEB2;
+  --edge:rgba(0,0,0,0.06);--edge-h:rgba(0,0,0,0.12);
+  --accent:#0969DA;--accent-bg:rgba(9,105,218,0.08);
+  --green:#1A7F37;--red:#CF222E;--amber:#9A6700;
+  --glass:rgba(255,255,255,0.75);--glass-h:rgba(255,255,255,0.88);
+  --sh1:0 1px 2px rgba(0,0,0,0.04);--sh2:0 4px 16px rgba(0,0,0,0.06);--sh3:0 8px 32px rgba(0,0,0,0.08);
+  --kbd-bg:#E8E8ED;--kbd-edge:rgba(0,0,0,0.10);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-family:var(--font);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;background:var(--bg)}
+body{color:var(--tx1);overflow:hidden;height:100vh}
+::selection{background:var(--accent-bg);color:var(--accent)}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--edge-h);border-radius:2px}
+
+/* ── CHROME ── */
+.chrome{position:fixed;top:0;left:0;right:0;height:40px;display:flex;align-items:center;justify-content:center;padding:0 12px;background:var(--bg2);border-bottom:1px solid var(--edge);z-index:1000;-webkit-app-region:drag}
+.chrome-dots{position:absolute;left:12px;display:flex;gap:7px;-webkit-app-region:no-drag}
+.chrome-d{width:11px;height:11px;border-radius:50%}
+.chrome-d.c{background:var(--red)}.chrome-d.m{background:var(--amber)}.chrome-d.x{background:var(--green)}
+.chrome-t{font-size:11px;font-weight:600;color:var(--tx3);letter-spacing:0.02em}
+.chrome-state{position:absolute;right:12px;display:flex;align-items:center;gap:6px;-webkit-app-region:no-drag}
+.state-dot{width:6px;height:6px;border-radius:50%}
+.state-dot.idle{background:var(--green);opacity:0.5}
+.state-dot.thinking{background:var(--accent);animation:breathe 1.5s ease-in-out infinite}
+.state-label{font-size:10px;color:var(--tx3)}
+
+/* ── SCENARIO STRIP ── */
+.scene-strip{position:fixed;top:40px;left:0;right:0;height:40px;display:flex;align-items:center;justify-content:center;gap:2px;background:var(--bg2);border-bottom:1px solid var(--edge);z-index:999}
+.scene-btn{padding:6px 14px;border-radius:6px;border:none;background:transparent;color:var(--tx2);font-size:12px;font-weight:500;cursor:pointer;transition:all 0.1s;font-family:var(--font);display:flex;align-items:center;gap:5px}
+.scene-btn:hover{color:var(--tx1)}
+.scene-btn.on{background:var(--bg4);color:var(--tx1)}
+.scene-dot{width:5px;height:5px;border-radius:50%}
+.scene-dot.c{background:var(--accent)}.scene-dot.w{background:#DB6DAB}.scene-dot.v{background:var(--amber)}.scene-dot.d{background:var(--green)}
+
+/* ═══════════ INFINITE CANVAS ═══════════ */
+.canvas-port{position:fixed;top:80px;left:0;right:0;bottom:0;overflow:hidden;cursor:grab;background:var(--bg)}
+.canvas-port:active{cursor:grabbing}
+.canvas-port.panning{cursor:grabbing}
+.canvas-world{position:absolute;transform-origin:0 0;width:0;height:0}
+.canvas-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle,var(--edge) 1px,transparent 1px);
+  background-size:32px 32px;
+  opacity:0.5}
+
+/* ── NODES ON CANVAS ── */
+.node{position:absolute;background:var(--glass);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid var(--edge);border-radius:12px;box-shadow:var(--sh2);transition:box-shadow 0.2s,border-color 0.2s;user-select:none;overflow:hidden}
+.node:hover{border-color:var(--edge-h);box-shadow:var(--sh3)}
+.node-header{padding:8px 14px;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--edge);display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;color:var(--tx2);cursor:move}
+.node-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.node-body{padding:12px 14px;font-size:12px;color:var(--tx2);line-height:1.5}
+.node-body .mono{font-family:var(--font-mono);font-size:11px}
+
+/* Node types */
+.node-code{min-width:280px}
+.node-code .node-body{font-family:var(--font-mono);font-size:11px;line-height:1.7;padding:10px 14px;color:var(--tx2)}
+.node-code .node-body .kw{color:var(--red)}.node-code .node-body .fn{color:var(--accent)}.node-code .node-body .cm{color:var(--tx3)}.node-code .node-body .str{color:var(--green)}
+.node-term{min-width:320px}
+.node-term .node-body{font-family:var(--font-mono);font-size:11px;line-height:1.6;color:var(--green)}
+.node-term .node-body .out{color:var(--tx1)}.node-term .node-body .dim{color:var(--tx3)}
+.node-shot{width:200px}
+.node-shot .node-body{padding:0}
+.node-shot-preview{height:100px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--tx3);border-bottom:1px solid var(--edge);position:relative}
+.node-shot-num{position:absolute;top:4px;left:4px;padding:1px 5px;border-radius:3px;background:rgba(0,0,0,0.5);font-size:9px;font-family:var(--font-mono);color:var(--tx3)}
+.node-shot-info{padding:8px 12px;font-size:11px}
+.node-shot-dur{margin-top:4px;font-size:10px;color:var(--tx3);font-family:var(--font-mono)}
+.node-chapter{min-width:240px}
+.node-chapter .node-body{font-size:12px;line-height:1.6}
+.node-char{width:180px}.node-char .node-body{font-size:11px}
+.node-art{width:320px;height:240px;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 50%,var(--accent-bg) 0%,transparent 70%)}
+.node-art-inner{text-align:center}
+.node-art-title{font-family:var(--font-display);font-size:20px;font-weight:700}
+.node-art-sub{font-size:11px;color:var(--tx2);margin-top:2px}
+.node-table{min-width:380px}.node-table .node-body{padding:0;overflow-x:auto}
+.node-table table{width:100%;border-collapse:collapse;font-size:11px}
+.node-table th{text-align:left;padding:7px 10px;background:rgba(255,255,255,0.02);color:var(--tx3);font-weight:600;font-size:9px;text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--edge)}
+.node-table td{padding:7px 10px;border-bottom:1px solid var(--edge);color:var(--tx2)}
+.node-table tr:last-child td{border-bottom:none}
+.node-track{height:40px;border-radius:10px;background:var(--bg3);position:relative;overflow:hidden;margin:6px 14px}
+.node-track-fill{position:absolute;top:0;bottom:0;border-radius:8px}
+.node-track-fill.v{background:rgba(210,153,34,0.25)}.node-track-fill.a{background:rgba(88,166,255,0.20)}.node-track-fill.t{background:rgba(63,185,80,0.20)}
+.node-palette{display:flex;gap:6px;padding:8px 14px}
+.node-palette-c{width:24px;height:24px;border-radius:6px;cursor:pointer;transition:transform 0.15s}
+.node-palette-c:hover{transform:scale(1.2)}
+.node-diff{min-width:340px}.node-diff .node-body{font-family:var(--font-mono);font-size:11px;line-height:1.7}
+.node-diff .add{color:var(--green)}.node-diff .rm{color:var(--red)}.node-diff .mt{color:var(--tx3)}
+
+/* ── Zoom bar ── */
+.zoom-bar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:4px 12px;background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--edge);border-radius:999px;z-index:800;box-shadow:var(--sh1)}
+.zoom-btn{width:28px;height:28px;border-radius:50%;border:none;background:transparent;color:var(--tx2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all 0.1s;font-family:var(--font)}
+.zoom-btn:hover{background:var(--bg3);color:var(--tx1)}
+.zoom-val{font-size:11px;color:var(--tx3);font-family:var(--font-mono);min-width:36px;text-align:center}
+.zoom-sep{width:1px;height:14px;background:var(--edge)}
+
+/* ── COMMAND BAR ── */
+.cmd{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);width:560px;max-width:calc(100vw - 40px);z-index:700}
+.cmd-box{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:var(--glass-h);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border:1px solid var(--edge);border-radius:14px;box-shadow:var(--sh3)}
+.cmd-box:focus-within{border-color:var(--accent)}
+.cmd-box textarea{flex:1;border:none;background:transparent;color:var(--tx1);font-family:var(--font);font-size:14px;resize:none;outline:none;min-height:22px;max-height:120px;line-height:1.5;padding:3px 0}
+.cmd-box textarea::placeholder{color:var(--tx3)}
+.cmd-hint{display:flex;align-items:center;gap:3px;padding:2px 5px;border-radius:3px;background:var(--kbd-bg);border:1px solid var(--kbd-edge);font-family:var(--font-mono);font-size:9px;color:var(--tx3)}
+
+/* ── Animations ── */
+@keyframes breathe{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
+@keyframes nodeIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
+.node{animation:nodeIn 0.3s ease}
+
+@media(prefers-reduced-motion){*,*::before,*::after{animation-duration:0.01ms!important}}
+</style>
+</head>
+<body>
+
+<!-- CHROME -->
+<div class="chrome">
+  <div class="chrome-dots"><div class="chrome-d c"></div><div class="chrome-d m"></div><div class="chrome-d x"></div></div>
+  <div class="chrome-t">Super Niuma</div>
+  <div class="chrome-state"><span class="state-label" id="stateLabel">Ready</span><div class="state-dot idle" id="stateDot"></div></div>
+</div>
+
+<!-- SCENARIO STRIP -->
+<div class="scene-strip">
+  <button class="scene-btn on" onclick="loadScene('code')"><span class="scene-dot c"></span>Code</button>
+  <button class="scene-btn" onclick="loadScene('write')"><span class="scene-dot w"></span>Write</button>
+  <button class="scene-btn" onclick="loadScene('video')"><span class="scene-dot v"></span>Video</button>
+  <button class="scene-btn" onclick="loadScene('design')"><span class="scene-dot d"></span>Design</button>
+</div>
+
+<!-- INFINITE CANVAS -->
+<div class="canvas-port" id="cvp">
+  <div class="canvas-grid"></div>
+  <div class="canvas-world" id="cvw"></div>
+</div>
+
+<!-- ZOOM BAR -->
+<div class="zoom-bar">
+  <button class="zoom-btn" onclick="zoomStep(-0.2)">−</button>
+  <span class="zoom-val" id="zoomVal">100%</span>
+  <button class="zoom-btn" onclick="zoomStep(0.2)">+</button>
+  <div class="zoom-sep"></div>
+  <button class="zoom-btn" onclick="fitView()" style="font-size:12px">⊡</button>
+</div>
+
+<!-- COMMAND BAR -->
+<div class="cmd">
+  <div class="cmd-box">
+    <textarea placeholder="Ask or command... / for menu" id="cmdInput" rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();submitCmd()}"></textarea>
+    <span class="cmd-hint">⌘K</span>
+  </div>
+</div>
+
+<!-- THEME -->
+<div style="position:fixed;top:48px;right:12px;display:flex;gap:2px;padding:2px;background:var(--bg4);border-radius:999px;z-index:900">
+  <button onclick="setTheme('night')" id="tn" style="width:26px;height:26px;border-radius:50%;border:none;background:var(--accent-bg);color:var(--accent);cursor:pointer;font-size:11px">◉</button>
+  <button onclick="setTheme('day')" id="td" style="width:26px;height:26px;border-radius:50%;border:none;background:transparent;color:var(--tx3);cursor:pointer;font-size:11px">◎</button>
+</div>
+
+<script>
+// ═══════════ CANVAS ENGINE ═══════════
+var zoom=1, panX=0, panY=0, panning=false, pStartX=0, pStartY=0, pPanX=0, pPanY=0;
+var cvp=document.getElementById('cvp'), cvw=document.getElementById('cvw');
+
+function applyTransform(){
+  cvw.style.transform='translate('+panX+'px,'+panY+'px) scale('+zoom+')';
+  var z=document.getElementById('zoomVal');if(z)z.textContent=Math.round(zoom*100)+'%';
+}
+
+cvp.addEventListener('wheel',function(e){
+  e.preventDefault();
+  var rect=cvp.getBoundingClientRect();
+  var mx=e.clientX-rect.left, my=e.clientY-rect.top;
+  var d=e.deltaY>0?0.9:1.1;
+  var nz=Math.max(0.1,Math.min(3,zoom*d));
+  panX=mx-(mx-panX)*(nz/zoom);
+  panY=my-(my-panY)*(nz/zoom);
+  zoom=nz;applyTransform();
+},{passive:false});
+
+cvp.addEventListener('mousedown',function(e){
+  if(e.target.closest('.node-header')||e.target.closest('.cmd-box')||e.target.closest('.zoom-bar')||e.target.closest('button'))return;
+  panning=true;cvp.classList.add('panning');
+  pStartX=e.clientX;pStartY=e.clientY;pPanX=panX;pPanY=panY;
+});
+document.addEventListener('mousemove',function(e){
+  if(!panning)return;
+  panX=pPanX+(e.clientX-pStartX);panY=pPanY+(e.clientY-pStartY);
+  applyTransform();
+});
+document.addEventListener('mouseup',function(){panning=false;cvp.classList.remove('panning')});
+
+function zoomStep(d){
+  zoom=Math.max(0.1,Math.min(3,zoom+d));applyTransform();
+}
+function fitView(){
+  zoom=1;panX=0;panY=0;applyTransform();
+}
+
+// ═══════════ SCENE LOADING ═══════════
+var currentScene='code';
+
+function loadScene(s){
+  currentScene=s;
+  document.querySelectorAll('.scene-btn').forEach(function(b,i){
+    b.classList.toggle('on',['code','write','video','design'][i]===s);
+  });
+  fitView();
+  showThinking();
+  setTimeout(function(){
+    switch(s){
+      case 'code':buildCode();break;
+      case 'write':buildWrite();break;
+      case 'video':buildVideo();break;
+      case 'design':buildDesign();break;
+    }
+    showIdle();
+  },400);
+}
+
+function showThinking(){
+  document.getElementById('stateDot').className='state-dot thinking';
+  document.getElementById('stateLabel').textContent='Thinking';
+}
+function showIdle(){
+  document.getElementById('stateDot').className='state-dot idle';
+  document.getElementById('stateLabel').textContent='Ready';
+}
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  var n=document.getElementById('tn'),d=document.getElementById('td');
+  if(t==='night'){n.style.background='var(--accent-bg)';n.style.color='var(--accent)';d.style.background='transparent';d.style.color='var(--tx3)'}
+  else{d.style.background='var(--accent-bg)';d.style.color='var(--accent)';n.style.background='transparent';n.style.color='var(--tx3)'}
+}
+
+function submitCmd(){
+  document.getElementById('cmdInput').value='';
+  showThinking();setTimeout(function(){loadScene(currentScene);showIdle()},500);
+}
+
+// ═══════════ SCENE BUILDERS — all on same infinite canvas ═══════════
+
+function N(type,header,body,x,y,w,h){
+  var id='n'+Date.now()+Math.random();
+  var hh=h||'';
+  var cls='node node-'+type;
+  var html='<div class="'+cls+'" id="'+id+'" style="left:'+x+'px;top:'+y+'px;';
+  if(w)html+='width:'+w+'px;';
+  if(h)html+='height:'+h+'px;';
+  html+='"><div class="node-header"><div class="node-dot" style="background:var(--accent)"></div>'+header+'</div><div class="node-body">'+body+'</div></div>';
+  return {id:id,html:html,x:x,y:y};
+}
+
+function buildCode(){
+  var nodes=[];
+  // File tree
+  nodes.push(N('code','src/engine/','<span class="kw">├──</span> <span class="fn">allocator.py</span><br><span class="kw">├──</span> attention.py<br><span class="kw">├──</span> self_healing.py<br><span class="kw">└──</span> token_budget.py',40,40,200));
+  // Editor
+  nodes.push(N('code','smart_allocator.py','<span class="kw">from</span> taiji <span class="kw">import</span> Engine<br><span class="kw">def</span> <span class="fn">allocate</span>(task):<br>&nbsp;&nbsp;<span class="cm"># Smart routing</span><br>&nbsp;&nbsp;<span class="kw">if</span> task.complexity < 0.3:<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="fn">get_local</span>()<br>&nbsp;&nbsp;<span class="kw">return</span> <span class="fn">get_cloud</span>(task)',280,40,320));
+  // Diff
+  nodes.push(N('code','git diff','<span class="mt">@@ -12,6 +12,8 @@</span><br><span class="add">+from taiji.token_budget import BudgetManager</span><br><span class="add">+from taiji.model_registry import get_local, get_cloud</span><br> <span class="kw">class</span> <span class="fn">TaskProfile</span>:<br><span class="rm">-    estimated_tokens: int = 0</span><br><span class="add">+    token_budget: int</span>',280,320,340));
+  // Terminal
+  nodes.push(N('term','Terminal','<span style="color:var(--tx3)">$</span> pytest -v<br><span class="out">test_allocator.py::test_simple PASSED</span><br><span class="out">test_allocator.py::test_complex PASSED</span><br><span class="out">test_allocator.py::test_budget PASSED</span><br><span class="dim">3 passed in 0.42s</span>',660,40,300));
+  // Table
+  nodes.push(N('table','Test Coverage','<table><thead><tr><th>Module</th><th>Coverage</th><th>Status</th></tr></thead><tbody><tr><td>allocator.py</td><td style="color:var(--green)">94%</td><td><span style="color:var(--green)">✓</span></td></tr><tr><td>attention.py</td><td>87%</td><td><span style="color:var(--amber)">△</span></td></tr><tr><td>self_healing.py</td><td style="color:var(--green)">91%</td><td><span style="color:var(--green)">✓</span></td></tr></tbody></table>',660,320,300));
+  renderNodes(nodes);
+}
+
+function buildWrite(){
+  var nodes=[];
+  nodes.push(N('chapter','Ch 3 · 裂痕','<strong>林远舟</strong>盯着屏幕上跳动的数字。三千七百个节点，在零点三秒内全部变红。<br><br>不是故障。是有人在拆除他的网络。<br><br>他抓起键盘。"想拆我的网？那就顺着线来找我。"',60,40,280));
+  nodes.push(N('chapter','Ch 4 · 新生','废墟之下，林远舟发现了苏晚晴留下的最后一个数据包。里面的内容让他沉默了整整三分钟。然后他开始笑——不是胜利的笑，是那种输得心甘情愿的笑。',370,40,280));
+  nodes.push(N('char','林远舟 · 主角','32岁，偏执但天才。前NSA网络安全工程师，现为自由职业者。相信代码比人诚实。左手中指有一道键盘边缘磨出的茧。',60,340,200));
+  nodes.push(N('char','苏晚晴 · 对手','29岁，冷静到冷酷。曾在林远舟的团队工作，三年前消失。她的代码风格有一种强迫症般的完美主义——从不留注释。',280,340,200));
+  nodes.push(N('char','老钟 · 导师','58岁，开一家修电脑的小店。店里最值钱的东西是一台1983年的IBM PC。林远舟每年除夕去他那吃饺子。知道太多。',500,340,200));
+  nodes.push(N('code','Writing Stats','Words: <span style="color:var(--accent);font-weight:600">12,847</span><br>Chapters: 4<br>Today: <span style="color:var(--green)">2,140</span><br>Goal: <span style="color:var(--amber)">85%</span>',60,500,180));
+  renderNodes(nodes);
+}
+
+function buildVideo(){
+  var nodes=[];
+  // Shots — all on same horizontal row
+  var shots=[
+    ['01','Wide · City Night','Rain-slicked streets',12],
+    ['02','Close · Terminal','Fingers on keyboard',8],
+    ['03','Medium · Office','Walks to window',15],
+    ['04','CU · Screen','Nodes turn red',10],
+    ['05','Wide · Server','The attacker',6],
+    ['06','Split · Both','Hunter vs hunted',20]
+  ];
+  shots.forEach(function(s,i){
+    var x=40+i*230;
+    nodes.push({id:'s'+i,html:'<div class="node node-shot" style="left:'+x+'px;top:40px"><div class="node-header"><div class="node-dot" style="background:var(--amber)"></div>Shot '+s[0]+'</div><div class="node-body"><div class="node-shot-preview"><span class="node-shot-num">'+s[0]+'</span>'+s[1]+'</div><div class="node-shot-info">'+s[2]+'<div class="node-shot-dur">0:'+s[3]+'</div></div></div></div>',x:x,y:40});
+  });
+  // Add shot placeholder
+  nodes.push({id:'sx',html:'<div class="node node-shot" style="left:'+(40+6*230)+'px;top:40px;opacity:0.35"><div class="node-header"><div class="node-dot" style="background:var(--tx3)"></div>Shot +</div><div class="node-body"><div class="node-shot-preview" style="display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--tx3)">+</div><div class="node-shot-info" style="color:var(--tx3)">Add shot...</div></div></div>',x:40+6*230,y:40});
+
+  // Timeline tracks — wide node
+  nodes.push({id:'tl',html:'<div class="node" style="left:40px;top:280px;width:1450px;min-width:200px"><div class="node-header"><div class="node-dot" style="background:var(--amber)"></div>Timeline</div><div class="node-body"><div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;font-size:10px;color:var(--tx3)"><span style="width:50px;flex-shrink:0">Video</span><div class="node-track" style="flex:1"><div class="node-track-fill v" style="left:0%;width:8%"></div><div class="node-track-fill v" style="left:10%;width:5%"></div><div class="node-track-fill v" style="left:17%;width:10%"></div><div class="node-track-fill v" style="left:29%;width:7%"></div><div class="node-track-fill v" style="left:38%;width:4%"></div><div class="node-track-fill v" style="left:44%;width:13%"></div></div><span style="font-family:var(--font-mono)">0:53</span></div><div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;font-size:10px;color:var(--tx3)"><span style="width:50px;flex-shrink:0">Audio</span><div class="node-track" style="flex:1"><div class="node-track-fill a" style="left:2%;width:15%"></div><div class="node-track-fill a" style="left:20%;width:8%"></div><div class="node-track-fill a" style="left:30%;width:12%"></div><div class="node-track-fill a" style="left:44%;width:20%"></div></div><span style="font-family:var(--font-mono)">0:42</span></div><div style="display:flex;gap:8px;align-items:center;font-size:10px;color:var(--tx3)"><span style="width:50px;flex-shrink:0">Subtitles</span><div class="node-track" style="flex:1"><div class="node-track-fill t" style="left:3%;width:6%"></div><div class="node-track-fill t" style="left:18%;width:5%"></div><div class="node-track-fill t" style="left:30%;width:8%"></div><div class="node-track-fill t" style="left:45%;width:12%"></div></div><span style="font-family:var(--font-mono)">0:38</span></div></div></div>',x:40,y:280});
+
+  renderNodes(nodes);
+}
+
+function buildDesign(){
+  var nodes=[];
+  // Main artboard — large, central
+  nodes.push({id:'art',html:'<div class="node node-art" style="left:80px;top:60px"><div class="node-art-inner"><div style="width:80px;height:80px;border-radius:50%;background:var(--accent-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;border:1px solid var(--accent);font-size:18px;color:var(--accent)">◉</div><div class="node-art-title">Super Niuma</div><div class="node-art-sub">不是网页。是创作空间。</div></div></div>',x:80,y:60});
+
+  // Color palette — floating panel
+  nodes.push({id:'pal',html:'<div class="node" style="left:450px;top:60px"><div class="node-header"><div class="node-dot" style="background:var(--green)"></div>Palette</div><div class="node-palette"><div class="node-palette-c" style="background:#0D1117"></div><div class="node-palette-c" style="background:#58A6FF"></div><div class="node-palette-c" style="background:#3FB950"></div><div class="node-palette-c" style="background:#DB6DAB"></div><div class="node-palette-c" style="background:#E6EDF3"></div></div></div>',x:450,y:60});
+
+  // Layers
+  nodes.push({id:'lay',html:'<div class="node" style="left:450px;top:180px"><div class="node-header"><div class="node-dot" style="background:var(--green)"></div>Layers</div><div class="node-body"><div style="display:flex;align-items:center;gap:6px;padding:3px 0;font-size:11px"><span style="width:6px;height:6px;border-radius:50%;background:var(--tx1)"></span>Background</div><div style="display:flex;align-items:center;gap:6px;padding:3px 0;font-size:11px"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent)"></span>Logo Mark</div><div style="display:flex;align-items:center;gap:6px;padding:3px 0;font-size:11px"><span style="width:6px;height:6px;border-radius:50%;background:var(--tx1)"></span>Title</div><div style="display:flex;align-items:center;gap:6px;padding:3px 0;font-size:11px;color:var(--tx3)"><span style="width:6px;height:6px;border-radius:50%;border:1px solid var(--tx3)"></span>Grid</div></div></div>',x:450,y:180});
+
+  // Export options
+  nodes.push({id:'exp',html:'<div class="node" style="left:80px;top:360px"><div class="node-header"><div class="node-dot" style="background:var(--green)"></div>Export</div><div class="node-body"><div style="display:flex;gap:6px"><span style="padding:4px 12px;border-radius:999px;background:var(--bg4);font-size:10px;color:var(--tx2)">PNG · 2x</span><span style="padding:4px 12px;border-radius:999px;background:var(--bg4);font-size:10px;color:var(--tx2)">SVG</span><span style="padding:4px 12px;border-radius:999px;background:var(--bg4);font-size:10px;color:var(--tx2)">PDF</span></div></div></div>',x:80,y:360});
+
+  // Typography spec
+  nodes.push({id:'typ',html:'<div class="node" style="left:450px;top:310px"><div class="node-header"><div class="node-dot" style="background:var(--green)"></div>Typography</div><div class="node-body"><div style="font-family:var(--font-display);font-size:18px;font-weight:700">Geist Display</div><div style="font-size:13px;color:var(--tx2);margin-top:2px">Primary typeface</div><div style="font-family:var(--font-mono);font-size:12px;margin-top:6px;color:var(--tx2)">SF Mono · 12px</div></div></div>',x:450,y:310});
+
+  renderNodes(nodes);
+}
+
+function renderNodes(nodes){
+  var html='';
+  nodes.forEach(function(n){html+=n.html;});
+  document.getElementById('cvw').innerHTML=html;
+}
+
+// Init
+loadScene('code');
+</script>
+</body>
+</html>

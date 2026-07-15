@@ -1,0 +1,267 @@
+classDiagram
+    direction TB
+
+    %% ═══ API 响应类型 ═══
+    class ApiResponse~T~ {
+        +number|string code
+        +T data
+        +string message
+        +string request_id
+    }
+
+    class PaginatedData~T~ {
+        +T[] items
+        +Pagination pagination
+    }
+
+    class Pagination {
+        +number page
+        +number page_size
+        +number total
+        +number total_pages
+    }
+
+    %% ═══ 工作间 ═══
+    class WorkspaceItem {
+        +string id
+        +string name
+        +string icon
+        +string theme_color
+        +string template
+        +number agent_count
+        +number task_count
+        +string created_at
+        +string updated_at
+    }
+
+    class AgentItem {
+        +string id
+        +string name
+        +string role
+        +string status
+        +string model
+        +string workspace_id
+        +string created_at
+    }
+
+    %% ═══ 记忆 ═══
+    class MemoryContextStats {
+        +number l1_active_sessions
+        +number l2_total_entries
+        +number l3_total_entries
+    }
+
+    class L1SessionInfo {
+        +string workspace_id
+        +string session_id
+        +number message_count
+        +number token_count
+        +string created_at
+        +string last_active
+    }
+
+    class L2MemoryEntry {
+        +string id
+        +string entry_type
+        +string content
+        +string summary
+        +string[] tags
+        +string observation_type
+        +string created_at
+        +string expires_at
+    }
+
+    class L3KnowledgeEntry {
+        +string id
+        +string title
+        +string summary
+        +string schema_type
+        +string source
+        +number retrieval_count
+        +string created_at
+    }
+
+    %% ═══ 广场 ═══
+    class SkillItem {
+        +string id
+        +string name
+        +string description
+        +string author
+        +number stars
+        +string category
+        +boolean enabled
+    }
+
+    class ModelMarketItem {
+        +string id
+        +string name
+        +string provider
+        +string type
+        +string description
+        +string[] scenarios
+        +string pricing
+        +Evaluation evaluation
+    }
+
+    class Evaluation {
+        +number score
+    }
+
+    %% ═══ 实验室 ═══
+    class DashboardOverview {
+        +number active_agents
+        +number total_agents
+        +number today_tokens
+        +number today_tasks
+        +number token_budget
+        +number token_percent
+    }
+
+    class MeshStatus {
+        +number node_count
+        +number healthy_peers
+        +number covered_models
+        +boolean is_contributing
+    }
+
+    class MeshPeer {
+        +string node_id
+        +string hostname
+        +string ip_address
+        +string status
+        +number load
+        +string role
+    }
+
+    class EmergenceInsight {
+        +string id
+        +string title
+        +string description
+        +string[] modules
+        +string impact
+        +string status
+        +string created_at
+    }
+
+    %% ═══ 备份/文件 ═══
+    class BackupItem {
+        +string id
+        +string filename
+        +number size_bytes
+        +string created_at
+    }
+
+    class ChatExportRecord {
+        +string role
+        +string content
+        +string model
+        +string created_at
+    }
+
+    %% ═══ Composables ═══
+    class useAsync~T~ {
+        +Ref~boolean~ loading
+        +Ref~string~ error
+        +Ref~T~ data
+        +execute(fetcher) Promise~void~
+        +reset() void
+    }
+
+    class usePolling~T~ {
+        +Ref~T~ data
+        +Ref~boolean~ loading
+        +Ref~string~ error
+        +start() void
+        +stop() void
+    }
+
+    class useProjects {
+        +Ref~WorkspaceItem[]~ workspaces
+        +Ref~WorkspaceItem~ activeWorkspace
+        +Ref~boolean~ wsLoading
+        +Ref~string~ wsError
+        +Ref~AgentItem[]~ agents
+        +loadWorkspaces() Promise~void~
+        +selectWorkspace(ws) void
+        +createWorkspace(name) Promise~void~
+        +deleteWorkspace(id) Promise~void~
+        +columnTasks(col) AgentItem[]
+    }
+
+    class useMemory {
+        +Ref~string~ activeTab
+        +Ref~L1SessionInfo~ l1Snapshot
+        +Ref~L2MemoryEntry[]~ l2Entries
+        +Ref~L3KnowledgeEntry[]~ l3Overview
+        +Ref~boolean~ l1Loading
+        +Ref~boolean~ l2Loading
+        +Ref~boolean~ l3Loading
+        +loadL1(wsId) Promise~void~
+        +loadL2(wsId, entryType) Promise~void~
+        +loadL3(wsId) Promise~void~
+    }
+
+    class usePlaza {
+        +Ref~string~ activeTab
+        +Ref~SkillItem[]~ marketSkills
+        +Ref~AgentItem[]~ experts
+        +Ref~ModelMarketItem[]~ models
+        +Ref~boolean~ skillsLoading
+        +Ref~boolean~ expertsLoading
+        +Ref~boolean~ modelsLoading
+        +loadSkills() Promise~void~
+        +loadExperts() Promise~void~
+        +loadModels() Promise~void~
+    }
+
+    class useLab {
+        +Ref~string~ activeTab
+        +Ref~DashboardOverview~ overview
+        +Ref~MeshStatus~ meshStatus
+        +Ref~MeshPeer[]~ meshPeers
+        +Ref~EmergenceInsight[]~ insights
+        +loadDashboard() Promise~void~
+        +loadMesh() Promise~void~
+        +loadEmergence() Promise~void~
+    }
+
+    %% ═══ API Client ═══
+    class ApiClient {
+        +string baseURL
+        +object workspaces
+        +object memory
+        +object skills
+        +object dashboard
+        +object mesh
+        +object emergence
+        +object backup
+        +object models
+        +unwrapResponse~T~(res) T
+    }
+
+    %% ═══ 关系 ═══
+    ApiResponse~T~ --> PaginatedData~T~ : "data (分页时)"
+    PaginatedData~T~ --> Pagination : contains
+    ModelMarketItem --> Evaluation : contains
+
+    useProjects --> WorkspaceItem : manages
+    useProjects --> AgentItem : maps to Kanban
+    useMemory --> L1SessionInfo : L1 tab
+    useMemory --> L2MemoryEntry : L2 tab
+    useMemory --> L3KnowledgeEntry : L3 tab
+    usePlaza --> SkillItem : skills tab
+    usePlaza --> AgentItem : experts tab
+    usePlaza --> ModelMarketItem : models tab
+    useLab --> DashboardOverview : dashboard tab
+    useLab --> MeshStatus : mesh tab
+    useLab --> EmergenceInsight : emergence tab
+
+    useProjects --> useAsync~T~ : uses
+    useMemory --> useAsync~T~ : uses
+    usePlaza --> useAsync~T~ : uses
+    useLab --> useAsync~T~ : uses
+
+    useProjects --> ApiClient : calls
+    useMemory --> ApiClient : calls
+    usePlaza --> ApiClient : calls
+    useLab --> ApiClient : calls

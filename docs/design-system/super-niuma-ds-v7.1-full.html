@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>超级牛马 · Design System v7.1 — Full Component Library</title>
+<style>
+/* ============================================================
+   DESIGN SYSTEM v7.1 — COMPLETE COMPONENT LIBRARY
+   Ethereal Glass · Double-Bezel · Bento · Magnetic Motion
+   ============================================================ */
+
+/* ==================== TOKENS ==================== */
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  --font-mono: "SF Mono", "Cascadia Code", "Fira Code", monospace;
+  --radius-xs:6px; --radius-sm:8px; --radius-md:14px; --radius-lg:20px; --radius-xl:28px; --radius-full:999px;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-6:24px; --space-8:32px; --space-12:48px; --space-16:64px;
+  --dur-fast:180ms; --dur-normal:300ms; --dur-slow:500ms;
+  --ease-spring: cubic-bezier(0.32,0.72,0,1);
+  --ease-out: cubic-bezier(0.16,1,0.3,1);
+}
+
+[data-theme="night"] {
+  --bg-root:#070C14; --bg-surface:#0D1525; --bg-elevated:#131E2E; --bg-overlay:#1A2738;
+  --bg-glass:rgba(19,30,46,0.65); --bg-glass-heavy:rgba(13,21,37,0.85);
+  --text-primary:#F1F5F9; --text-secondary:#94A3B8; --text-tertiary:#64748B; --text-dim:#475569;
+  --border-default:rgba(255,255,255,0.06); --border-hover:rgba(255,255,255,0.12);
+  --border-glow:rgba(77,168,240,0.25); --border-subtle:rgba(255,255,255,0.03);
+  --brand:#4DA8F0; --brand-hover:#70BDF8; --brand-glow:rgba(77,168,240,0.18);
+  --accent-gradient:linear-gradient(135deg,#4DA8F0 0%,#2DD4BF 100%);
+  --coral:#F87171; --green:#22C55E; --amber:#F59E0B; --purple:#A78BFA; --teal:#2DD4BF; --cyan:#22D3EE;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.20); --shadow-sm:0 2px 8px rgba(0,0,0,.30);
+  --shadow-md:0 8px 24px rgba(0,0,0,.40); --shadow-lg:0 16px 48px rgba(0,0,0,.50);
+  --shadow-glass:0 8px 32px rgba(0,0,0,.35),0 0 0 1px rgba(77,168,240,.06);
+  --shadow-glow:0 0 32px rgba(77,168,240,.15),0 8px 24px rgba(0,0,0,.30);
+  --shadow-glow-lg:0 0 48px rgba(77,168,240,.20),0 16px 40px rgba(0,0,0,.40);
+  --overlay-bg:rgba(0,0,0,0.55);
+}
+
+[data-theme="day"] {
+  --bg-root:#F5F7FA; --bg-surface:#FFFFFF; --bg-elevated:#F0F2F5; --bg-overlay:#E5E7EB;
+  --bg-glass:rgba(255,255,255,0.82); --bg-glass-heavy:rgba(255,255,255,0.92);
+  --text-primary:#0F172A; --text-secondary:#475569; --text-tertiary:#94A3B8; --text-dim:#CBD5E1;
+  --border-default:rgba(0,0,0,0.06); --border-hover:rgba(0,0,0,0.10);
+  --border-glow:rgba(37,99,235,0.20); --border-subtle:rgba(0,0,0,0.03);
+  --brand:#2563EB; --brand-hover:#1D4ED8; --brand-glow:rgba(37,99,235,0.10);
+  --accent-gradient:linear-gradient(135deg,#2563EB 0%,#0891B2 100%);
+  --coral:#DC2626; --green:#16A34A; --amber:#D97706; --purple:#7C3AED; --teal:#0D9488; --cyan:#0891B2;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.04); --shadow-sm:0 2px 8px rgba(0,0,0,.06);
+  --shadow-md:0 8px 24px rgba(0,0,0,.08); --shadow-lg:0 16px 48px rgba(0,0,0,.10);
+  --shadow-glass:0 8px 32px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04);
+  --shadow-glow:0 0 24px rgba(37,99,235,.10),0 8px 24px rgba(0,0,0,.06);
+  --shadow-glow-lg:0 0 40px rgba(37,99,235,.14),0 16px 40px rgba(0,0,0,.08);
+  --overlay-bg:rgba(0,0,0,0.25);
+}
+
+[data-theme="classic"] {
+  --bg-root:#F8F4ED; --bg-surface:#FCF9F3; --bg-elevated:#F3EEE6; --bg-overlay:#EAE4D9;
+  --bg-glass:rgba(252,249,243,0.88); --bg-glass-heavy:rgba(252,249,243,0.95);
+  --text-primary:#2D251E; --text-secondary:#6B5D4F; --text-tertiary:#9B8C7E; --text-dim:#C4B8A8;
+  --border-default:rgba(45,37,30,0.08); --border-hover:rgba(45,37,30,0.14);
+  --border-glow:rgba(75,122,184,0.18); --border-subtle:rgba(45,37,30,0.04);
+  --brand:#4B7AB8; --brand-hover:#3D68A0; --brand-glow:rgba(75,122,184,0.10);
+  --accent-gradient:linear-gradient(135deg,#4B7AB8 0%,#3A8278 100%);
+  --coral:#B84C3A; --green:#3B7A4F; --amber:#B8922A; --purple:#6B4F8C; --teal:#3A8278; --cyan:#0A7C8C;
+  --shadow-xs:0 1px 2px rgba(80,60,40,.04); --shadow-sm:0 2px 8px rgba(80,60,40,.06);
+  --shadow-md:0 8px 24px rgba(80,60,40,.08); --shadow-lg:0 16px 48px rgba(80,60,40,.10);
+  --shadow-glass:0 8px 32px rgba(80,60,40,.06),0 0 0 1px rgba(80,60,40,.04);
+  --shadow-glow:0 0 24px rgba(75,122,184,.08),0 8px 24px rgba(80,60,40,.06);
+  --shadow-glow-lg:0 0 40px rgba(75,122,184,.12),0 16px 40px rgba(80,60,40,.08);
+  --overlay-bg:rgba(45,37,30,0.30);
+}
+
+/* ==================== RESET & BASE ==================== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-sans);background:var(--bg-root);color:var(--text-primary);line-height:1.6;-webkit-font-smoothing:antialiased;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 25% 15%,var(--brand-glow) 0%,transparent 60%),
+             radial-gradient(ellipse at 75% 85%,rgba(168,133,247,0.03) 0%,transparent 60%);}
+.container{max-width:1280px;margin:0 auto;padding:0 var(--space-8);position:relative;z-index:1;}
+
+/* Typography */
+h1{font-size:2.25rem;font-weight:700;letter-spacing:-0.03em;line-height:1.15;}
+h2{font-size:1.5rem;font-weight:650;letter-spacing:-0.02em;}
+h3{font-size:1.1rem;font-weight:600;}
+.label-sm{font-size:10px;text-transform:uppercase;letter-spacing:0.12em;font-weight:600;color:var(--text-tertiary);}
+.mono{font-family:var(--font-mono);font-size:0.85em;}
+.text-gradient{background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* Layout */
+.section{padding:var(--space-12) 0;}
+.section-header{margin-bottom:var(--space-8);}
+.section-header p{color:var(--text-secondary);margin-top:4px;font-size:0.95rem;}
+.divider{height:1px;background:var(--border-default);margin:var(--space-10) 0;}
+.comp-row{display:flex;gap:var(--space-4);flex-wrap:wrap;align-items:flex-start;}
+.comp-grid-2{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:var(--space-4);}
+
+/* Theme Switcher */
+.theme-switcher{position:fixed;top:var(--space-4);right:var(--space-4);z-index:100;display:flex;gap:var(--space-1);
+  background:var(--bg-glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--border-default);border-radius:999px;padding:3px;}
+.theme-switcher button{width:36px;height:36px;border-radius:999px;border:none;background:transparent;color:var(--text-secondary);
+  font-size:16px;cursor:pointer;transition:all var(--dur-fast) var(--ease-spring);display:flex;align-items:center;justify-content:center;}
+.theme-switcher button:hover{color:var(--text-primary);}
+.theme-switcher button.active{background:var(--bg-elevated);color:var(--brand);box-shadow:var(--shadow-xs);}
+
+/* ==================== SHARED COMPONENT PATTERNS ==================== */
+.ds-card-shell{position:relative;padding:1.5px;border-radius:var(--radius-lg);background:var(--border-default);transition:all 400ms var(--ease-spring);}
+.ds-card-shell:hover{background:var(--border-glow);box-shadow:var(--shadow-glow);transform:translateY(-2px);}
+.ds-card-core{background:var(--bg-elevated);border-radius:calc(var(--radius-lg) - 1.5px);padding:var(--space-6);position:relative;overflow:hidden;}
+.ds-card-core::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.04) 0%,transparent 50%);pointer-events:none;}
+
+.ds-glass-card{background:var(--bg-glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:var(--space-6);transition:all 400ms var(--ease-spring);}
+.ds-glass-card:hover{border-color:var(--border-hover);box-shadow:var(--shadow-glass);transform:translateY(-1px);}
+
+.ds-glass-surface{background:var(--bg-glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--border-default);border-radius:var(--radius-lg);}
+
+/* ==================== SIDEBAR NAV RAIL ==================== */
+.ds-nav-rail{display:flex;flex-direction:column;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-2);
+  background:var(--bg-glass);backdrop-filter:blur(20px);border:1px solid var(--border-default);
+  border-radius:var(--radius-xl);width:64px;box-shadow:var(--shadow-glass);}
+.ds-nav-icon{width:44px;height:44px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;
+  color:var(--text-tertiary);cursor:pointer;transition:all 200ms var(--ease-spring);position:relative;}
+.ds-nav-icon:hover{color:var(--text-primary);background:var(--bg-overlay);}
+.ds-nav-icon.active{color:var(--brand);background:var(--brand-glow);}
+.ds-nav-icon svg{width:20px;height:20px;}
+
+/* ==================== DIALOG / MODAL ==================== */
+.ds-overlay{position:fixed;inset:0;background:var(--overlay-bg);display:flex;align-items:center;justify-content:center;z-index:1000;
+  animation:overlayIn 200ms var(--ease-out);}
+.ds-dialog{background:var(--bg-glass-heavy);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid var(--border-default);border-radius:var(--radius-xl);width:480px;max-width:90vw;max-height:85vh;
+  padding:var(--space-8);box-shadow:var(--shadow-glow-lg);animation:dialogIn 350ms var(--ease-spring);overflow-y:auto;}
+.ds-dialog-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-6);}
+.ds-dialog-footer{display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid var(--border-default);}
+@keyframes overlayIn{from{opacity:0;}to{opacity:1;}}
+@keyframes dialogIn{from{opacity:0;transform:translateY(16px) scale(0.96);}to{opacity:1;transform:none;}}
+
+/* ==================== DROPDOWN / SELECT ==================== */
+.ds-dropdown{position:relative;display:inline-block;}
+.ds-select-btn{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:var(--radius-sm);
+  border:1px solid var(--border-default);background:var(--bg-glass);backdrop-filter:blur(12px);
+  color:var(--text-primary);font-size:0.85rem;font-weight:500;cursor:pointer;transition:all 200ms var(--ease-spring);font-family:var(--font-sans);}
+.ds-select-btn:hover{border-color:var(--border-hover);}
+.ds-select-btn svg.chevron{transition:transform 250ms var(--ease-spring);}
+.ds-select-btn.open svg.chevron{transform:rotate(180deg);}
+.ds-dropdown-menu{position:absolute;top:calc(100% + 6px);left:0;min-width:200px;
+  background:var(--bg-glass-heavy);backdrop-filter:blur(20px);border:1px solid var(--border-default);
+  border-radius:var(--radius-md);padding:6px;box-shadow:var(--shadow-glass);z-index:50;
+  opacity:0;transform:translateY(-8px);pointer-events:none;transition:all 200ms var(--ease-spring);}
+.ds-dropdown-menu.open{opacity:1;transform:translateY(0);pointer-events:auto;}
+.ds-dropdown-item{padding:9px 14px;border-radius:var(--radius-sm);font-size:0.85rem;color:var(--text-secondary);cursor:pointer;transition:all 150ms var(--ease-spring);display:flex;align-items:center;gap:8px;}
+.ds-dropdown-item:hover{background:var(--bg-overlay);color:var(--text-primary);}
+.ds-dropdown-item.selected{color:var(--brand);background:var(--brand-glow);}
+.ds-dropdown-divider{height:1px;background:var(--border-default);margin:4px 0;}
+
+/* ==================== TOOLTIP ==================== */
+.ds-tooltip-wrapper{position:relative;display:inline-block;}
+.ds-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  padding:6px 12px;border-radius:var(--radius-sm);background:var(--bg-overlay);color:var(--text-primary);
+  font-size:0.75rem;white-space:nowrap;pointer-events:none;opacity:0;transition:all 200ms var(--ease-spring);
+  border:1px solid var(--border-default);box-shadow:var(--shadow-md);}
+.ds-tooltip-wrapper:hover .ds-tooltip{opacity:1;}
+.ds-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--bg-overlay);}
+
+/* ==================== MESSAGE BUBBLES ==================== */
+.ds-bubble-user{max-width:480px;margin-left:auto;margin-right:var(--space-4);padding:12px 18px;border-radius:18px 18px 4px 18px;
+  background:var(--bg-elevated);border:1px solid var(--border-default);color:var(--text-primary);font-size:0.9rem;line-height:1.55;}
+.ds-bubble-ai{max-width:640px;margin-left:var(--space-4);margin-right:auto;padding:16px 20px;border-radius:4px 18px 18px 18px;
+  background:var(--bg-glass);backdrop-filter:blur(12px);border:1px solid var(--border-default);color:var(--text-primary);font-size:0.9rem;line-height:1.65;}
+.ds-bubble-ai:hover,.ds-bubble-user:hover{box-shadow:var(--shadow-sm);transition:box-shadow 250ms var(--ease-spring);}
+
+/* ==================== CODE BLOCK ==================== */
+.ds-code-block{background:rgba(0,0,0,0.30);border:1px solid var(--border-default);border-radius:var(--radius-md);overflow:hidden;font-family:var(--font-mono);}
+.ds-code-header{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border-default);}
+.ds-code-lang{font-size:0.7rem;color:var(--text-tertiary);text-transform:uppercase;}
+.ds-code-copy{font-size:0.7rem;color:var(--text-tertiary);cursor:pointer;background:none;border:none;padding:2px 8px;border-radius:4px;transition:all 150ms;}
+.ds-code-copy:hover{color:var(--brand);background:var(--brand-glow);}
+.ds-code-body{padding:14px 18px;font-size:0.8rem;line-height:1.7;overflow-x:auto;color:var(--text-secondary);}
+.ds-code-body .kw{color:var(--purple);}.ds-code-body .str{color:var(--green);}.ds-code-body .fn{color:var(--brand);}.ds-code-body .cm{color:var(--text-dim);}
+
+/* ==================== PROGRESS BAR ==================== */
+.ds-progress{height:6px;border-radius:3px;background:var(--bg-overlay);overflow:hidden;}
+.ds-progress-bar{height:100%;border-radius:inherit;background:var(--accent-gradient);transition:width 600ms var(--ease-out);}
+.ds-progress-indeterminate{height:100%;width:40%;border-radius:inherit;background:var(--accent-gradient);animation:progressSlide 1.5s infinite var(--ease-spring);}
+@keyframes progressSlide{0%{transform:translateX(-100%);}100%{transform:translateX(350%);}}
+
+/* ==================== SKELETON ==================== */
+.ds-skeleton{background:linear-gradient(90deg,var(--bg-overlay) 25%,var(--bg-elevated) 50%,var(--bg-overlay) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--radius-sm);}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.ds-skeleton-text{height:14px;margin-bottom:8px;}
+.ds-skeleton-avatar{width:40px;height:40px;border-radius:50%;}
+.ds-skeleton-card{height:120px;border-radius:var(--radius-md);}
+
+/* ==================== SPINNER ==================== */
+.ds-spinner{width:24px;height:24px;border:2.5px solid var(--bg-overlay);border-top-color:var(--brand);border-radius:50%;animation:spin 0.7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.ds-spinner-sm{width:16px;height:16px;border-width:2px;}
+.ds-spinner-lg{width:36px;height:36px;border-width:3px;}
+
+/* ==================== CHECKBOX / RADIO ==================== */
+.ds-checkbox,.ds-radio{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.9rem;color:var(--text-primary);}
+.ds-checkbox input,.ds-radio input{position:absolute;opacity:0;width:0;height:0;}
+.ds-checkbox-mark{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border-hover);background:var(--bg-glass);display:flex;align-items:center;justify-content:center;transition:all 200ms var(--ease-spring);flex-shrink:0;}
+.ds-checkbox input:checked+.ds-checkbox-mark{background:var(--brand);border-color:var(--brand);}
+.ds-checkbox input:checked+.ds-checkbox-mark::after{content:'';width:5px;height:9px;border:solid white;border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-1px);}
+.ds-radio-mark{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border-hover);background:var(--bg-glass);display:flex;align-items:center;justify-content:center;transition:all 200ms var(--ease-spring);flex-shrink:0;}
+.ds-radio input:checked+.ds-radio-mark{border-color:var(--brand);}
+.ds-radio input:checked+.ds-radio-mark::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--brand);}
+
+/* ==================== TOGGLE PILL ==================== */
+.ds-toggle-pill{position:relative;width:48px;height:26px;border-radius:999px;background:var(--bg-overlay);border:1px solid var(--border-default);cursor:pointer;transition:all 350ms var(--ease-spring);flex-shrink:0;}
+.ds-toggle-pill::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--text-tertiary);transition:all 350ms var(--ease-spring);box-shadow:var(--shadow-xs);}
+.ds-toggle-pill.on{background:var(--brand);border-color:var(--brand);}
+.ds-toggle-pill.on::after{left:24px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+
+/* ==================== AVATAR ==================== */
+.ds-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:0.9rem;flex-shrink:0;}
+.ds-avatar-sm{width:28px;height:28px;font-size:0.7rem;}
+.ds-avatar-lg{width:56px;height:56px;font-size:1.2rem;}
+.ds-avatar.brand{background:var(--brand-glow);color:var(--brand);}
+.ds-avatar.purple{background:rgba(168,133,247,0.12);color:var(--purple);}
+.ds-avatar.green{background:rgba(34,197,94,0.12);color:var(--green);}
+.ds-avatar.amber{background:rgba(245,158,11,0.12);color:var(--amber);}
+.ds-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+
+/* ==================== BADGE ==================== */
+.ds-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:6px;font-size:11px;font-weight:550;}
+.ds-badge.brand{background:var(--brand-glow);color:var(--brand);}
+.ds-badge.green{background:rgba(34,197,94,0.10);color:var(--green);}
+.ds-badge.amber{background:rgba(245,158,11,0.10);color:var(--amber);}
+.ds-badge.purple{background:rgba(168,133,247,0.10);color:var(--purple);}
+.ds-badge.coral{background:rgba(248,113,113,0.10);color:var(--coral);}
+.ds-dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
+.ds-dot.online{background:var(--green);box-shadow:0 0 8px var(--green);}
+.ds-dot.warn{background:var(--amber);box-shadow:0 0 8px var(--amber);}
+.ds-dot.off{background:var(--text-tertiary);}
+
+/* ==================== BUTTONS ==================== */
+.ds-btn-magnetic{position:relative;display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:999px;border:none;
+  background:var(--accent-gradient);color:#fff;font-size:0.9rem;font-weight:550;font-family:var(--font-sans);cursor:pointer;
+  transition:all 350ms var(--ease-spring);box-shadow:0 4px 16px var(--brand-glow);}
+.ds-btn-magnetic:hover{transform:translateY(-1px);box-shadow:var(--shadow-glow-lg);}
+.ds-btn-magnetic:active{transform:scale(0.97);}
+.ds-btn-magnetic .btn-icon-circle{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.18);
+  display:flex;align-items:center;justify-content:center;transition:all 250ms var(--ease-spring);}
+.ds-btn-magnetic:hover .btn-icon-circle{transform:translateX(2px) translateY(-1px) scale(1.08);}
+.ds-btn-secondary{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:999px;
+  border:1px solid var(--border-default);background:var(--bg-glass);backdrop-filter:blur(12px);
+  color:var(--text-primary);font-size:0.875rem;font-weight:500;font-family:var(--font-sans);cursor:pointer;transition:all 300ms var(--ease-spring);}
+.ds-btn-secondary:hover{border-color:var(--border-hover);box-shadow:var(--shadow-sm);transform:translateY(-1px);}
+.ds-btn-secondary:active{transform:scale(0.97);}
+.ds-btn-ghost{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:8px;border:none;
+  background:transparent;color:var(--text-secondary);font-size:0.8rem;font-family:var(--font-sans);cursor:pointer;transition:all 200ms var(--ease-spring);}
+.ds-btn-ghost:hover{background:var(--bg-overlay);color:var(--text-primary);}
+.ds-btn-ghost.danger:hover{background:rgba(248,113,113,0.10);color:var(--coral);}
+.ds-btn-icon{width:36px;height:36px;border-radius:var(--radius-sm);border:1px solid var(--border-default);background:var(--bg-glass);
+  display:flex;align-items:center;justify-content:center;color:var(--text-secondary);cursor:pointer;transition:all 200ms var(--ease-spring);}
+.ds-btn-icon:hover{border-color:var(--border-hover);color:var(--text-primary);box-shadow:var(--shadow-xs);}
+
+/* ==================== TABS ==================== */
+.ds-tabs{display:flex;gap:4px;background:var(--bg-overlay);border-radius:10px;padding:4px;width:fit-content;}
+.ds-tab{padding:7px 18px;border-radius:7px;border:none;background:transparent;color:var(--text-secondary);
+  font-size:0.85rem;font-weight:500;cursor:pointer;transition:all 250ms var(--ease-spring);font-family:var(--font-sans);}
+.ds-tab:hover{color:var(--text-primary);}
+.ds-tab.active{background:var(--bg-elevated);color:var(--text-primary);box-shadow:var(--shadow-xs);}
+
+/* ==================== INPUT ==================== */
+.ds-input-glass{width:100%;padding:12px 16px;border-radius:var(--radius-md);border:1px solid var(--border-default);
+  background:var(--bg-glass);backdrop-filter:blur(12px);color:var(--text-primary);font-size:0.9rem;font-family:var(--font-sans);outline:none;transition:all 300ms var(--ease-spring);}
+.ds-input-glass::placeholder{color:var(--text-tertiary);}
+.ds-input-glass:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-glow);}
+.ds-textarea-glass{width:100%;padding:14px 16px;border-radius:var(--radius-md);border:1px solid var(--border-default);
+  background:var(--bg-glass);backdrop-filter:blur(12px);color:var(--text-primary);font-size:0.9rem;font-family:var(--font-sans);outline:none;
+  resize:vertical;min-height:80px;transition:all 300ms var(--ease-spring);}
+.ds-textarea-glass:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-glow);}
+
+/* ==================== FILE LIST ==================== */
+.ds-file-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--radius-sm);
+  border:1px solid transparent;cursor:pointer;transition:all 200ms var(--ease-spring);}
+.ds-file-item:hover{background:var(--bg-glass);border-color:var(--border-default);}
+.ds-file-icon{width:36px;height:36px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ds-file-icon.folder{background:rgba(245,158,11,0.10);color:var(--amber);}
+.ds-file-icon.doc{background:rgba(77,168,240,0.10);color:var(--brand);}
+.ds-file-icon.img{background:rgba(168,133,247,0.10);color:var(--purple);}
+.ds-file-icon.code{background:rgba(34,197,94,0.10);color:var(--green);}
+.ds-file-info{flex:1;min-width:0;}
+.ds-file-name{font-size:0.85rem;font-weight:500;}
+.ds-file-meta{font-size:0.7rem;color:var(--text-tertiary);margin-top:2px;}
+
+/* ==================== TABLE ==================== */
+.ds-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+.ds-table th{text-align:left;padding:10px 14px;color:var(--text-tertiary);font-weight:550;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;
+  border-bottom:1px solid var(--border-default);}
+.ds-table td{padding:12px 14px;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary);}
+.ds-table tr:hover td{background:var(--bg-glass);}
+.ds-table tr:last-child td{border-bottom:none;}
+
+/* ==================== TIMELINE ==================== */
+.ds-timeline{position:relative;padding-left:24px;}
+.ds-timeline::before{content:'';position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:var(--border-default);}
+.ds-timeline-item{position:relative;padding-bottom:var(--space-6);}
+.ds-timeline-item:last-child{padding-bottom:0;}
+.ds-timeline-dot{position:absolute;left:-24px;top:4px;width:16px;height:16px;border-radius:50%;border:2px solid var(--border-default);background:var(--bg-elevated);}
+.ds-timeline-dot.active{background:var(--brand);border-color:var(--brand);box-shadow:0 0 8px var(--brand-glow);}
+.ds-timeline-dot.done{background:var(--green);border-color:var(--green);}
+.ds-timeline-time{font-size:0.7rem;color:var(--text-tertiary);margin-bottom:2px;}
+
+/* ==================== EMPTY STATE ==================== */
+.ds-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:var(--space-12) var(--space-8);text-align:center;}
+.ds-empty-icon{width:64px;height:64px;border-radius:50%;background:var(--bg-overlay);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--text-dim);}
+.ds-empty-icon svg{width:28px;height:28px;}
+.ds-empty-title{font-size:1rem;font-weight:600;margin-bottom:4px;}
+.ds-empty-desc{font-size:0.85rem;color:var(--text-tertiary);max-width:320px;}
+
+/* ==================== BREADCRUMBS ==================== */
+.ds-breadcrumbs{display:flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--text-tertiary);}
+.ds-breadcrumbs a{color:var(--text-secondary);text-decoration:none;transition:color 150ms;padding:2px 6px;border-radius:4px;}
+.ds-breadcrumbs a:hover{color:var(--brand);background:var(--brand-glow);}
+.ds-breadcrumbs .sep{color:var(--text-dim);}
+
+/* ==================== PAGINATION ==================== */
+.ds-pagination{display:flex;align-items:center;gap:4px;}
+.ds-page-btn{width:34px;height:34px;border-radius:var(--radius-sm);border:1px solid var(--border-default);
+  background:var(--bg-glass);color:var(--text-secondary);font-size:0.8rem;cursor:pointer;transition:all 200ms var(--ease-spring);display:flex;align-items:center;justify-content:center;}
+.ds-page-btn:hover{border-color:var(--border-hover);color:var(--text-primary);}
+.ds-page-btn.active{background:var(--brand);border-color:var(--brand);color:#fff;}
+
+/* ==================== TAG / CHIP ==================== */
+.ds-tag{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;font-size:0.75rem;font-weight:500;
+  background:var(--bg-glass);border:1px solid var(--border-default);color:var(--text-secondary);cursor:pointer;transition:all 200ms var(--ease-spring);}
+.ds-tag:hover{border-color:var(--border-hover);color:var(--text-primary);}
+.ds-tag.active{background:var(--brand-glow);border-color:var(--brand);color:var(--brand);}
+.ds-tag .tag-close{margin-left:2px;opacity:0.6;cursor:pointer;transition:opacity 150ms;}
+.ds-tag .tag-close:hover{opacity:1;}
+
+/* ==================== STAT CARD ==================== */
+.ds-stat{display:flex;flex-direction:column;align-items:center;gap:4px;padding:var(--space-4);}
+.ds-stat-value{font-size:1.8rem;font-weight:700;letter-spacing:-0.02em;}
+.ds-stat-label{font-size:0.75rem;color:var(--text-tertiary);}
+.ds-stat-trend{font-size:0.7rem;display:flex;align-items:center;gap:3px;margin-top:2px;}
+.ds-stat-trend.up{color:var(--green);}
+.ds-stat-trend.down{color:var(--coral);}
+
+/* ==================== CONTEXT MENU ==================== */
+.ds-context-menu{position:absolute;min-width:180px;background:var(--bg-glass-heavy);backdrop-filter:blur(20px);
+  border:1px solid var(--border-default);border-radius:var(--radius-md);padding:4px;box-shadow:var(--shadow-glass);z-index:100;}
+.ds-context-item{padding:8px 14px;border-radius:6px;font-size:0.8rem;color:var(--text-secondary);cursor:pointer;transition:all 150ms var(--ease-spring);display:flex;align-items:center;gap:10px;border:none;background:none;width:100%;text-align:left;font-family:inherit;}
+.ds-context-item:hover{background:var(--bg-overlay);color:var(--text-primary);}
+.ds-context-item.danger:hover{background:rgba(248,113,113,0.10);color:var(--coral);}
+.ds-context-divider{height:1px;background:var(--border-default);margin:4px 0;}
+
+/* ==================== TOAST ==================== */
+.ds-toast{background:var(--bg-glass-heavy);backdrop-filter:blur(20px);border:1px solid var(--border-default);
+  border-radius:var(--radius-md);padding:12px 20px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-glass);color:var(--text-primary);font-size:0.85rem;max-width:400px;}
+.ds-toast.success{border-color:rgba(34,197,94,0.25);}
+.ds-toast.error{border-color:rgba(248,113,113,0.25);}
+
+/* ==================== SCROLLBAR ==================== */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--bg-overlay);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--text-dim);}
+
+/* ==================== FORM GROUP ==================== */
+.ds-form-group{margin-bottom:var(--space-4);}
+.ds-form-label{display:block;font-size:0.8rem;font-weight:550;color:var(--text-secondary);margin-bottom:6px;}
+.ds-form-hint{font-size:0.7rem;color:var(--text-tertiary);margin-top:4px;}
+.ds-form-error{font-size:0.7rem;color:var(--coral);margin-top:4px;}
+
+/* ==================== COUNTER ==================== */
+.ds-counter{display:inline-flex;align-items:center;gap:2px;padding:2px 8px;border-radius:999px;
+  background:var(--bg-overlay);font-size:0.7rem;font-weight:600;color:var(--text-secondary);}
+
+/* ==================== NOTIFICATION DOT ==================== */
+.ds-notif-dot{position:relative;}
+.ds-notif-dot::after{content:'';position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:var(--coral);border:2px solid var(--bg-elevated);}
+
+/* ==================== BENTO GRID ==================== */
+.bento-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4);grid-auto-flow:dense;}
+.bento-grid>*{min-height:100px;}
+.bento-col-2{grid-column:span 2;}
+.bento-col-3{grid-column:span 3;}
+.bento-row-2{grid-row:span 2;}
+
+/* ==================== FLUID ISLAND NAV ==================== */
+.ds-fluid-nav{display:flex;align-items:center;gap:var(--space-1);background:var(--bg-glass);backdrop-filter:blur(24px);
+  border:1px solid var(--border-default);border-radius:999px;padding:4px;width:fit-content;
+  box-shadow:0 4px 24px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.06);}
+.ds-fluid-nav-btn{padding:8px 20px;border-radius:999px;border:none;background:transparent;color:var(--text-secondary);
+  font-size:0.875rem;font-weight:500;font-family:var(--font-sans);cursor:pointer;transition:all 250ms var(--ease-spring);}
+.ds-fluid-nav-btn:hover{color:var(--text-primary);}
+.ds-fluid-nav-btn.active{background:var(--bg-elevated);color:var(--text-primary);box-shadow:var(--shadow-xs);}
+
+/* ==================== SPOTLIGHT BORDER ==================== */
+.ds-spotlight{position:relative;border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-elevated);
+  border:1px solid var(--border-default);padding:var(--space-6);transition:border-color 400ms var(--ease-spring);}
+.ds-spotlight::before{content:'';position:absolute;inset:-1px;border-radius:inherit;background:var(--accent-gradient);opacity:0;z-index:-1;transition:opacity 400ms var(--ease-spring);}
+.ds-spotlight:hover::before{opacity:0.12;}
+.ds-spotlight:hover{border-color:var(--border-glow);}
+
+/* ==================== GLASS DEMO BG ==================== */
+.glass-demo-bg{position:relative;padding:var(--space-8);border-radius:var(--radius-xl);overflow:hidden;}
+.glass-demo-bg::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(77,168,240,0.06) 0%,transparent 40%),
+             linear-gradient(-135deg,rgba(168,133,247,0.04) 0%,transparent 40%);}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes pageFadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+.page-demo{animation:pageFadeIn 400ms var(--ease-out);}
+
+/* ==================== RESPONSIVE ==================== */
+@media(max-width:768px){
+  .container{padding:0 var(--space-4);}
+  .bento-grid{grid-template-columns:1fr;}.bento-col-2,.bento-col-3{grid-column:span 1;}.bento-row-2{grid-row:span 1;}
+  .comp-grid-2{grid-template-columns:1fr;}
+  .ds-dialog{width:95vw;padding:var(--space-6);}
+  h1{font-size:1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="theme-switcher">
+  <button onclick="setTheme('night')" class="active" title="夜间">🌙</button>
+  <button onclick="setTheme('day')" title="日间">☀️</button>
+  <button onclick="setTheme('classic')" title="经典">📖</button>
+</div>
+
+<div class="container page-demo">
+
+<!-- ===== HERO ===== -->
+<section class="section" style="padding-top:80px;">
+  <div style="max-width:720px;">
+    <div class="ds-badge brand" style="margin-bottom:16px;">v7.1 · Full Library</div>
+    <h1 style="margin-bottom:12px;">超级牛马 <span class="text-gradient">Design System</span></h1>
+    <p style="font-size:1.1rem;color:var(--text-secondary);">
+      40+ 组件 · Double-Bezel · Fluid Island · Magnetic Motion · Glass Surface · Bento Grid · Dark/Light/Classic 三主题
+    </p>
+  </div>
+</section>
+
+<!-- ===== SIDEBAR NAV RAIL ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Layout</div><h2>Nav Rail 侧边导航轨</h2><p>图标列 · glass态 · active光晕。</p></div>
+  <div class="comp-row" style="align-items:flex-start;">
+    <div class="ds-nav-rail">
+      <div class="ds-nav-icon active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <div class="ds-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="ds-nav-icon ds-notif-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+      <div class="ds-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></div>
+      <div class="ds-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== DIALOG / MODAL ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Dialog / Modal 弹窗</h2><p>玻璃态遮罩 + 弹性弹出动画。</p></div>
+  <div class="comp-row">
+    <button class="ds-btn-secondary" onclick="openDialog()">打开弹窗示例</button>
+  </div>
+  <div class="ds-overlay" id="demoDialog" style="display:none;" onclick="if(event.target===this)closeDialog()">
+    <div class="ds-dialog">
+      <div class="ds-dialog-header">
+        <h3 style="margin:0;">Skill 详情</h3>
+        <button class="ds-btn-icon" onclick="closeDialog()" style="width:32px;height:32px;font-size:16px;">&times;</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div class="ds-avatar brand ds-avatar-lg">DS</div>
+        <div><div style="font-weight:600;">深度研究</div><div class="ds-badge brand" style="margin-top:4px;">推荐</div></div>
+      </div>
+      <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">结构化深度调研，多 Agent 并行搜索与交叉验证。覆盖学术、技术、市场三大领域，自动生成带引用来源的研究报告。</p>
+      <div class="ds-dialog-footer">
+        <button class="ds-btn-ghost danger" onclick="closeDialog()">删除</button>
+        <button class="ds-btn-magnetic" style="padding:8px 20px;font-size:0.85rem;" onclick="closeDialog()">
+          安装<span class="btn-icon-circle" style="width:22px;height:22px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== MESSAGE BUBBLES ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Message Bubbles 对话气泡</h2><p>用户泡(右对齐·窄) + AI泡(左对齐·宽) · hover微浮。</p></div>
+  <div class="comp-grid-2">
+    <div class="ds-glass-card" style="display:flex;flex-direction:column;gap:16px;padding:24px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div class="ds-avatar brand ds-avatar-sm">刘</div><span style="font-size:0.75rem;color:var(--text-tertiary);">用户 · 14:32</span></div>
+      <div class="ds-bubble-user">帮我分析一下这段代码的性能瓶颈在哪里？</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;margin-top:8px;"><div class="ds-avatar purple ds-avatar-sm">AI</div><span style="font-size:0.75rem;color:var(--text-tertiary);">Hermes · 14:32</span></div>
+      <div class="ds-bubble-ai">从代码分析来看，主要性能瓶颈有三个：<br><br>1. <strong>N+1查询问题</strong> — 第23行的循环内数据库查询<br>2. <strong>未使用索引</strong> — user_id字段缺少索引，全表扫描<br>3. <strong>同步阻塞</strong> — 第47行的API调用未做异步处理</div>
+    </div>
+    <div class="ds-glass-card" style="padding:24px;">
+      <div class="text-gradient" style="font-weight:600;margin-bottom:16px;">多种气泡样式</div>
+      <div class="ds-bubble-user" style="margin-bottom:12px;">短消息</div>
+      <div class="ds-bubble-ai" style="margin-bottom:12px;">中等长度的回复，包含格式化文本和 <code style="background:var(--bg-overlay);padding:2px 6px;border-radius:4px;font-size:0.85em;">inline code</code></div>
+      <div class="ds-bubble-ai">
+        <div style="font-weight:600;margin-bottom:4px;">长回复标题</div>
+        长篇回复内容，支持多个段落。第二段内容展示气泡的自适应高度和换行行为。第三段展示在大段文字中气泡的阅读体验，行高和字间距都经过了精心调整。
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== CODE BLOCK ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Code Block 代码块</h2><p>暗底 · 语法高亮 · 复制按钮。</p></div>
+  <div class="ds-code-block" style="max-width:680px;">
+    <div class="ds-code-header">
+      <span class="ds-code-lang">Python</span>
+      <button class="ds-code-copy">复制</button>
+    </div>
+    <div class="ds-code-body">
+<span class="kw">import</span> asyncio<br><br>
+<span class="kw">async def</span> <span class="fn">fetch_data</span>(url: <span class="kw">str</span>) -> <span class="kw">dict</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># 异步获取数据，超时10秒</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">async with</span> aiohttp.ClientSession() <span class="kw">as</span> session:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">async with</span> session.get(url, timeout=<span class="str">10</span>) <span class="kw">as</span> resp:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return await</span> resp.json()
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== FORMS: INPUT / CHECKBOX / RADIO / SELECT ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Forms 表单系统</h2><p>Input · Textarea · Checkbox · Radio · Select · Form Group。</p></div>
+  <div class="comp-grid-2">
+    <div class="ds-glass-card">
+      <div class="ds-form-group">
+        <label class="ds-form-label">项目名称</label>
+        <input class="ds-input-glass" placeholder="输入项目名称..." value="赛博工坊 v2.0">
+        <div class="ds-form-hint">支持中英文、数字和下划线</div>
+      </div>
+      <div class="ds-form-group">
+        <label class="ds-form-label">描述</label>
+        <textarea class="ds-textarea-glass" placeholder="简要描述项目目标和范围..."></textarea>
+      </div>
+      <div class="ds-form-group">
+        <label class="ds-form-label">项目类型</label>
+        <div class="ds-dropdown" id="demoDropdown">
+          <button class="ds-select-btn" onclick="toggleDropdown('demoDropdown')">
+            选择类型 <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="ds-dropdown-menu" id="demoDropdown-menu">
+            <div class="ds-dropdown-item selected">研发项目</div>
+            <div class="ds-dropdown-item">内容创作</div>
+            <div class="ds-dropdown-item">数据分析</div>
+            <div class="ds-dropdown-divider"></div>
+            <div class="ds-dropdown-item">自定义</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:var(--space-6);margin-top:16px;">
+        <label class="ds-checkbox"><input type="checkbox" checked><span class="ds-checkbox-mark"></span>自动保存</label>
+        <label class="ds-checkbox"><input type="checkbox"><span class="ds-checkbox-mark"></span>通知提醒</label>
+      </div>
+      <div style="display:flex;gap:var(--space-6);margin-top:12px;">
+        <label class="ds-radio"><input type="radio" name="demo-radio" checked><span class="ds-radio-mark"></span>公开</label>
+        <label class="ds-radio"><input type="radio" name="demo-radio"><span class="ds-radio-mark"></span>私有</label>
+      </div>
+    </div>
+    <div class="ds-glass-card">
+      <div style="font-weight:600;margin-bottom:12px;">表单验证状态</div>
+      <div class="ds-form-group">
+        <label class="ds-form-label">API Key</label>
+        <input class="ds-input-glass" placeholder="sk-..." style="border-color:rgba(34,197,94,0.3);">
+        <div class="ds-form-hint" style="color:var(--green);">✓ 连接成功</div>
+      </div>
+      <div class="ds-form-group">
+        <label class="ds-form-label">端口号</label>
+        <input class="ds-input-glass" value="99999" style="border-color:rgba(248,113,113,0.3);">
+        <div class="ds-form-error">端口号超出范围 (1-65535)</div>
+      </div>
+      <div style="display:flex;gap:var(--space-3);margin-top:16px;">
+        <button class="ds-btn-secondary">重置</button>
+        <button class="ds-btn-magnetic" style="padding:8px 20px;font-size:0.85rem;">保存设置</button>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== FILE LIST ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>File List 文件列表</h2><p>文件夹 · 文档 · 图片 · 代码 · 元信息。</p></div>
+  <div class="ds-glass-card" style="max-width:520px;">
+    <div class="ds-file-item">
+      <div class="ds-file-icon folder"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+      <div class="ds-file-info"><div class="ds-file-name">src/</div><div class="ds-file-meta">文件夹 · 12项</div></div>
+      <span class="ds-counter">12</span>
+    </div>
+    <div class="ds-file-item">
+      <div class="ds-file-icon doc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div class="ds-file-info"><div class="ds-file-name">README.md</div><div class="ds-file-meta">文档 · 4.2 KB · 06-24</div></div>
+    </div>
+    <div class="ds-file-item">
+      <div class="ds-file-icon img"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+      <div class="ds-file-info"><div class="ds-file-name">banner.png</div><div class="ds-file-meta">图片 · 1.2 MB · 06-23</div></div>
+    </div>
+    <div class="ds-file-item">
+      <div class="ds-file-icon code"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+      <div class="ds-file-info"><div class="ds-file-name">app.py</div><div class="ds-file-meta">代码 · 8.7 KB · 06-24</div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== TABLE ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Table 数据表格</h2><p>轻量 · hover行高亮 · 状态标识。</p></div>
+  <div class="ds-glass-card" style="padding:0;overflow:hidden;">
+    <table class="ds-table">
+      <thead><tr><th>任务</th><th>状态</th><th>Agent</th><th>时间</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>数据清洗</td><td><span class="ds-badge green">已完成</span></td><td><div style="display:flex;align-items:center;gap:6px;"><div class="ds-avatar brand ds-avatar-sm">H</div>Hermes</div></td><td>14:32</td><td><span class="ds-dot online"></span></td></tr>
+        <tr><td>竞品分析</td><td><span class="ds-badge brand">进行中</span></td><td><div style="display:flex;align-items:center;gap:6px;"><div class="ds-avatar purple ds-avatar-sm">D</div>DeepSeek</div></td><td>15:10</td><td><span class="ds-dot online"></span></td></tr>
+        <tr><td>周报生成</td><td><span class="ds-badge amber">待处理</span></td><td><div style="display:flex;align-items:center;gap:6px;"><div class="ds-avatar green ds-avatar-sm">G</div>Gamma</div></td><td>—</td><td><span class="ds-dot off"></span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== TIMELINE ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Timeline 时间线</h2><p>活动流 · 状态节点 · 时间戳。</p></div>
+  <div class="ds-glass-card" style="max-width:480px;">
+    <div class="ds-timeline">
+      <div class="ds-timeline-item">
+        <div class="ds-timeline-dot done"></div>
+        <div class="ds-timeline-time">14:32</div>
+        <div style="font-size:0.85rem;font-weight:500;">任务完成：数据清洗</div>
+        <div style="font-size:0.75rem;color:var(--text-tertiary);">处理 12,847 条记录 · Hermes</div>
+      </div>
+      <div class="ds-timeline-item">
+        <div class="ds-timeline-dot active"></div>
+        <div class="ds-timeline-time">14:45</div>
+        <div style="font-size:0.85rem;font-weight:500;">涌现洞察</div>
+        <div style="font-size:0.75rem;color:var(--text-tertiary);">发现 3 个新行为模式 · 太极引擎</div>
+      </div>
+      <div class="ds-timeline-item">
+        <div class="ds-timeline-dot"></div>
+        <div class="ds-timeline-time">15:00</div>
+        <div style="font-size:0.85rem;font-weight:500;">SOP 更新</div>
+        <div style="font-size:0.75rem;color:var(--text-tertiary);">竞品分析流程新增飞书知识库节点</div>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== PROGRESS + SKELETON + SPINNER ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Progress · Skeleton · Spinner</h2><p>进度条 · 骨架屏 · 加载旋转。</p></div>
+  <div class="comp-grid-2">
+    <div class="ds-glass-card">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:0.8rem;">下载进度</span><span style="font-size:0.75rem;color:var(--brand);">68%</span></div>
+      <div class="ds-progress"><div class="ds-progress-bar" style="width:68%;"></div></div>
+      <div style="margin-top:16px;"><span style="font-size:0.8rem;margin-bottom:6px;display:block;">处理中（不定长）</span></div>
+      <div class="ds-progress"><div class="ds-progress-indeterminate"></div></div>
+    </div>
+    <div class="ds-glass-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div class="ds-skeleton ds-skeleton-avatar"></div>
+        <div style="flex:1;"><div class="ds-skeleton ds-skeleton-text" style="width:60%;"></div><div class="ds-skeleton ds-skeleton-text" style="width:40%;"></div></div>
+      </div>
+      <div class="ds-skeleton ds-skeleton-card"></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:12px;">
+        <div class="ds-spinner"></div><span style="font-size:0.8rem;color:var(--text-tertiary);">加载中...</span>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== TOGGLE / TAG / BADGE / COUNTER ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Toggle · Tag · Badge · Counter · Avatar · Dot</h2><p>微型组件合集。</p></div>
+  <div class="comp-grid-2">
+    <div class="ds-glass-card">
+      <div style="font-weight:600;margin-bottom:12px;">Toggle Pill 胶囊开关</div>
+      <div style="display:flex;gap:var(--space-4);align-items:center;">
+        <div style="display:flex;align-items:center;gap:10px;"><div class="ds-toggle-pill on" onclick="this.classList.toggle('on')"></div><span style="font-size:0.8rem;">已启用</span></div>
+        <div style="display:flex;align-items:center;gap:10px;"><div class="ds-toggle-pill" onclick="this.classList.toggle('on')"></div><span style="font-size:0.8rem;">已关闭</span></div>
+      </div>
+      <div style="font-weight:600;margin-bottom:12px;margin-top:20px;">Tags 标签</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <span class="ds-tag active">全部</span><span class="ds-tag">前端</span><span class="ds-tag">后端 <span class="tag-close">&times;</span></span><span class="ds-tag">AI/ML</span>
+      </div>
+    </div>
+    <div class="ds-glass-card">
+      <div style="font-weight:600;margin-bottom:12px;">Badges & Status</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px;">
+        <span class="ds-badge brand">内置</span><span class="ds-badge green">已安装</span><span class="ds-badge amber">推荐</span><span class="ds-badge purple">自创建</span><span class="ds-badge coral">错误</span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;">
+        <span style="display:inline-flex;align-items:center;gap:6px;"><span class="ds-dot online"></span> 在线</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;"><span class="ds-dot warn"></span> 警告</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;"><span class="ds-dot off"></span> 离线</span>
+        <span class="ds-counter">+99</span>
+      </div>
+      <div style="font-weight:600;margin-bottom:12px;">Avatars</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <div class="ds-avatar brand">刘</div>
+        <div class="ds-avatar purple">AI</div>
+        <div class="ds-avatar green">D</div>
+        <div class="ds-avatar amber ds-avatar-sm">S</div>
+        <div class="ds-avatar brand ds-avatar-lg">H</div>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== EMPTY STATE ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Empty State 空白态</h2><p>无数据时的友好提示。</p></div>
+  <div class="ds-glass-card" style="max-width:480px;">
+    <div class="ds-empty">
+      <div class="ds-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+      <div class="ds-empty-title">暂无文件</div>
+      <div class="ds-empty-desc">点击上方"上传"按钮或拖拽文件到此处开始</div>
+      <button class="ds-btn-secondary" style="margin-top:16px;">上传文件</button>
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== BREADCRUMBS + PAGINATION ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Breadcrumbs · Pagination</h2><p>面包屑导航 · 分页器。</p></div>
+  <div class="ds-glass-card" style="margin-bottom:16px;">
+    <div class="ds-breadcrumbs">
+      <a href="#">项目</a><span class="sep">/</span>
+      <a href="#">赛博工坊</a><span class="sep">/</span>
+      <span style="color:var(--text-primary);">任务详情</span>
+    </div>
+  </div>
+  <div class="ds-glass-card">
+    <div class="ds-pagination">
+      <button class="ds-page-btn">‹</button>
+      <button class="ds-page-btn active">1</button>
+      <button class="ds-page-btn">2</button>
+      <button class="ds-page-btn">3</button>
+      <button class="ds-page-btn">...</button>
+      <button class="ds-page-btn">12</button>
+      <button class="ds-page-btn">›</button>
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== CONTEXT MENU ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Context Menu 右键菜单</h2><p>玻璃态 · 危险操作红色高亮。</p></div>
+  <div class="ds-context-menu" style="position:relative;display:inline-block;">
+    <div class="ds-context-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</div>
+    <div class="ds-context-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 引用</div>
+    <div class="ds-context-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> 重新生成</div>
+    <div class="ds-context-divider"></div>
+    <div class="ds-context-item danger"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> 删除</div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== STAT CARDS ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Stat Cards 统计卡片</h2><p>关键指标展示 · 趋势指示。</p></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:var(--space-4);">
+    <div class="ds-glass-card ds-stat">
+      <div class="ds-stat-value text-gradient">12.4K</div>
+      <div class="ds-stat-label">今日 Token</div>
+      <div class="ds-stat-trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> +12.5%</div>
+    </div>
+    <div class="ds-glass-card ds-stat">
+      <div class="ds-stat-value" style="color:var(--green);">47</div>
+      <div class="ds-stat-label">活跃模块</div>
+      <div class="ds-stat-trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> +3</div>
+    </div>
+    <div class="ds-glass-card ds-stat">
+      <div class="ds-stat-value" style="color:var(--coral);">2.8s</div>
+      <div class="ds-stat-label">平均响应</div>
+      <div class="ds-stat-trend down"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg> +0.3s</div>
+    </div>
+    <div class="ds-glass-card ds-stat">
+      <div class="ds-stat-value" style="color:var(--amber);">89%</div>
+      <div class="ds-stat-label">压缩率</div>
+      <div class="ds-stat-trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> +5%</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== BENTO GRID LAB PANEL ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Layout</div><h2>Bento Grid 实验室面板</h2><p>4列不对称 + dense填充 · 零空隙。</p></div>
+  <div class="bento-grid">
+    <div class="ds-card-shell bento-col-2 bento-row-2"><div class="ds-card-core" style="height:100%;display:flex;flex-direction:column;justify-content:space-between;">
+      <div><div class="ds-badge brand" style="margin-bottom:8px;">太极引擎</div><h3 style="margin-bottom:4px;">递归进化引擎</h3><p style="font-size:0.8rem;color:var(--text-secondary);">微型周期 · 每日周期 · 意识流追踪</p></div>
+      <div style="display:flex;gap:12px;align-items:center;"><span class="ds-dot online"></span><span style="font-size:0.8rem;color:var(--text-secondary);">运行中 · v1.7</span></div>
+    </div></div>
+    <div class="ds-card-shell"><div class="ds-card-core" style="text-align:center;"><div style="font-size:2rem;font-weight:700;">47</div><div style="font-size:0.75rem;color:var(--text-tertiary);">活跃模块</div></div></div>
+    <div class="ds-card-shell"><div class="ds-card-core" style="text-align:center;"><div style="font-size:2rem;font-weight:700;color:var(--teal);">12.4K</div><div style="font-size:0.75rem;color:var(--text-tertiary);">今日Token</div></div></div>
+    <div class="ds-card-shell bento-col-2"><div class="ds-card-core">
+      <div class="ds-badge amber" style="margin-bottom:8px;">涌现</div>
+      <h3 style="margin-bottom:4px;font-size:0.95rem;">模块协同洞察</h3>
+      <p style="font-size:0.75rem;color:var(--text-secondary);">compression_engine + memory 产生 3 个新行为模式</p>
+    </div></div>
+    <div class="ds-card-shell"><div class="ds-card-core">
+      <div style="font-size:0.85rem;font-weight:600;margin-bottom:8px;">Token压缩率</div>
+      <div style="display:flex;align-items:flex-end;gap:4px;margin-bottom:8px;"><span style="font-size:1.8rem;font-weight:700;">68</span><span style="font-size:1rem;color:var(--green);">%</span></div>
+      <div class="ds-progress"><div class="ds-progress-bar" style="width:68%;"></div></div>
+    </div></div>
+    <div class="ds-card-shell"><div class="ds-card-core" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+      <div style="width:56px;height:56px;border-radius:50%;background:var(--accent-gradient);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-glow);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <span style="font-size:0.75rem;color:var(--text-secondary);">系统健康</span>
+    </div></div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== TOAST NOTIFICATIONS ===== -->
+<section class="section">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Toast Notifications 通知</h2><p>成功 · 错误 · 信息。</p></div>
+  <div class="comp-row" style="flex-direction:column;gap:var(--space-3);">
+    <div class="ds-toast success">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      <span>任务已成功完成</span>
+    </div>
+    <div class="ds-toast error">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      <span>连接超时，请重试</span>
+    </div>
+    <div class="ds-toast">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <span>新版本 v2.1 可用</span>
+    </div>
+  </div>
+  <div class="divider"></div>
+</section>
+
+<!-- ===== SPINNER SIZES ===== -->
+<section class="section" style="padding-bottom:var(--space-16);">
+  <div class="section-header"><div class="label-sm">Component</div><h2>Spinner Sizes</h2><p>小/中/大 · 品牌色旋转。</p></div>
+  <div style="display:flex;gap:var(--space-6);align-items:center;">
+    <div class="ds-spinner ds-spinner-sm"></div>
+    <div class="ds-spinner"></div>
+    <div class="ds-spinner ds-spinner-lg"></div>
+  </div>
+</section>
+
+<footer style="text-align:center;padding:var(--space-12) 0;color:var(--text-tertiary);font-size:0.8rem;">
+  超级牛马 · Design System v7.1 · 40+ Components · Dark/Light/Classic
+</footer>
+</div>
+
+<script>
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  document.querySelectorAll('.theme-switcher button').forEach(function(b){
+    b.classList.remove('active');
+    var tt=b.textContent.includes('月')?'night':b.textContent.includes('日')?'day':'classic';
+    if(tt===t)b.classList.add('active');
+  });
+}
+
+function openDialog(){document.getElementById('demoDialog').style.display='flex';}
+function closeDialog(){document.getElementById('demoDialog').style.display='none';}
+
+function toggleDropdown(id){
+  var btn=document.querySelector('#'+id+' .ds-select-btn');
+  var menu=document.getElementById(id+'-menu');
+  btn.classList.toggle('open');
+  menu.classList.toggle('open');
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.ds-dropdown')){
+    document.querySelectorAll('.ds-select-btn.open').forEach(function(b){b.classList.remove('open');});
+    document.querySelectorAll('.ds-dropdown-menu.open').forEach(function(m){m.classList.remove('open');});
+  }
+});
+
+document.querySelectorAll('.ds-tabs').forEach(function(tabs){
+  tabs.querySelectorAll('.ds-tab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      tabs.querySelectorAll('.ds-tab').forEach(function(t){t.classList.remove('active');});
+      tab.classList.add('active');
+    });
+  });
+});
+</script>
+</body>
+</html>

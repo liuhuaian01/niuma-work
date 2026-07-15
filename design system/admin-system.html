@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Niuma — Admin Component Library v1.1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- 依赖核心设计系统 -->
+<link rel="stylesheet" href="design-tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="admin-tokens.css">
+<link rel="stylesheet" href="admin-components.css">
+<style>
+body { display: flex; height: 100vh; overflow: hidden; }
+.page { overflow-y: auto; }
+
+.section { margin-bottom: var(--space-16); }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  margin-bottom: var(--space-3);
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  letter-spacing: var(--tracking-tighter);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-2);
+}
+.section-desc {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+  max-width: 640px;
+  margin-bottom: var(--space-6);
+}
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--color-border-subtle);
+  margin: var(--space-16) 0;
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation Rail -->
+<nav class="nav-rail">
+  <div class="nav-brand" title="Super Niuma Admin">
+    <div class="nav-brand-inner">A</div>
+  </div>
+  <div class="nav-spacer"></div>
+  <div class="nav-items">
+    <button class="nav-item active" title="组件总览">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    </button>
+    <button class="nav-item" title="增强表格"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg></button>
+    <button class="nav-item" title="增强表单"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/></svg></button>
+    <button class="nav-item" title="弹窗与抽屉"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
+    <button class="nav-item" title="工具组件"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+    <button class="nav-item" title="页面布局"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></button>
+    <button class="nav-item" title="设置页面"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></button>
+  </div>
+  <div class="nav-spacer"></div>
+  <div class="nav-footer">
+    <div class="theme-switcher">
+      <button class="theme-option active" data-theme="night" title="暗夜模式">N</button>
+      <button class="theme-option" data-theme="day" title="日间模式">D</button>
+      <button class="theme-option" data-theme="classic" title="经典模式">C</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Content -->
+<div class="page" id="top">
+
+<!-- Overview -->
+<div class="section" id="admin-overview">
+  <div class="section-label">Admin Component Library v1.1</div>
+  <div class="section-title">Super Niuma 后台组件库</div>
+  <div class="section-desc">
+    Ant Design 风格的后台管理组件系统。基于核心设计系统 v16.2 Token 体系构建，
+    包含增强表格、增强表单、弹窗抽屉、页面布局、设置页等完整后台场景组件。
+  </div>
+  <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-4)">
+    <span class="badge badge-brand">20 组件模块</span>
+    <span class="badge badge-info">30+ Token 变量</span>
+    <span class="badge badge-success">Ant Design 风格</span>
+    <span class="badge badge-default">玻璃态设计</span>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- Enhanced Table -->
+<div class="section" id="admin-table">
+  <div class="section-label">Admin Components</div>
+  <div class="section-title">增强表格</div>
+  <div class="section-desc">
+    完整后台表格系统：工具栏、斑马纹、多选列、排序头、固定表头、可展开行、分页。
+  </div>
+  <div class="table-container" style="margin-bottom:var(--space-6)">
+    <div class="table-toolbar">
+      <div class="table-toolbar-left">
+        <span class="table-toolbar-title">用户列表</span>
+        <div class="search-field" style="height:32px;max-width:240px">
+          <svg class="search-field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="搜索用户名或邮箱">
+        </div>
+      </div>
+      <div class="table-toolbar-right">
+        <button class="btn btn-outline btn-sm">导出</button>
+        <button class="btn btn-primary btn-sm">新增用户</button>
+      </div>
+    </div>
+    <div class="table-scroll" style="max-height:360px">
+      <table class="data-table striped">
+        <thead>
+          <tr>
+            <th class="col-checkbox"><label class="checkbox-wrapper" style="gap:0"><input type="checkbox" class="checkbox-input"><span class="checkbox-visual"><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></span></label></th>
+            <th>用户名</th>
+            <th class="sortable asc">邮箱 <span class="sort-icon"><svg class="asc-arrow" viewBox="0 0 10 6"><path d="M5 0L10 6H0z" fill="currentColor"/></svg><svg class="desc-arrow" viewBox="0 0 10 6"><path d="M5 6L0 0h10z" fill="currentColor"/></svg></span></th>
+            <th>角色</th>
+            <th>状态</th>
+            <th>创建时间</th>
+            <th style="text-align:right">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-checkbox"><label class="checkbox-wrapper" style="gap:0"><input type="checkbox" class="checkbox-input"><span class="checkbox-visual"><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></span></label></td>
+            <td><div style="display:flex;align-items:center;gap:var(--space-2)"><div class="avatar avatar-xs" style="background:var(--color-brand);color:#fff;font-size:10px">刘</div>刘淮安</div></td>
+            <td>liu@superniuma.com</td>
+            <td><span class="badge badge-brand">管理员</span></td>
+            <td><span class="status-pill status-pill-success"><span class="badge-dot" style="background:var(--color-success);box-shadow:0 0 6px color-mix(in srgb,var(--color-success) 40%,transparent)"></span>活跃</span></td>
+            <td>2026-03-15</td>
+            <td style="text-align:right"><button class="btn btn-text btn-xs">编辑</button><button class="btn btn-text btn-xs" style="color:var(--color-error)">删除</button></td>
+          </tr>
+          <tr>
+            <td class="col-checkbox"><label class="checkbox-wrapper" style="gap:0"><input type="checkbox" class="checkbox-input"><span class="checkbox-visual"><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></span></label></td>
+            <td><div style="display:flex;align-items:center;gap:var(--space-2)"><div class="avatar avatar-xs" style="background:var(--theme-success);color:#fff;font-size:10px">陈</div>陈晓明</div></td>
+            <td>chen@superniuma.com</td>
+            <td><span class="badge badge-info">编辑</span></td>
+            <td><span class="status-pill status-pill-success"><span class="badge-dot" style="background:var(--color-success);box-shadow:0 0 6px color-mix(in srgb,var(--color-success) 40%,transparent)"></span>活跃</span></td>
+            <td>2026-04-02</td>
+            <td style="text-align:right"><button class="btn btn-text btn-xs">编辑</button><button class="btn btn-text btn-xs" style="color:var(--color-error)">删除</button></td>
+          </tr>
+          <tr>
+            <td class="col-checkbox"><label class="checkbox-wrapper" style="gap:0"><input type="checkbox" class="checkbox-input"><span class="checkbox-visual"><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></span></label></td>
+            <td><div style="display:flex;align-items:center;gap:var(--space-2)"><div class="avatar avatar-xs" style="background:var(--theme-warning);color:#fff;font-size:10px">王</div>王思远</div></td>
+            <td>wang@superniuma.com</td>
+            <td><span class="badge badge-default">访客</span></td>
+            <td><span class="status-pill status-pill-warning"><span class="badge-dot" style="background:var(--color-warning);box-shadow:0 0 6px color-mix(in srgb,var(--color-warning) 40%,transparent)"></span>离线</span></td>
+            <td>2026-05-20</td>
+            <td style="text-align:right"><button class="btn btn-text btn-xs">编辑</button><button class="btn btn-text btn-xs" style="color:var(--color-error)">删除</button></td>
+          </tr>
+          <tr>
+            <td class="col-checkbox"><label class="checkbox-wrapper" style="gap:0"><input type="checkbox" class="checkbox-input"><span class="checkbox-visual"><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></span></label></td>
+            <td><div style="display:flex;align-items:center;gap:var(--space-2)"><div class="avatar avatar-xs" style="background:var(--theme-error);color:#fff;font-size:10px">张</div>张伟杰</div></td>
+            <td>zhang@superniuma.com</td>
+            <td><span class="badge badge-info">编辑</span></td>
+            <td><span class="status-pill status-pill-error"><span class="badge-dot" style="background:var(--color-error);box-shadow:0 0 6px color-mix(in srgb,var(--color-error) 40%,transparent)"></span>禁用</span></td>
+            <td>2026-06-01</td>
+            <td style="text-align:right"><button class="btn btn-text btn-xs">编辑</button><button class="btn btn-text btn-xs" style="color:var(--color-error)">删除</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:var(--space-3) var(--space-5);border-top:1px solid var(--color-border-subtle)">
+      <span class="pagination-info">共 256 条，第 1/26 页</span>
+      <div class="pagination">
+        <span class="pagination-arrow disabled"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></span>
+        <span class="pagination-page active">1</span>
+        <span class="pagination-page">2</span>
+        <span class="pagination-page">3</span>
+        <span class="pagination-page">…</span>
+        <span class="pagination-page">26</span>
+        <span class="pagination-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- Enhanced Forms -->
+<div class="section" id="admin-forms">
+  <div class="section-label">Admin Components</div>
+  <div class="section-title">增强表单</div>
+  <div class="section-desc">
+    水平表单、行内表单、输入组、选择器、选项框组。完整校验状态与布局系统。
+  </div>
+  <div class="card-premium" style="padding:var(--space-8);margin-bottom:var(--space-6);max-width:640px">
+    <div style="margin-bottom:var(--space-4);font-family:var(--font-mono);font-size:var(--text-2xs);color:var(--color-info);text-transform:uppercase;letter-spacing:var(--tracking-wider)">水平表单布局</div>
+    <div class="form-horizontal">
+      <div class="form-item">
+        <div class="form-label-col"><label class="form-item-label" style="margin-top:var(--space-2)"><span class="required-mark">*</span>用户名</label></div>
+        <div class="form-control-col"><input class="input" type="text" placeholder="请输入用户名"></div>
+      </div>
+      <div class="form-item">
+        <div class="form-label-col"><label class="form-item-label"><span class="required-mark">*</span>邮箱</label></div>
+        <div class="form-control-col"><input class="input" type="email" placeholder="请输入邮箱地址"></div>
+      </div>
+      <div class="form-item">
+        <div class="form-label-col"><label class="form-item-label">手机号</label></div>
+        <div class="form-control-col">
+          <div class="input-wrapper">
+            <span class="input-addon">+86</span>
+            <input class="input" type="tel" placeholder="请输入手机号" style="border-radius:0 var(--radius-sm) var(--radius-sm) 0">
+          </div>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-label-col"><label class="form-item-label">角色</label></div>
+        <div class="form-control-col">
+          <div class="select-wrapper" style="max-width:240px">
+            <div class="select-trigger"><span class="placeholder">请选择角色</span><span class="select-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-label-col"></div>
+        <div class="form-control-col">
+          <label class="checkbox-wrapper">
+            <input type="checkbox" class="checkbox-input" checked>
+            <span class="checkbox-visual"><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></span>
+            <span class="checkbox-label">我已阅读并同意服务条款</span>
+          </label>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-label-col"></div>
+        <div class="form-control-col">
+          <div class="form-actions" style="margin-top:0;padding-top:0;border-top:none">
+            <button class="btn btn-primary btn-md">提交</button>
+            <button class="btn btn-ghost btn-md">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);margin-bottom:var(--space-6)">
+    <div class="card-premium" style="padding:var(--space-6)">
+      <div class="demo-label">行内表单</div>
+      <div class="form-inline">
+        <div class="form-item"><input class="input" type="text" placeholder="用户名" style="width:160px"></div>
+        <div class="form-item">
+          <div class="select-wrapper" style="width:120px">
+            <div class="select-trigger" style="height:42px;font-size:var(--text-sm)"><span>角色</span><span class="select-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-md">查询</button>
+        <button class="btn btn-ghost btn-md">重置</button>
+      </div>
+    </div>
+    <div class="card-premium" style="padding:var(--space-6)">
+      <div class="demo-label">选项框组</div>
+      <div style="display:flex;gap:var(--space-8)">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:var(--text-2xs);color:var(--color-text-tertiary);margin-bottom:var(--space-2)">Checkbox</div>
+          <div class="checkbox-group">
+            <label class="checkbox-wrapper"><input type="checkbox" class="checkbox-input" checked><span class="checkbox-visual"><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></span><span class="checkbox-label">选项 A</span></label>
+            <label class="checkbox-wrapper"><input type="checkbox" class="checkbox-input"><span class="checkbox-visual"><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></span><span class="checkbox-label">选项 B</span></label>
+            <label class="checkbox-wrapper"><input type="checkbox" class="checkbox-input" checked><span class="checkbox-visual"><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></span><span class="checkbox-label">选项 C</span></label>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-mono);font-size:var(--text-2xs);color:var(--color-text-tertiary);margin-bottom:var(--space-2)">Radio</div>
+          <div class="radio-group">
+            <label class="radio-wrapper"><input type="radio" name="demo-radio" class="radio-input" checked><span class="radio-visual"><span class="radio-inner"></span></span><span class="radio-label">通知所有消息</span></label>
+            <label class="radio-wrapper"><input type="radio" name="demo-radio" class="radio-input"><span class="radio-visual"><span class="radio-inner"></span></span><span class="radio-label">仅重要消息</span></label>
+            <label class="radio-wrapper"><input type="radio" name="demo-radio" class="radio-input"><span class="radio-visual"><span class="radio-inner"></span></span><span class="radio-label">完全不通知</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- ==================== P1: DatePicker / Slider / InputNumber ==================== -->
+<div class="section" id="admin-pickers">
+  <div class="section-label">Admin Components — NEW</div>
+  <div class="section-title">日期选择器 · 滑块 · 数字输入</div>
+  <div class="section-desc">对标 Ant Design 的 DatePicker、Slider、InputNumber 组件。Token 驱动，三主题自适应。</div>
+
+  <!-- ── DATEPICKER ── -->
+  <div class="sg-section" style="margin-bottom:var(--space-8)">
+    <div class="sg-section-title" style="font-size:var(--text-sm);font-weight:var(--fw-semibold);color:var(--color-text-primary);margin-bottom:var(--space-4)">📅 DatePicker</div>
+    <div class="demo-row" style="margin-bottom:var(--space-4)">
+      <div class="demo-col"><span class="demo-label">Default</span>
+        <div class="datepicker">
+          <svg class="datepicker-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span class="datepicker-value placeholder">选择日期</span>
+        </div>
+      </div>
+      <div class="demo-col"><span class="demo-label">Selected</span>
+        <div class="datepicker">
+          <svg class="datepicker-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span class="datepicker-value">2026-06-27</span>
+          <button class="datepicker-clear" style="display:flex"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+      </div>
+      <div class="demo-col"><span class="demo-label">Disabled</span>
+        <div class="datepicker disabled">
+          <svg class="datepicker-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span class="datepicker-value">2026-06-27</span>
+        </div>
+      </div>
+    </div>
+    <!-- DatePicker Panel Showcase -->
+    <div class="datepicker" style="position:relative;width:fit-content;margin-bottom:var(--space-3)">
+      <svg class="datepicker-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span class="datepicker-value">2026-06-27</span>
+      <!-- Panel (always visible for demo) -->
+      <div class="datepicker-panel" style="position:relative;top:0;display:block;box-shadow:none;border:1px solid var(--color-border-subtle);margin-top:8px">
+        <div class="dp-header">
+          <button class="dp-nav-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="dp-month-year">2026年6月</span>
+          <button class="dp-nav-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+        <div class="dp-weekdays"><span class="dp-weekday">一</span><span class="dp-weekday">二</span><span class="dp-weekday">三</span><span class="dp-weekday">四</span><span class="dp-weekday">五</span><span class="dp-weekday">六</span><span class="dp-weekday">日</span></div>
+        <div class="dp-days">
+          <span class="dp-day dp-day--other-month">26</span><span class="dp-day dp-day--other-month">27</span><span class="dp-day dp-day--other-month">28</span><span class="dp-day dp-day--other-month">29</span><span class="dp-day dp-day--other-month">30</span><span class="dp-day dp-day--other-month">31</span><span class="dp-day">1</span>
+          <span class="dp-day">2</span><span class="dp-day">3</span><span class="dp-day">4</span><span class="dp-day">5</span><span class="dp-day">6</span><span class="dp-day">7</span><span class="dp-day">8</span>
+          <span class="dp-day">9</span><span class="dp-day">10</span><span class="dp-day">11</span><span class="dp-day">12</span><span class="dp-day">13</span><span class="dp-day">14</span><span class="dp-day">15</span>
+          <span class="dp-day">16</span><span class="dp-day">17</span><span class="dp-day">18</span><span class="dp-day">19</span><span class="dp-day">20</span><span class="dp-day">21</span><span class="dp-day">22</span>
+          <span class="dp-day">23</span><span class="dp-day">24</span><span class="dp-day">25</span><span class="dp-day">26</span><span class="dp-day dp-day--today">27</span><span class="dp-day dp-day--selected">28</span><span class="dp-day">29</span>
+          <span class="dp-day">30</span><span class="dp-day">1</span><span class="dp-day">2</span><span class="dp-day">3</span><span class="dp-day">4</span><span class="dp-day">5</span><span class="dp-day">6</span>
+        </div>
+        <div class="dp-footer"><button class="dp-today-btn">今天</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDER ── -->
+  <div class="sg-section" style="margin-bottom:var(--space-8)">
+    <div class="sg-section-title" style="font-size:var(--text-sm);font-weight:var(--fw-semibold);color:var(--color-text-primary);margin-bottom:var(--space-4)">🎚 Slider</div>
+    <div class="demo-row" style="margin-bottom:var(--space-4)">
+      <div class="demo-col" style="flex:1;min-width:200px"><span class="demo-label">Default (value: 45%)</span>
+        <div class="slider-wrapper">
+          <div class="slider" style="flex:1">
+            <div class="slider-track" style="width:45%"></div>
+            <div class="slider-handle" style="left:45%" tabindex="0" role="slider" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-secondary);min-width:32px;text-align:right">45</span>
+        </div>
+      </div>
+      <div class="demo-col" style="flex:1;min-width:200px"><span class="demo-label">With Marks</span>
+        <div class="slider-wrapper">
+          <div class="slider" style="flex:1">
+            <div class="slider-track" style="width:70%"></div>
+            <div class="slider-handle" style="left:70%" tabindex="0" role="slider" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:var(--text-3xs);color:var(--color-text-tertiary);padding:0 4px"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+      </div>
+    </div>
+    <div class="demo-row" style="margin-bottom:var(--space-4)">
+      <div class="demo-col" style="flex:1;min-width:200px"><span class="demo-label">Disabled</span>
+        <div class="slider-wrapper">
+          <div class="slider disabled" style="flex:1">
+            <div class="slider-track" style="width:60%"></div>
+            <div class="slider-handle" style="left:60%"></div>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-disabled);min-width:32px;text-align:right">60</span>
+        </div>
+      </div>
+      <div class="demo-col" style="flex:1;min-width:200px"><span class="demo-label">Range Slider</span>
+        <div class="slider-wrapper">
+          <div class="slider" style="flex:1">
+            <div class="slider-track" style="left:20%;width:40%"></div>
+            <div class="slider-handle" style="left:20%" tabindex="0" role="slider" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="slider-handle" style="left:60%" tabindex="0" role="slider" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-secondary);min-width:50px;text-align:right">20-60</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── INPUTNUMBER ── -->
+  <div class="sg-section" style="margin-bottom:var(--space-8)">
+    <div class="sg-section-title" style="font-size:var(--text-sm);font-weight:var(--fw-semibold);color:var(--color-text-primary);margin-bottom:var(--space-4)">🔢 InputNumber</div>
+    <div class="demo-row" style="margin-bottom:var(--space-4)">
+      <div class="demo-col"><span class="demo-label">Default (md)</span>
+        <div class="input-number input-number-md">
+          <input class="input-number-input" type="number" value="42" min="0" max="100">
+          <div class="input-number-stepper">
+            <button class="input-number-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+            <button class="input-number-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="demo-col"><span class="demo-label">Small (sm)</span>
+        <div class="input-number input-number-sm">
+          <input class="input-number-input" type="number" value="10" min="0" max="100">
+          <div class="input-number-stepper">
+            <button class="input-number-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+            <button class="input-number-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="demo-col"><span class="demo-label">Large (lg)</span>
+        <div class="input-number input-number-lg">
+          <input class="input-number-input" type="number" value="100" min="0" max="999">
+          <div class="input-number-stepper">
+            <button class="input-number-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+            <button class="input-number-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-col"><span class="demo-label">With Prefix</span>
+        <div class="input-number input-number-md">
+          <span class="input-number-prefix">¥</span>
+          <input class="input-number-input" type="number" value="199" min="0" step="0.01">
+          <div class="input-number-stepper">
+            <button class="input-number-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+            <button class="input-number-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="demo-col"><span class="demo-label">With Suffix</span>
+        <div class="input-number input-number-md">
+          <input class="input-number-input" type="number" value="85" min="0" max="100">
+          <div class="input-number-stepper">
+            <button class="input-number-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+            <button class="input-number-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          </div>
+          <span class="input-number-suffix">%</span>
+        </div>
+      </div>
+      <div class="demo-col"><span class="demo-label">Disabled</span>
+        <div class="input-number input-number-md disabled">
+          <input class="input-number-input" type="number" value="50" disabled>
+          <div class="input-number-stepper">
+            <button class="input-number-btn disabled"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+            <button class="input-number-btn disabled"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- Modal & Drawer -->
+<div class="section" id="admin-modals">
+  <div class="section-label">Admin Components</div>
+  <div class="section-title">弹窗 & 抽屉</div>
+  <div class="section-desc">多种尺寸变体、确认对话框、右侧抽屉面板。玻璃态遮罩，品牌光晕边框。</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);margin-bottom:var(--space-4)">
+    <div class="card-premium" style="padding:0;overflow:hidden">
+      <div class="modal-header">
+        <div class="modal-title" style="font-size:var(--text-base)">创建新项目</div>
+        <button class="btn btn-icon btn-icon-sm" style="color:var(--color-text-tertiary)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="modal-body" style="display:flex;flex-direction:column;gap:var(--space-4)">
+        <div class="form-item" style="margin-bottom:0"><label class="form-item-label"><span class="required-mark">*</span>项目名称</label><input class="input" type="text" placeholder="请输入项目名称"></div>
+        <div class="form-item" style="margin-bottom:0"><label class="form-item-label">项目描述</label><textarea class="textarea" placeholder="请输入项目描述" style="min-height:80px"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost btn-sm">取消</button>
+        <button class="btn btn-primary btn-sm">确认创建</button>
+      </div>
+    </div>
+    <div class="card-premium" style="padding:var(--space-8)">
+      <div class="confirm-dialog" style="padding:0">
+        <div class="modal-icon confirm" style="margin:0 auto var(--space-4)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div class="confirm-dialog-title">确认删除该用户？</div>
+        <div class="confirm-dialog-message">删除后数据将无法恢复，请谨慎操作。该用户关联的 3 个项目将被同时归档。</div>
+        <div style="display:flex;justify-content:center;gap:var(--space-3);margin-top:var(--space-6)">
+          <button class="btn btn-ghost btn-md">取消</button>
+          <button class="btn btn-danger btn-md">确认删除</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-premium" style="padding:0;overflow:hidden;max-width:400px;border-right:none">
+    <div class="drawer-header"><div class="drawer-title" style="font-size:var(--text-base)">用户详情</div><button class="drawer-close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="drawer-body">
+      <div class="descriptions bordered" style="border:none">
+        <div class="desc-row"><div class="desc-label">用户名</div><div class="desc-content">刘淮安</div></div>
+        <div class="desc-row"><div class="desc-label">邮箱</div><div class="desc-content">liu@superniuma.com</div></div>
+        <div class="desc-row"><div class="desc-label">角色</div><div class="desc-content"><span class="badge badge-brand">管理员</span></div></div>
+        <div class="desc-row"><div class="desc-label">创建时间</div><div class="desc-content">2026-03-15 14:30:00</div></div>
+      </div>
+      <div class="detail-section" style="margin-top:var(--space-6)">
+        <div class="detail-section-title">状态</div>
+        <div class="timeline" style="margin-top:var(--space-3)">
+          <div class="timeline-item"><div class="timeline-dot-wrap"><div class="timeline-dot success"></div><div class="timeline-line"></div></div><div class="timeline-content"><div class="timeline-title">账号创建</div><div class="timeline-time">2026-03-15 14:30</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot-wrap"><div class="timeline-dot success"></div><div class="timeline-line"></div></div><div class="timeline-content"><div class="timeline-title">邮箱验证通过</div><div class="timeline-time">2026-03-15 14:35</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot-wrap"><div class="timeline-dot success"></div><div class="timeline-line"></div></div><div class="timeline-content"><div class="timeline-title">完成初始设置</div><div class="timeline-time">2026-03-16 09:20</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot-wrap"><div class="timeline-dot"></div></div><div class="timeline-content"><div class="timeline-title">当前状态</div><div class="timeline-time" style="color:var(--color-success)">活跃 · 最近登录 10分钟前</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-footer"><button class="btn btn-ghost btn-sm">编辑</button><button class="btn btn-primary btn-sm">保存</button></div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- Utility Components -->
+<div class="section" id="admin-utils">
+  <div class="section-label">Admin Components</div>
+  <div class="section-title">工具组件</div>
+  <div class="section-desc">面包屑、步骤条、统计数值、描述列表、时间轴——Ant Design 后台管理核心原子组件。</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6)">
+    <div class="card-premium" style="padding:var(--space-6);grid-column:1">
+      <div class="demo-label">面包屑导航</div>
+      <div class="breadcrumb" style="margin-bottom:var(--space-8)">
+        <a class="breadcrumb-item">首页</a>
+        <a class="breadcrumb-item">系统管理<span class="breadcrumb-separator">/</span></a>
+        <a class="breadcrumb-item">用户管理<span class="breadcrumb-separator">/</span></a>
+        <span class="breadcrumb-item current">用户详情</span>
+      </div>
+      <div class="demo-label">水平步骤条</div>
+      <div class="steps-horizontal">
+        <div class="step-item done"><div class="step-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-content" style="margin-top:var(--space-2)"><div class="step-title">填写信息</div><div class="step-desc">已完成</div></div></div>
+        <div class="step-item active"><div class="step-icon">2</div><div class="step-content" style="margin-top:var(--space-2)"><div class="step-title">验证身份</div><div class="step-desc">进行中</div></div></div>
+        <div class="step-item wait"><div class="step-icon">3</div><div class="step-content" style="margin-top:var(--space-2)"><div class="step-title">设置密码</div><div class="step-desc">待完成</div></div></div>
+        <div class="step-item wait"><div class="step-icon">4</div><div class="step-content" style="margin-top:var(--space-2)"><div class="step-title">完成注册</div><div class="step-desc">待完成</div></div></div>
+      </div>
+    </div>
+    <div class="card-premium" style="padding:var(--space-6)">
+      <div class="demo-label">统计数值</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6)">
+        <div class="statistic"><div class="statistic-title">活跃用户</div><div class="statistic-value">1,286</div><div class="statistic-trend trend-up"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> 12.5%</div></div>
+        <div class="statistic"><div class="statistic-title">Token 消耗</div><div class="statistic-value">8.6<span class="statistic-suffix">M</span></div><div class="statistic-trend trend-down"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg> 3.2%</div></div>
+        <div class="statistic"><div class="statistic-title">API 调用</div><div class="statistic-value">99.8<span class="statistic-suffix">%</span></div><div class="statistic-trend" style="color:var(--color-text-tertiary)">同比持平</div></div>
+        <div class="statistic"><div class="statistic-title">任务完成</div><div class="statistic-value"><span class="statistic-prefix">¥</span>42,680</div><div class="statistic-trend trend-up"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> 8.1%</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);margin-top:var(--space-6)">
+    <div class="card-premium" style="padding:0;overflow:hidden">
+      <div class="demo-label" style="padding:var(--space-6) var(--space-6) 0">描述列表</div>
+      <div class="descriptions bordered" style="border:none">
+        <div class="desc-row"><div class="desc-label">项目名称</div><div class="desc-content">太极引擎 v3.0</div></div>
+        <div class="desc-row"><div class="desc-label">负责人</div><div class="desc-content">刘淮安</div></div>
+        <div class="desc-row"><div class="desc-label">开始时间</div><div class="desc-content">2026-03-15</div></div>
+        <div class="desc-row"><div class="desc-label">结束时间</div><div class="desc-content">2026-09-30</div></div>
+        <div class="desc-row"><div class="desc-label">当前状态</div><div class="desc-content"><span class="badge badge-success">进行中</span></div></div>
+        <div class="desc-row"><div class="desc-label">项目标签</div><div class="desc-content"><span class="entity-tag">引擎</span><span class="entity-tag">核心</span><span class="entity-tag active">P0</span></div></div>
+      </div>
+    </div>
+    <div class="card-premium" style="padding:var(--space-6)">
+      <div class="demo-label">时间轴</div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot-wrap"><div class="timeline-dot success"></div><div class="timeline-line"></div></div><div class="timeline-content"><div class="timeline-title">v3.0 正式发布</div><div class="timeline-time">2026-06-26 10:00</div><div class="timeline-desc">包含太极引擎11条铁则完整实现、自愈模块稳定运行。</div></div></div>
+        <div class="timeline-item"><div class="timeline-dot-wrap"><div class="timeline-dot success"></div><div class="timeline-line"></div></div><div class="timeline-content"><div class="timeline-title">Token压缩层上线</div><div class="timeline-time">2026-06-20 14:30</div></div></div>
+        <div class="timeline-item"><div class="timeline-dot-wrap"><div class="timeline-dot"></div><div class="timeline-line"></div></div><div class="timeline-content"><div class="timeline-title">铭心记忆系统 v1.0</div><div class="timeline-time">2026-06-18 09:15</div></div></div>
+        <div class="timeline-item"><div class="timeline-dot-wrap"><div class="timeline-dot pending"></div></div><div class="timeline-content"><div class="timeline-title" style="color:var(--color-text-tertiary)">分流调度引擎</div><div class="timeline-time">2026-06-25 计划上线</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- Page Layout -->
+<div class="section" id="admin-layout">
+  <div class="section-label">Page Layout</div>
+  <div class="section-title">后台管理页面布局</div>
+  <div class="section-desc">左侧导航 + 顶部导航栏 + 面包屑 + 内容区的标准后台布局。Ant Design Pro 经典三段式结构。</div>
+  <div class="card-premium" style="padding:0;overflow:hidden;margin-bottom:var(--space-6)">
+    <div class="topnav">
+      <div class="topnav-left">
+        <div class="topnav-logo"><div class="topnav-logo-icon">N</div>Super Niuma</div>
+        <div class="breadcrumb" style="margin-left:var(--space-6)">
+          <a class="breadcrumb-item">首页</a>
+          <a class="breadcrumb-item">系统管理<span class="breadcrumb-separator">/</span></a>
+          <span class="breadcrumb-item current">用户设置</span>
+        </div>
+      </div>
+      <div class="topnav-right">
+        <div class="search-field" style="height:32px;width:200px"><svg class="search-field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="搜索..."></div>
+        <button class="topnav-notification"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="badge-dot"></span></button>
+        <div class="topnav-user"><div class="avatar avatar-sm" style="background:var(--gradient-brand);color:#fff;font-size:12px">刘</div><span class="topnav-user-name">刘淮安</span></div>
+      </div>
+    </div>
+    <div style="display:flex;min-height:320px">
+      <div style="width:200px;flex-shrink:0;padding:var(--space-3);border-right:1px solid var(--color-border-subtle)">
+        <div class="tree" style="font-size:var(--text-xs)">
+          <div class="tree-node selected"><span class="tree-switcher expanded"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span><svg class="tree-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span class="tree-node-title">仪表盘</span></div>
+          <div class="tree-node"><span class="tree-switcher expanded"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span><svg class="tree-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span class="tree-node-title">系统管理</span></div>
+          <div class="tree-children">
+            <div class="tree-node selected" style="padding-left:var(--space-8)"><span class="tree-switcher placeholder"></span><span class="tree-node-title" style="color:var(--color-brand)">用户管理</span></div>
+            <div class="tree-node" style="padding-left:var(--space-8)"><span class="tree-switcher placeholder"></span><span class="tree-node-title">角色管理</span></div>
+            <div class="tree-node" style="padding-left:var(--space-8)"><span class="tree-switcher placeholder"></span><span class="tree-node-title">权限配置</span></div>
+          </div>
+          <div class="tree-node"><span class="tree-switcher placeholder"></span><svg class="tree-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="tree-node-title">消息中心</span></div>
+          <div class="tree-node"><span class="tree-switcher placeholder"></span><svg class="tree-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg><span class="tree-node-title">系统设置</span></div>
+        </div>
+      </div>
+      <div style="flex:1;padding:var(--space-6);overflow:hidden">
+        <div style="margin-bottom:var(--space-4)"><div style="font-size:var(--text-lg);font-weight:var(--fw-bold)">用户管理</div><div style="font-size:var(--text-sm);color:var(--color-text-secondary)">管理和查看系统中所有用户的信息与权限</div></div>
+        <div class="content-grid cols-3" style="margin-bottom:var(--space-4)">
+          <div class="statistic" style="background:var(--color-glass-bg);border:1px solid var(--color-border-subtle);border-radius:var(--radius-md);padding:var(--space-5)"><div class="statistic-title">总用户数</div><div class="statistic-value" style="font-size:var(--text-xl)">256</div></div>
+          <div class="statistic" style="background:var(--color-glass-bg);border:1px solid var(--color-border-subtle);border-radius:var(--radius-md);padding:var(--space-5)"><div class="statistic-title">活跃用户</div><div class="statistic-value" style="font-size:var(--text-xl);color:var(--color-success)">198</div></div>
+          <div class="statistic" style="background:var(--color-glass-bg);border:1px solid var(--color-border-subtle);border-radius:var(--radius-md);padding:var(--space-5)"><div class="statistic-title">新增用户</div><div class="statistic-value" style="font-size:var(--text-xl);color:var(--color-brand)">+12</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- Settings Page -->
+<div class="section" id="settings-page">
+  <div class="section-label">Settings Page</div>
+  <div class="section-title">系统设置页面</div>
+  <div class="section-desc">完整后台设置页：个人信息、系统配置、主题切换、通知偏好。Tab切换式内容区。</div>
+  <div class="card-premium" style="padding:0;overflow:hidden">
+    <div class="tabs" style="padding:0 var(--space-6)">
+      <button class="tab active">个人信息</button>
+      <button class="tab">系统配置</button>
+      <button class="tab">主题设置</button>
+      <button class="tab">通知偏好</button>
+    </div>
+    <div style="padding:var(--space-6)">
+      <div style="display:flex;gap:var(--space-8);align-items:flex-start">
+        <div style="flex-shrink:0;text-align:center">
+          <div class="avatar avatar-xl" style="background:var(--gradient-brand);color:#fff;font-size:30px;margin-bottom:var(--space-3)">刘</div>
+          <button class="btn btn-ghost btn-sm">更换头像</button>
+        </div>
+        <div style="flex:1;max-width:480px">
+          <div class="form-row cols-2">
+            <div class="form-item"><label class="form-item-label">用户名</label><input class="input" type="text" value="刘淮安"></div>
+            <div class="form-item"><label class="form-item-label">昵称</label><input class="input" type="text" placeholder="可选"></div>
+            <div class="form-item"><label class="form-item-label"><span class="required-mark">*</span>邮箱</label><input class="input" type="email" value="liu@superniuma.com"></div>
+            <div class="form-item"><label class="form-item-label">手机号</label><div class="input-wrapper"><span class="input-addon">+86</span><input class="input" type="tel" value="138****8888"></div></div>
+          </div>
+          <div class="form-item"><label class="form-item-label">个人简介</label><textarea class="textarea" placeholder="介绍一下自己..." style="min-height:80px">起点LV5作家，七猫AI写作系统开发负责人。十年网文写作经验。</textarea><span class="form-hint" style="margin-top:var(--space-1)">最多 200 字</span></div>
+          <div class="form-actions"><button class="btn btn-primary btn-md">保存修改</button><button class="btn btn-ghost btn-md">重置</button></div>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--color-border-subtle)"></div>
+    <div style="padding:var(--space-6)">
+      <div class="detail-section-title" style="margin-bottom:var(--space-4)">系统配置</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)">
+        <div class="card-feature" style="cursor:default">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div><div class="card-feature-title" style="margin-bottom:var(--space-1);font-size:var(--text-sm)">系统主题</div><div class="card-feature-desc" style="font-size:var(--text-xs)">当前: Night 暗夜模式</div></div>
+            <div class="theme-switcher" style="flex-shrink:0;height:fit-content"><button class="theme-option active">N</button><button class="theme-option">D</button><button class="theme-option">C</button></div>
+          </div>
+        </div>
+        <div class="card-feature" style="cursor:default"><div style="display:flex;align-items:center;justify-content:space-between"><div><div class="card-feature-title" style="margin-bottom:var(--space-1);font-size:var(--text-sm)">开启通知</div><div class="card-feature-desc" style="font-size:var(--text-xs)">接收系统推送</div></div><label class="toggle" style="flex-shrink:0"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label></div></div>
+        <div class="card-feature" style="cursor:default"><div style="display:flex;align-items:center;justify-content:space-between"><div><div class="card-feature-title" style="margin-bottom:var(--space-1);font-size:var(--text-sm)">自动保存</div><div class="card-feature-desc" style="font-size:var(--text-xs)">每5分钟自动保存</div></div><label class="toggle" style="flex-shrink:0"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label></div></div>
+        <div class="card-feature" style="cursor:default"><div style="display:flex;align-items:center;justify-content:space-between"><div><div class="card-feature-title" style="margin-bottom:var(--space-1);font-size:var(--text-sm)">匿名数据</div><div class="card-feature-desc" style="font-size:var(--text-xs)">帮助改进产品</div></div><label class="toggle" style="flex-shrink:0"><input type="checkbox"><span class="toggle-track"><span class="toggle-thumb"></span></span></label></div></div>
+        <div class="card-feature" style="cursor:default"><div style="display:flex;align-items:center;justify-content:space-between"><div><div class="card-feature-title" style="margin-bottom:var(--space-1);font-size:var(--text-sm)">开发者模式</div><div class="card-feature-desc" style="font-size:var(--text-xs)">显示高级调试信息</div></div><label class="toggle" style="flex-shrink:0"><input type="checkbox"><span class="toggle-track"><span class="toggle-thumb"></span></span></label></div></div>
+        <div class="card-feature" style="cursor:default"><div style="display:flex;align-items:center;justify-content:space-between"><div><div class="card-feature-title" style="margin-bottom:var(--space-1);font-size:var(--text-sm)">紧凑布局</div><div class="card-feature-desc" style="font-size:var(--text-xs)">减少视觉间距</div></div><label class="toggle" style="flex-shrink:0"><input type="checkbox"><span class="toggle-track"><span class="toggle-thumb"></span></span></label></div></div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--color-border-subtle);padding:var(--space-6)">
+      <div class="detail-section-title" style="margin-bottom:var(--space-4)">通知偏好</div>
+      <div style="max-width:480px">
+        <div class="radio-group">
+          <label class="radio-wrapper" style="padding:var(--space-4);border:1px solid var(--color-border-subtle);border-radius:var(--radius-md);background:var(--color-glass-bg);width:100%;cursor:pointer">
+            <input type="radio" name="notify-setting" class="radio-input" checked><span class="radio-visual"></span>
+            <div style="flex:1"><div style="font-size:var(--text-sm);font-weight:var(--fw-medium);color:var(--color-text-primary)">所有消息</div><div style="font-size:var(--text-xs);color:var(--color-text-tertiary);margin-top:2px">接收系统内所有通知推送，不错过任何重要信息</div></div>
+          </label>
+          <label class="radio-wrapper" style="padding:var(--space-4);border:1px solid var(--color-border-subtle);border-radius:var(--radius-md);background:var(--color-glass-bg);width:100%;cursor:pointer">
+            <input type="radio" name="notify-setting" class="radio-input"><span class="radio-visual"></span>
+            <div style="flex:1"><div style="font-size:var(--text-sm);font-weight:var(--fw-medium);color:var(--color-text-primary)">仅重要消息</div><div style="font-size:var(--text-xs);color:var(--color-text-tertiary);margin-top:2px">仅接收系统错误、安全警告、账户变更等关键通知</div></div>
+          </label>
+          <label class="radio-wrapper" style="padding:var(--space-4);border:1px solid var(--color-border-subtle);border-radius:var(--radius-md);background:var(--color-glass-bg);width:100%;cursor:pointer">
+            <input type="radio" name="notify-setting" class="radio-input"><span class="radio-visual"></span>
+            <div style="flex:1"><div style="font-size:var(--text-sm);font-weight:var(--fw-medium);color:var(--color-text-primary)">完全静音</div><div style="font-size:var(--text-xs);color:var(--color-text-tertiary);margin-top:2px">关闭所有浏览器通知，你仍可在消息中心查看</div></div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center;padding:var(--space-8) 0;border-top:1px solid var(--color-border-subtle);margin-top:var(--space-16)">
+  <span style="font-family:var(--font-mono);font-size:var(--text-2xs);color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:var(--tracking-wider)">Super Niuma Admin v1.0</span>
+  <div style="font-size:var(--text-xs);color:var(--color-text-tertiary);margin-top:var(--space-2)">Ant Design 风格 · 后台管理组件库 · 基于设计系统 v16.2</div>
+</div>
+
+</div><!-- .page -->
+
+</body>
+</html>

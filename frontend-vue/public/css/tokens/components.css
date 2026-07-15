@@ -1,0 +1,169 @@
+/* ============================================================
+   NEON PULSE v11.0 — Component Tokens
+   组件级微调令牌：给每个组件出厂默认值
+   这些值可被组件内联样式或变体覆写
+   ============================================================ */
+
+:root {
+  /* ═══════════════════════════════════════════
+     Button
+     ═══════════════════════════════════════════ */
+  --btn-padding-x: 22px;
+  --btn-padding-y: 10px;
+  --btn-padding-x-sm: 14px;
+  --btn-padding-y-sm: 6px;
+  --btn-padding-x-lg: 28px;
+  --btn-padding-y-lg: 14px;
+  --btn-radius: var(--radius-full);
+  --btn-gap: 8px;
+  --btn-font-size: 0.9rem;
+  --btn-font-size-sm: 0.75rem;
+  --btn-font-size-lg: 1rem;
+  --btn-icon-size: 28px;
+
+  /* ═══════════════════════════════════════════
+     Input / Textarea
+     ═══════════════════════════════════════════ */
+  --input-height: 42px;
+  --input-padding-x: 16px;
+  --input-padding-y: 11px;
+  --input-radius: var(--radius-md);
+  --input-font-size: 0.88rem;
+  --textarea-min-height: 90px;
+
+  /* ═══════════════════════════════════════════
+     Card
+     ═══════════════════════════════════════════ */
+  --card-padding: var(--space-6);
+  --card-radius: var(--radius-lg);
+  --card-gap: var(--space-4);
+
+  /* ═══════════════════════════════════════════
+     Dialog / Modal
+     ═══════════════════════════════════════════ */
+  --dialog-width: 500px;
+  --dialog-max-width: 92vw;
+  --dialog-max-height: 85vh;
+  --dialog-padding: var(--space-8);
+  --dialog-radius: var(--radius-xl);
+
+  /* ═══════════════════════════════════════════
+     Tooltip
+     ═══════════════════════════════════════════ */
+  --tooltip-offset: 8px;
+  --tooltip-radius: var(--radius-sm);
+  --tooltip-padding: 6px 12px;
+  --tooltip-font-size: 0.75rem;
+
+  /* ═══════════════════════════════════════════
+     Toast
+     ═══════════════════════════════════════════ */
+  --toast-offset: var(--space-4);
+  --toast-max-width: 380px;
+  --toast-radius: var(--radius-md);
+  --toast-padding: 14px 18px;
+
+  /* ═══════════════════════════════════════════
+     NavRail (侧栏)
+     ═══════════════════════════════════════════ */
+  --sidebar-width: 200px;
+  --sidebar-collapsed-width: 56px;
+  --sidebar-icon-size: 22px;
+  --sidebar-item-size: 46px;
+  --sidebar-radius: var(--radius-md);
+
+  /* ═══════════════════════════════════════════
+     Avatar
+     ═══════════════════════════════════════════ */
+  --avatar-size-xs: 24px;
+  --avatar-size-sm: 28px;
+  --avatar-size-md: 38px;
+  --avatar-size-lg: 54px;
+  --avatar-size-xl: 72px;
+
+  /* ═══════════════════════════════════════════
+     Badge
+     ═══════════════════════════════════════════ */
+  --badge-padding: 3px 11px;
+  --badge-radius: var(--radius-xs);
+  --badge-font-size: 11px;
+
+  /* ═══════════════════════════════════════════
+     Toggle
+     ═══════════════════════════════════════════ */
+  --toggle-width: 46px;
+  --toggle-height: 25px;
+  --toggle-knob-size: 19px;
+  --toggle-knob-offset: 2px;
+
+  /* ═══════════════════════════════════════════
+     Dropdown
+     ═══════════════════════════════════════════ */
+  --dropdown-min-width: 200px;
+  --dropdown-radius: var(--radius-md);
+  --dropdown-padding: 6px;
+  --dropdown-item-padding: 10px 14px;
+  --dropdown-offset: 8px;
+
+  /* ═══════════════════════════════════════════
+     Progress
+     ═══════════════════════════════════════════ */
+  --progress-height: 6px;
+  --progress-radius: 3px;
+
+  /* ═══════════════════════════════════════════
+     Code Block
+     ═══════════════════════════════════════════ */
+  --code-radius: var(--radius-md);
+  --code-padding: 16px 20px;
+  --code-font-size: 0.82rem;
+  --code-bg: rgba(0,0,0,.35);
+
+  /* ═══════════════════════════════════════════
+     Message Bubble
+     ═══════════════════════════════════════════ */
+  --bubble-user-max-width: 480px;
+  --bubble-ai-max-width: 640px;
+  --bubble-padding-user: 13px 18px;
+  --bubble-padding-ai: 16px 22px;
+
+  /* ═══════════════════════════════════════════
+     Tag / Chip
+     ═══════════════════════════════════════════ */
+  --tag-padding: 5px 13px;
+  --tag-radius: var(--radius-full);
+  --tag-font-size: 0.75rem;
+  --tag-gap: 4px;
+
+  /* ═══════════════════════════════════════════
+     Tab
+     ═══════════════════════════════════════════ */
+  --tab-padding: 7px 18px;
+  --tab-radius: var(--radius-xs);
+  --tab-font-size: 0.85rem;
+
+  /* ═══════════════════════════════════════════
+     Window Chrome (桌面原生)
+     ═══════════════════════════════════════════ */
+  --chrome-height: 38px;
+  --chrome-button-size: 14px;
+  --chrome-button-gap: 8px;
+  --chrome-drag-region: -webkit-app-region: drag;
+
+  /* ═══════════════════════════════════════════
+     Command Palette
+     ═══════════════════════════════════════════ */
+  --cmd-palette-width: 560px;
+  --cmd-palette-max-height: 420px;
+  --cmd-palette-radius: var(--radius-lg);
+
+  /* ═══════════════════════════════════════════
+     Context Menu
+     ═══════════════════════════════════════════ */
+  --context-menu-min-width: 180px;
+  --context-menu-radius: var(--radius-sm);
+  --context-menu-padding: 4px;
+  --context-menu-item-padding: 8px 12px;
+  --context-menu-font-size: 0.82rem;
+  --context-menu-shortcut-font-size: 0.7rem;
+}

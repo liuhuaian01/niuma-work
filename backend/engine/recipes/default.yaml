@@ -1,0 +1,136 @@
+# 太极引擎 · 路由 Recipe 配置
+# vLLM Micro-Agent 蒸馏：声明式路由策略
+#
+# 每个 Recipe 定义一种任务场景的模型选择和协作策略。
+# 运营改 YAML 即可调整路由，无需改代码。
+
+version: "1.0"
+
+# ============================================================
+# 三级模型池 — v1.8: 增新不删旧
+# ============================================================
+model_tiers:
+  budget:   # 日常预算充裕时的廉价模型池
+    - deepseek-v4-flash    # $0.28/M 极致性价比轻量路由
+    - glm-4-9b             # 开源免费 fallback
+    - gemma-4              # 本地模型
+  mid:      # 中档性价比模型
+    - deepseek-v4-pro      # V4 Pro 正式版
+    - hunyuan-turbos
+    - glm-4
+    - deepseek-v4-flash    # Flash版也可做中档对话
+  tiny:     # 预算见底时的最小保底模型
+    - glm-4-9b             # 免费兜底优先
+    - gemma-4              # 本地兜底
+
+# ============================================================
+# 场景 Recipe
+# ============================================================
+recipes:
+
+  # ---- 代码任务 ----
+  coding:
+    score_weights:
+      task_fit: 0.45       # 代码任务对模型匹配度要求更高
+      cost_efficiency: 0.25
+      quality_match: 0.30
+    shape_bias:
+      high_reasoning:      # 推理深度 >0.5 → 偏好 deepseek/kimi
+        models: ["deepseek-r1", "deepseek-v4-pro", "kimi-k2.6", "qwen3.5-397b"]
+        boost: 1.20
+      has_schema:           # 需要结构化输出 → 偏好 deepseek
+        models: ["deepseek-v4-pro", "deepseek-r1", "qwen3.5-397b"]
+        boost: 1.10
+    budget_escalation:
+      tier_1:   # 预算 <30%: 先试 qwen-coder，不够升 deepseek
+        first: ["qwen-coder", "deepseek-v4-flash"]
+        upgrade: ["deepseek-v4-pro", "kimi-k2.6"]
+      tier_2:   # 预算 <15%: 只试轻量模型
+        single: ["deepseek-v4-flash", "qwen-coder"]
+
+  # ---- 创作任务 ----
+  creative:
+    score_weights:
+      task_fit: 0.40
+      cost_efficiency: 0.25
+      quality_match: 0.35   # 创作对质量要求更高
+    shape_bias:
+      high_complexity:       # 复杂度 >0.6 → 偏好 kimi/deepseek
+        models: ["kimi-k2.6", "deepseek-v4-pro", "qwen3.5-397b"]
+        boost: 1.15
+      low_complexity:        # 简单创作 → 用 Flash 省成本
+        models: ["deepseek-v4-flash", "hunyuan-turbos"]
+        boost: 1.10
+
+  # ---- 分析任务 ----
+  analysis:
+    score_weights:
+      task_fit: 0.35
+      cost_efficiency: 0.25
+      quality_match: 0.40   # 分析对质量要求最高
+    shape_bias:
+      high_reasoning:
+        models: ["deepseek-r1", "deepseek-v4-pro", "deepseek-v3.2", "qwen3.5-397b"]
+        boost: 1.25          # 推理任务大幅偏好推理模型
+
+  # ---- 对话任务 ----
+  chat:
+    score_weights:
+      task_fit: 0.30
+      cost_efficiency: 0.45   # 对话任务优先成本
+      quality_match: 0.25
+
+  # ---- 摘要任务 ----
+  summary:
+    score_weights:
+      task_fit: 0.30
+      cost_efficiency: 0.40
+      quality_match: 0.30
+
+# ============================================================
+# ReMoM 综合判决配置 —— vLLM Micro-Agent 蒸馏
+# ============================================================
+# 以下任务场景自动触发多模型并行+综合判决。
+# 触发条件由 Task-Shape 投影信号决定（high_stakes / reasoning_depth > 0.7）。
+remom:
+  default:
+    models: ["deepseek-v4-pro", "kimi-k2.6", "qwen3.5-397b"]
+    quorum: 2
+    judge_model: "deepseek-v4-pro"
+    timeout_ms: 60000
+    max_tokens_total: 30000
+    fallback_to_best: true
+
+  # 高风险任务触发 ReMoM 的场景
+  triggers:
+    - pattern: "生产部署"
+    - pattern: "安全审计"
+    - pattern: "架构决策"
+    - pattern: "数据迁移"
+    - pattern: "性能关键"
+    - pattern: "代码审查"
+
+# ============================================================
+# 全局约束
+# ============================================================
+global:
+  per_request_max_tokens: 40000
+  per_request_max_latency_ms: 30000
+  budget_tiers:
+    escalation: 0.30     # <30%: Confidence Looper 开始
+    no_escalation: 0.15  # <15%: 不升级
+    emergency: 0.05      # <5%: 最小模型保底
+  confidence_threshold: 0.7
+
+# ============================================================
+# 模型注册（运营可改，覆盖代码中的 MODEL_REGISTRY）
+# ============================================================
+# 如需运行时覆盖模型配置，在运行时 recipe 中定义：
+#   runtime_override:
+#     models:
+#       "qwen-3.6-27b":
+#         cost_per_1k_tokens: 0.0
+#         quality_score: 0.85
+#         best_for: ["coding", "analysis", "chat"]
+#
+# 目前由代码 MODEL_REGISTRY 定义，此处留空。

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>超级牛马 Super Niuma — AI 驱动的工作台</title>
+<meta name="description" content="本地优先的 AI Agent 工作台。Gemma 4 + Qwen3 双模型，数据不出电脑，装完即用。">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; color:#1a1a2e; background:linear-gradient(135deg, #f5f7fa 0%, #e8edf5 50%, #dce6f5 100%); min-height:100vh; }
+.container { max-width:960px; margin:0 auto; padding:0 24px; }
+
+/* Hero */
+.hero { text-align:center; padding:80px 0 60px; }
+.logo { width:80px; height:80px; margin:0 auto 24px; display:block; }
+.logo svg { filter:drop-shadow(0 4px 16px rgba(77,168,240,0.3)); }
+.hero h1 { font-size:40px; font-weight:800; letter-spacing:-1px; margin-bottom:16px; }
+.hero h1 span { color:#4DA8F0; }
+.hero p.sub { font-size:18px; color:#666; max-width:480px; margin:0 auto 40px; line-height:1.6; }
+.hero .cta { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.btn { display:inline-block; padding:14px 36px; border-radius:10px; font-size:16px; font-weight:600; text-decoration:none; cursor:pointer; transition:transform .15s,box-shadow .15s; border:none; }
+.btn:hover { transform:translateY(-2px); }
+.btn-primary { background:linear-gradient(135deg,#4DA8F0,#3d8fd4); color:#fff; box-shadow:0 4px 20px rgba(77,168,240,0.3); }
+.btn-secondary { background:#fff; color:#4DA8F0; border:2px solid #4DA8F0; }
+.version-tag { display:inline-block; background:rgba(77,168,240,0.1); color:#4DA8F0; font-size:12px; padding:4px 12px; border-radius:20px; margin-bottom:24px; }
+
+/* Features */
+.features { padding:60px 0; }
+.features h2 { text-align:center; font-size:28px; margin-bottom:48px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:24px; }
+.card { background:#fff; border-radius:14px; padding:32px 28px; box-shadow:0 2px 12px rgba(0,0,0,0.04); transition:transform .2s; }
+.card:hover { transform:translateY(-4px); }
+.card .icon { font-size:32px; margin-bottom:16px; }
+.card h3 { font-size:17px; margin-bottom:8px; }
+.card p { font-size:14px; color:#666; line-height:1.6; }
+
+/* Models */
+.models { padding:60px 0; text-align:center; }
+.models h2 { font-size:28px; margin-bottom:40px; }
+.model-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; max-width:700px; margin:0 auto; }
+.model-card { background:#fff; border-radius:12px; padding:24px 20px; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.model-card .provider { font-size:12px; color:#999; margin-bottom:4px; }
+.model-card .name { font-size:15px; font-weight:700; margin-bottom:4px; }
+.model-card .size { font-size:12px; color:#4DA8F0; }
+
+/* Footer */
+.footer { text-align:center; padding:60px 0 40px; color:#999; font-size:13px; }
+.footer a { color:#4DA8F0; text-decoration:none; }
+.footer .links { display:flex; gap:20px; justify-content:center; margin-bottom:16px; }
+
+@media (max-width:640px) {
+  .hero h1 { font-size:30px; }
+  .hero p.sub { font-size:15px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="hero">
+    <div class="logo">
+      <svg viewBox="0 0 80 80" width="80" height="80">
+        <circle cx="40" cy="40" r="38" fill="none" stroke="#4DA8F0" stroke-width="2.5"/>
+        <text x="40" y="47" text-anchor="middle" fill="#4DA8F0" font-size="28" font-weight="900">牛</text>
+      </svg>
+    </div>
+    <div class="version-tag">v1.0.0-alpha</div>
+    <h1>超级牛马 <span>Super Niuma</span></h1>
+    <p class="sub">本地 AI 工作台，装完即用。<br>Gemma 4 + Qwen3 双模型，数据不出电脑。</p>
+    <div class="cta">
+      <a href="https://github.com/liuhuaian/super-niuma/releases/latest" class="btn btn-primary">免费下载 (Windows)</a>
+      <a href="https://github.com/liuhuaian/super-niuma" class="btn btn-secondary">GitHub 源代码</a>
+    </div>
+  </div>
+
+  <div class="features">
+    <h2>为什么选择超级牛马？</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="icon">🔒</div>
+        <h3>数据不出电脑</h3>
+        <p>所有 AI 推理在本地完成，对话记录、文件数据全在你的硬盘上。离线也能用。</p>
+      </div>
+      <div class="card">
+        <div class="icon">⚡</div>
+        <h3>装完即用</h3>
+        <p>安装包不到 40MB。首次启动自动检测硬件，推荐最佳模型。下载一次，永久离线。</p>
+      </div>
+      <div class="card">
+        <div class="icon">🧠</div>
+        <h3>双模型引擎</h3>
+        <p>Gemma 4 (Google) + Qwen3 千问 (阿里)。中文对话、代码编程、创意写作，各有所长。</p>
+      </div>
+      <div class="card">
+        <div class="icon">🎯</div>
+        <h3>不烧 Token</h3>
+        <p>本地模型无限次使用。也可接入 DeepSeek / Kimi / 混元云端 API，按需选择。</p>
+      </div>
+      <div class="card">
+        <div class="icon">🔌</div>
+        <h3>MCP 连接器</h3>
+        <p>接入飞书、企业微信、GitHub 等外部工具。AI Agent 直接在你的工作流里干活。</p>
+      </div>
+      <div class="card">
+        <div class="icon">🆓</div>
+        <h3>开源内核</h3>
+        <p>基于 llama.cpp + FastAPI + Vue3。代码在 GitHub 完全公开，欢迎贡献。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="models">
+    <h2>支持的模型</h2>
+    <div class="model-grid">
+      <div class="model-card">
+        <div class="provider">Google · Apache 2.0</div>
+        <div class="name">Gemma 4 E4B</div>
+        <div class="size">~3GB · 轻量入门</div>
+      </div>
+      <div class="model-card">
+        <div class="provider">Google · Apache 2.0</div>
+        <div class="name">Gemma 4 12B</div>
+        <div class="size">~7GB · 桌面主力</div>
+      </div>
+      <div class="model-card">
+        <div class="provider">Google · Apache 2.0</div>
+        <div class="name">Gemma 4 26B-A4B</div>
+        <div class="size">~18GB · 旗舰 MoE</div>
+      </div>
+      <div class="model-card">
+        <div class="provider">阿里 · Apache 2.0</div>
+        <div class="name">Qwen3 8B</div>
+        <div class="size">~5GB · 中文最优</div>
+      </div>
+      <div class="model-card">
+        <div class="provider">阿里 · Apache 2.0</div>
+        <div class="name">Qwen3 14B</div>
+        <div class="size">~9GB · 深度创作</div>
+      </div>
+      <div class="model-card">
+        <div class="provider">阿里 · Apache 2.0</div>
+        <div class="name">Qwen3 32B</div>
+        <div class="size">~19GB · 旗舰中文</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="links">
+      <a href="https://github.com/liuhuaian/super-niuma">GitHub</a>
+      <a href="https://github.com/liuhuaian/super-niuma/releases">下载</a>
+      <a href="https://github.com/liuhuaian/super-niuma/blob/main/CHANGELOG.md">更新日志</a>
+      <a href="mailto:liuhuaian01@126.com">联系作者</a>
+    </div>
+    <p>© 2026 刘淮安 LIUHUAIAN · 超级牛马工作台</p>
+  </div>
+</div>
+
+</body>
+</html>

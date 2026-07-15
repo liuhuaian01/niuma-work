@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="night">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>超级牛马 · DS v8.0 — Double-Bezel · Glass 2.0 · 80+ Components</title>
+<style>
+@font-face{font-family:Geist;src:local('Geist'),local('GeistVF');font-weight:100 900;font-display:swap}
+@font-face{font-family:GeistMono;src:local('GeistMono'),local('GeistMonoVF');font-weight:100 900;font-display:swap}
+:root{
+  --f-sans:Geist,-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif;
+  --f-mono:GeistMono,"SF Mono","Cascadia Code","Fira Code","JetBrains Mono",monospace;
+  --f-disp:Geist,"Clash Display",-apple-system,BlinkMacSystemFont,sans-serif;
+  --r-2xs:4px;--r-xs:7px;--r-sm:10px;--r-md:16px;--r-lg:22px;--r-xl:28px;--r-2xl:36px;--r-full:9999px;
+  --s-0:0;--s-1:4px;--s-2:8px;--s-3:12px;--s-4:16px;--s-5:20px;--s-6:24px;--s-8:32px;--s-10:40px;--s-12:48px;--s-16:64px;--s-20:80px;--s-24:96px;--s-32:128px;
+  --e-spring:cubic-bezier(0.34,1.56,0.64,1);--e-smooth:cubic-bezier(0.32,0.72,0,1);--e-decel:cubic-bezier(0,0,0.2,1);--e-accel:cubic-bezier(0.4,0,1,1);--e-emphasis:cubic-bezier(0.05,0.7,0.1,1);
+  --t-fast:150ms;--t-n:300ms;--t-slow:500ms;--t-enter:700ms;
+}
+[data-theme="night"]{--bg-root:#030712;--bg-base:#070C14;--bg-surface:#0F172A;--bg-elevated:#131E2E;--bg-overlay:#1A2738;--bg-glass:rgba(15,23,42,.70);--bg-glass-h:rgba(15,23,42,.88);--bg-glass-l:rgba(15,23,42,.35);--bg-glass-b:rgba(15,23,42,.55);--tx-p:#F1F5F9;--tx-s:#94A3B8;--tx-t:#64748B;--tx-d:#334155;--bd:rgba(255,255,255,.05);--bd-h:rgba(255,255,255,.10);--bd-g:rgba(99,145,237,.22);--bd-s:rgba(255,255,255,.02);--br:#6391ED;--br-h:#82ABF4;--br-d:#4C7BDE;--br-g:rgba(99,145,237,.15);--br-gh:rgba(99,145,237,.25);--gr:linear-gradient(135deg,#6391ED 0%,#5ED6C0 50%,#8B5CF6 100%);--gr-sub:linear-gradient(135deg,#6391ED,#5ED6C0);--cr:#F87171;--gn:#34D399;--am:#FBBF24;--pu:#A78BFA;--te:#2DD4BF;--cy:#22D3EE;--sh-xs:0 1px 2px rgba(0,0,0,.30);--sh-sm:0 2px 8px rgba(0,0,0,.40);--sh-md:0 8px 24px rgba(0,0,0,.50);--sh-lg:0 16px 48px rgba(0,0,0,.60);--sh-xl:0 24px 64px rgba(0,0,0,.65);--sh-gl:0 8px 32px rgba(0,0,0,.45),0 0 0 1px rgba(99,145,237,.06);--sh-glow:0 0 48px rgba(99,145,237,.18),0 8px 32px rgba(0,0,0,.40);--sh-inner:inset 0 1px 0 rgba(255,255,255,.06);--sh-inner-h:inset 0 1px 0 rgba(255,255,255,.10);--ov-bg:rgba(3,7,18,.65);--noise-bg:rgba(15,23,42,.02)}
+[data-theme="day"]{--bg-root:#F4F6FA;--bg-base:#F8FAFC;--bg-surface:#FFF;--bg-elevated:#F0F2F5;--bg-overlay:#E5E7EB;--bg-glass:rgba(255,255,255,.80);--bg-glass-h:rgba(255,255,255,.94);--bg-glass-l:rgba(255,255,255,.45);--bg-glass-b:rgba(255,255,255,.60);--tx-p:#0F172A;--tx-s:#475569;--tx-t:#94A3B8;--tx-d:#CBD5E1;--bd:rgba(0,0,0,.05);--bd-h:rgba(0,0,0,.10);--bd-g:rgba(59,130,246,.18);--bd-s:rgba(0,0,0,.02);--br:#3B82F6;--br-h:#2563EB;--br-d:#1D4ED8;--br-g:rgba(59,130,246,.10);--br-gh:rgba(59,130,246,.20);--gr:linear-gradient(135deg,#3B82F6 0%,#06B6D4 50%,#8B5CF6 100%);--gr-sub:linear-gradient(135deg,#3B82F6,#06B6D4);--cr:#DC2626;--gn:#10B981;--am:#D97706;--pu:#7C3AED;--te:#0D9488;--cy:#06B6D4;--sh-xs:0 1px 2px rgba(0,0,0,.03);--sh-sm:0 2px 8px rgba(0,0,0,.05);--sh-md:0 8px 24px rgba(0,0,0,.07);--sh-lg:0 16px 48px rgba(0,0,0,.09);--sh-xl:0 24px 64px rgba(0,0,0,.10);--sh-gl:0 8px 32px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04);--sh-glow:0 0 32px rgba(59,130,246,.12),0 8px 24px rgba(0,0,0,.06);--sh-inner:inset 0 1px 0 rgba(0,0,0,.02);--sh-inner-h:inset 0 1px 0 rgba(0,0,0,.04);--ov-bg:rgba(15,23,42,.25);--noise-bg:rgba(255,255,255,.02)}
+[data-theme="classic"]{--bg-root:#F7F3EA;--bg-base:#FCFAF5;--bg-surface:#FBFAF6;--bg-elevated:#F3F0E7;--bg-overlay:#EAE6DA;--bg-glass:rgba(252,250,245,.85);--bg-glass-h:rgba(252,250,245,.95);--bg-glass-l:rgba(252,250,245,.50);--bg-glass-b:rgba(252,250,245,.65);--tx-p:#2C2418;--tx-s:#6B5A45;--tx-t:#9C8B74;--tx-d:#C4B8A4;--bd:rgba(44,36,24,.06);--bd-h:rgba(44,36,24,.12);--bd-g:rgba(80,130,195,.16);--bd-s:rgba(44,36,24,.03);--br:#5082C3;--br-h:#3D6EAD;--br-d:#2F5A9A;--br-g:rgba(80,130,195,.09);--br-gh:rgba(80,130,195,.18);--gr:linear-gradient(135deg,#5082C3 0%,#3D9278 50%,#7D5FB8 100%);--gr-sub:linear-gradient(135deg,#5082C3,#3D9278);--cr:#C45335;--gn:#3D8A5E;--am:#C99625;--pu:#7D5FB8;--te:#3D9278;--cy:#1A8899;--sh-xs:0 1px 2px rgba(60,40,20,.03);--sh-sm:0 2px 8px rgba(60,40,20,.05);--sh-md:0 8px 24px rgba(60,40,20,.07);--sh-lg:0 16px 48px rgba(60,40,20,.08);--sh-xl:0 24px 64px rgba(60,40,20,.10);--sh-gl:0 8px 32px rgba(60,40,20,.05),0 0 0 1px rgba(60,40,20,.03);--sh-glow:0 0 32px rgba(80,130,195,.10),0 8px 24px rgba(60,40,20,.06);--sh-inner:inset 0 1px 0 rgba(255,255,255,.30);--sh-inner-h:inset 0 1px 0 rgba(255,255,255,.45);--ov-bg:rgba(60,40,20,.22);--noise-bg:rgba(252,250,245,.02)}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--f-sans);background:var(--bg-root);color:var(--tx-p);line-height:1.6;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 80% 60% at 20% 10%,var(--br-gh) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 50% at 75% 85%,rgba(139,92,246,.08) 0%,transparent 55%),
+    radial-gradient(ellipse 70% 40% at 50% 50%,rgba(45,212,191,.04) 0%,transparent 60%)}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:200;background:var(--noise-bg);opacity:.5;mix-blend-mode:overlay}
+.c{max-width:1280px;margin:0 auto;padding:0 var(--s-8);position:relative;z-index:1}
+h1{font-family:var(--f-disp);font-size:clamp(2rem,4.5vw,3.2rem);font-weight:750;letter-spacing:-.03em;line-height:1.1}
+h2{font-family:var(--f-disp);font-size:1.4rem;font-weight:650;letter-spacing:-.02em}
+h3{font-family:var(--f-disp);font-size:1.05rem;font-weight:600}
+.lbl{font-size:10px;text-transform:uppercase;letter-spacing:.14em;font-weight:600;color:var(--tx-t);margin-bottom:var(--s-2)}
+.tg{background:var(--gr);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sec{padding:var(--s-20) 0}.sh{margin-bottom:var(--s-8)}.sh p{color:var(--tx-s);margin-top:4px;font-size:.92rem}
+.hr{height:1px;background:var(--bd);margin:var(--s-12) 0}
+.g2{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:var(--s-4)}
+.g3{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--s-4)}
+.g4{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:var(--s-3)}
+.rw{display:flex;gap:var(--s-4);flex-wrap:wrap;align-items:flex-start}
+.pf{animation:entryFade 600ms var(--e-smooth)}
+@keyframes entryFade{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes progressSlide{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes dlgIn{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:none}}
+
+/*── Global Scrollbar ──*/
+html{scrollbar-width:thin;scrollbar-color:var(--bd) transparent}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent;border-radius:3px}
+::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px;transition:background var(--t-fast) var(--e-smooth)}
+::-webkit-scrollbar-thumb:hover{background:var(--bd-h)}
+::-webkit-scrollbar-corner{background:transparent}
+
+/* Theme Switcher */
+.ts{position:fixed;top:var(--s-4);right:var(--s-4);z-index:500;display:flex;gap:var(--s-1);background:var(--bg-glass-h);backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-full);padding:3px;box-shadow:var(--sh-gl)}
+.ts button{width:38px;height:38px;border-radius:var(--r-full);border:none;background:transparent;color:var(--tx-s);font-size:16px;cursor:pointer;transition:all var(--t-n) var(--e-spring);display:flex;align-items:center;justify-content:center}
+.ts button:hover{color:var(--tx-p)}.ts button.active{background:var(--br-g);color:var(--br);box-shadow:var(--sh-xs)}
+
+/*── DOUBLE-BEZEL CARD (DB Shell + DB Core) ──*/
+.db-sh{position:relative;padding:var(--s-1);border-radius:var(--r-xl);background:var(--bd);transition:all var(--t-slow) var(--e-smooth)}
+.db-sh:hover{background:var(--bd-g);box-shadow:var(--sh-glow);transform:translateY(-3px)}
+.db-co{background:var(--bg-elevated);border-radius:calc(var(--r-xl) - 2px);padding:var(--s-6);position:relative;overflow:hidden;box-shadow:var(--sh-inner)}
+.db-co::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--sh-inner-h),transparent 60%);pointer-events:none}
+.db-gls .db-co{background:var(--bg-glass-h);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%)}
+
+/*── GLASS 2.0 ──*/
+.gc-h{background:var(--bg-glass-h);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-lg);padding:var(--s-6);box-shadow:var(--sh-inner);transition:all var(--t-slow) var(--e-smooth)}
+.gc-h:hover{border-color:var(--bd-h);box-shadow:var(--sh-gl),var(--sh-inner-h);transform:translateY(-2px)}
+.gc-m{background:var(--bg-glass-b);backdrop-filter:blur(18px);border:1px solid var(--bd);border-radius:var(--r-lg);padding:var(--s-6);transition:all var(--t-n) var(--e-smooth)}
+.gc-m:hover{border-color:var(--bd-h);box-shadow:var(--sh-sm)}
+.gc-l{background:var(--bg-glass-l);backdrop-filter:blur(12px);border:1px solid var(--bd);border-radius:var(--r-lg);padding:var(--s-6);transition:all var(--t-n) var(--e-smooth)}
+.gc-l:hover{border-color:var(--bd-h)}
+
+/*── CARD VARIANTS ──*/
+.cd-el{background:var(--bg-elevated);border:1px solid var(--bd);border-radius:var(--r-lg);padding:var(--s-6);box-shadow:var(--sh-sm);transition:all var(--t-slow) var(--e-smooth)}
+.cd-el:hover{border-color:var(--bd-h);box-shadow:var(--sh-md);transform:translateY(-1px)}
+.cd-ol{border:1px solid var(--bd);border-radius:var(--r-lg);padding:var(--s-6);background:transparent}
+.cd-gr{background:linear-gradient(135deg,var(--br-g),rgba(45,212,191,.03));border:1px solid var(--bd-g);border-radius:var(--r-lg);padding:var(--s-6)}
+.cd-sp{position:relative;border-radius:var(--r-lg);overflow:hidden;background:var(--bg-elevated);border:1px solid var(--bd);padding:var(--s-6);transition:border-color var(--t-slow) var(--e-smooth)}
+.cd-sp::before{content:'';position:absolute;inset:-1px;border-radius:inherit;background:var(--gr);opacity:0;z-index:-1;transition:opacity var(--t-slow) var(--e-smooth)}
+.cd-sp:hover::before{opacity:.10}.cd-sp:hover{border-color:var(--bd-g)}
+
+/*── BADGE / DOT / AVATAR / TOGGLE ──*/
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 11px;border-radius:var(--r-xs);font-size:11px;font-weight:550;letter-spacing:.02em}
+.badge.br{background:var(--br-g);color:var(--br)}.badge.gn{background:rgba(52,211,153,.10);color:var(--gn)}.badge.am{background:rgba(251,191,36,.10);color:var(--am)}.badge.pu{background:rgba(167,139,250,.10);color:var(--pu)}.badge.cr{background:rgba(248,113,113,.10);color:var(--cr)}.badge.te{background:rgba(45,212,191,.10);color:var(--te)}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
+.dot.on{background:var(--gn);box-shadow:0 0 8px rgba(52,211,153,.35)}.dot.warn{background:var(--am);box-shadow:0 0 8px rgba(251,191,36,.35)}.dot.off{background:var(--tx-d)}
+.av{width:38px;height:38px;border-radius:var(--r-full);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:.88rem;flex-shrink:0}.av.br{background:var(--br-g);color:var(--br)}.av.pu{background:rgba(167,139,250,.12);color:var(--pu)}.av.gn{background:rgba(52,211,153,.12);color:var(--gn)}.av.am{background:rgba(251,191,36,.12);color:var(--am)}.av.sm{width:28px;height:28px;font-size:.7rem}.av.lg{width:54px;height:54px;font-size:1.2rem}.av.xl{width:72px;height:72px;font-size:1.6rem}
+.av.online::after{content:'';position:absolute;bottom:0;right:0;width:12px;height:12px;border-radius:50%;background:var(--gn);border:2.5px solid var(--bg-elevated);box-shadow:0 0 6px rgba(52,211,153,.35)}
+.tgl{position:relative;width:46px;height:25px;border-radius:var(--r-full);background:var(--bg-overlay);border:1px solid var(--bd);cursor:pointer;transition:all var(--t-n) var(--e-spring);flex-shrink:0}
+.tgl::after{content:'';position:absolute;top:2px;left:2px;width:19px;height:19px;border-radius:50%;background:var(--tx-t);transition:all var(--t-n) var(--e-spring);box-shadow:var(--sh-xs)}
+.tgl.on{background:var(--br);border-color:var(--br)}.tgl.on::after{left:23px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.20)}
+
+/*── BUTTONS (Button-in-Button) ──*/
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:var(--r-full);border:none;background:var(--gr);color:#fff;font-size:.9rem;font-weight:550;cursor:pointer;transition:all var(--t-n) var(--e-spring);box-shadow:0 6px 24px var(--br-gh);position:relative}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 64px var(--br-gh),0 16px 40px rgba(0,0,0,.35)}.btn:active{transform:scale(.97)}
+.btn .btn-ic{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;transition:all var(--t-n) var(--e-smooth);flex-shrink:0}
+.btn:hover .btn-ic{transform:translateX(2px) translateY(-1px) scale(1.08);background:rgba(255,255,255,.25)}
+.btn-2{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:var(--r-full);border:1px solid var(--bd);background:var(--bg-glass-b);backdrop-filter:blur(12px);color:var(--tx-p);font-size:.85rem;font-weight:500;cursor:pointer;transition:all var(--t-n) var(--e-smooth);box-shadow:var(--sh-inner)}
+.btn-2:hover{border-color:var(--bd-h);box-shadow:var(--sh-sm),var(--sh-inner-h);transform:translateY(-1px)}.btn-2:active{transform:scale(.97)}
+.btn-sm{padding:6px 14px;font-size:.75rem;border-radius:var(--r-sm)}.btn-gh{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:var(--r-sm);border:none;background:transparent;color:var(--tx-s);font-size:.8rem;cursor:pointer;transition:all var(--t-fast) var(--e-smooth);font-family:var(--f-sans)}
+.btn-gh:hover{background:var(--bg-overlay);color:var(--tx-p)}.btn-gh.danger:hover{background:rgba(248,113,113,.10);color:var(--cr)}
+.btn-ic-o{width:38px;height:38px;border-radius:var(--r-sm);border:1px solid var(--bd);background:var(--bg-glass-b);display:flex;align-items:center;justify-content:center;color:var(--tx-s);cursor:pointer;transition:all var(--t-fast) var(--e-spring)}
+.btn-ic-o:hover{border-color:var(--bd-h);color:var(--tx-p);box-shadow:var(--sh-xs)}
+
+/*── TAG / INPUT / TABS ──*/
+.tag-o{display:inline-flex;align-items:center;gap:4px;padding:5px 13px;border-radius:var(--r-full);font-size:.75rem;font-weight:500;background:var(--bg-glass-b);border:1px solid var(--bd);color:var(--tx-s);cursor:pointer;transition:all var(--t-fast) var(--e-smooth);font-family:var(--f-sans)}
+.tag-o:hover{border-color:var(--bd-h);color:var(--tx-p)}.tag-o.active{background:var(--br-g);border-color:var(--br);color:var(--br)}
+.inp{width:100%;padding:11px 16px;border-radius:var(--r-md);border:1px solid var(--bd);background:var(--bg-glass-b);backdrop-filter:blur(12px);color:var(--tx-p);font-size:.88rem;outline:none;transition:all var(--t-n) var(--e-smooth);font-family:var(--f-sans);box-shadow:var(--sh-inner)}.inp::placeholder{color:var(--tx-t)}.inp:focus{border-color:var(--br);box-shadow:0 0 0 3px var(--br-g),var(--sh-inner)}
+.txta{width:100%;padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--bd);background:var(--bg-glass-b);backdrop-filter:blur(12px);color:var(--tx-p);font-size:.9rem;font-family:var(--f-sans);outline:none;resize:vertical;min-height:90px;transition:all var(--t-n) var(--e-smooth);box-shadow:var(--sh-inner)}.txta:focus{border-color:var(--br);box-shadow:0 0 0 3px var(--br-g),var(--sh-inner)}
+.tabs{display:flex;gap:4px;background:var(--bg-overlay);border-radius:var(--r-sm);padding:4px;width:fit-content}
+.tab{padding:7px 18px;border-radius:var(--r-xs);border:none;background:transparent;color:var(--tx-s);font-size:.85rem;font-weight:500;cursor:pointer;transition:all var(--t-n) var(--e-smooth);font-family:var(--f-sans)}.tab:hover{color:var(--tx-p)}.tab.active{background:var(--bg-elevated);color:var(--tx-p);box-shadow:var(--sh-xs)}
+
+/*── PROGRESS / SKELETON / SPINNER ──*/
+.prog{height:6px;border-radius:3px;background:var(--bg-overlay);overflow:hidden}.prog-bar{height:100%;border-radius:inherit;background:var(--gr-sub);transition:width var(--t-slow) var(--e-smooth)}.prog-ind{height:100%;width:35%;border-radius:inherit;background:var(--gr-sub);animation:progressSlide 1.6s infinite var(--e-smooth)}
+.skel{background:linear-gradient(90deg,var(--bg-overlay) 25%,var(--bg-elevated) 50%,var(--bg-overlay) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--r-sm)}.skel-t{height:15px;margin-bottom:8px}.skel-a{width:42px;height:42px;border-radius:50%}.skel-c{height:130px;border-radius:var(--r-md)}
+.spin{width:24px;height:24px;border:2.5px solid var(--bd);border-top-color:var(--br);border-radius:50%;animation:spin .7s linear infinite}.spin-sm{width:16px;height:16px;border-width:2px}.spin-lg{width:38px;height:38px;border-width:3px}
+
+/*── CHECKBOX / RADIO ──*/
+.chk,.rad{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:.9rem;color:var(--tx-p)}.chk input,.rad input{position:absolute;opacity:0;width:0;height:0}
+.chk-m{width:20px;height:20px;border-radius:var(--r-2xs);border:1.5px solid var(--bd-h);background:var(--bg-glass-b);display:flex;align-items:center;justify-content:center;transition:all var(--t-fast) var(--e-smooth);flex-shrink:0}
+.chk input:checked+.chk-m{background:var(--br);border-color:var(--br)}.chk input:checked+.chk-m::after{content:'';width:5px;height:9px;border:solid white;border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-1px)}
+.rad-m{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--bd-h);background:var(--bg-glass-b);display:flex;align-items:center;justify-content:center;transition:all var(--t-fast) var(--e-smooth);flex-shrink:0}
+.rad input:checked+.rad-m{border-color:var(--br)}.rad input:checked+.rad-m::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--br)}
+
+/*── NAV RAIL / DIALOG / DROPDOWN ──*/
+.nr{display:flex;flex-direction:column;align-items:center;gap:var(--s-2);padding:var(--s-3) var(--s-2);background:var(--bg-glass-h);backdrop-filter:blur(24px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-xl);width:68px;box-shadow:var(--sh-inner),var(--sh-gl)}
+.nr-icon{width:46px;height:46px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;color:var(--tx-t);cursor:pointer;transition:all var(--t-fast) var(--e-spring);position:relative}.nr-icon:hover{color:var(--tx-p);background:var(--bg-overlay)}.nr-icon.active{color:var(--br);background:var(--br-g)}.nr-icon svg{width:22px;height:22px}.nr-dot::after{content:'';position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:var(--cr);border:2px solid var(--bg-surface)}
+.ovr{position:fixed;inset:0;background:var(--ov-bg);display:flex;align-items:center;justify-content:center;z-index:900;animation:fadeIn 200ms var(--e-decel)}
+.dlg{background:var(--bg-glass-h);backdrop-filter:blur(32px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-xl);width:500px;max-width:92vw;max-height:85vh;padding:var(--s-8);box-shadow:0 0 64px var(--br-gh),var(--sh-xl);animation:dlgIn 400ms var(--e-spring);overflow-y:auto}
+.dlg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s-6)}.dlg-foot{display:flex;justify-content:flex-end;gap:var(--s-3);margin-top:var(--s-6);padding-top:var(--s-4);border-top:1px solid var(--bd)}
+.dd{position:relative;display:inline-block}.dd-btn{display:flex;align-items:center;gap:8px;padding:9px 16px;border-radius:var(--r-sm);border:1px solid var(--bd);background:var(--bg-glass-b);backdrop-filter:blur(12px);color:var(--tx-p);font-size:.85rem;font-weight:500;cursor:pointer;transition:all var(--t-fast) var(--e-smooth);box-shadow:var(--sh-inner);font-family:var(--f-sans)}.dd-btn:hover{border-color:var(--bd-h)}.dd-btn .ch{transition:transform var(--t-n) var(--e-smooth)}.dd-btn.open .ch{transform:rotate(180deg)}
+.dd-m{position:absolute;top:calc(100% + 8px);left:0;min-width:200px;background:var(--bg-glass-h);backdrop-filter:blur(24px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-md);padding:6px;box-shadow:var(--sh-gl);z-index:50;opacity:0;transform:translateY(-8px);pointer-events:none;transition:all var(--t-fast) var(--e-smooth)}.dd-m.open{opacity:1;transform:translateY(0);pointer-events:auto}
+.dd-it{padding:10px 14px;border-radius:var(--r-xs);font-size:.85rem;color:var(--tx-s);cursor:pointer;transition:all var(--t-fast) var(--e-smooth);display:flex;align-items:center;gap:8px}.dd-it:hover{background:var(--bg-overlay);color:var(--tx-p)}.dd-it.sel{color:var(--br);background:var(--br-g)}.dd-div{height:1px;background:var(--bd);margin:4px 0}
+
+/*── MESSAGE BUBBLES + CODE ──*/
+.bub-u{max-width:480px;margin-left:auto;margin-right:var(--s-4);padding:13px 18px;border-radius:20px 20px 6px 20px;background:var(--br-g);border:1px solid var(--bd-g);color:var(--tx-p);font-size:.9rem;line-height:1.55;transition:box-shadow var(--t-fast) var(--e-smooth)}.bub-u:hover{box-shadow:0 2px 12px var(--br-g)}
+.bub-ai{max-width:640px;margin-left:var(--s-4);margin-right:auto;padding:16px 22px;border-radius:6px 20px 20px 20px;background:var(--bg-glass-h);backdrop-filter:blur(16px);border:1px solid var(--bd);color:var(--tx-p);font-size:.9rem;line-height:1.65;box-shadow:var(--sh-inner);transition:box-shadow var(--t-fast) var(--e-smooth)}.bub-ai:hover{box-shadow:var(--sh-sm),var(--sh-inner-h)}
+.cb{background:rgba(0,0,0,.35);border:1px solid var(--bd);border-radius:var(--r-md);overflow:hidden;font-family:var(--f-mono)}.cb-head{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd)}.cb-lang{font-size:.7rem;color:var(--tx-t);text-transform:uppercase;letter-spacing:.06em}.cb-copy{font-size:.7rem;color:var(--tx-t);cursor:pointer;background:none;border:none;padding:3px 10px;border-radius:var(--r-2xs);transition:all var(--t-fast)}.cb-copy:hover{color:var(--br);background:var(--br-g)}.cb-body{padding:16px 20px;font-size:.82rem;line-height:1.7;overflow-x:auto;color:var(--tx-s)}.cb-body .kw{color:var(--pu)}.cb-body .str{color:var(--gn)}.cb-body .fn{color:var(--br)}.cb-body .cm{color:var(--tx-d)}
+/*── FILE LIST / TABLE / TIMELINE / EMPTY ──*/
+.fi{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--r-sm);border:1px solid transparent;cursor:pointer;transition:all var(--t-fast) var(--e-smooth)}.fi:hover{background:var(--bg-glass-l);border-color:var(--bd)}
+.fi-ic{width:38px;height:38px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0}.fi-ic.fld{background:rgba(251,191,36,.10);color:var(--am)}.fi-ic.doc{background:var(--br-g);color:var(--br)}.fi-ic.img{background:rgba(167,139,250,.10);color:var(--pu)}.fi-ic.code{background:rgba(52,211,153,.10);color:var(--gn)}.fi-nm{font-size:.85rem;font-weight:500}.fi-meta{font-size:.68rem;color:var(--tx-t);margin-top:2px}
+.tbl{width:100%;border-collapse:collapse;font-size:.85rem}.tbl th{text-align:left;padding:10px 14px;color:var(--tx-t);font-weight:550;font-size:.73rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--bd)}.tbl td{padding:12px 14px;border-bottom:1px solid var(--bd);color:var(--tx-s)}.tbl tr:hover td{background:var(--bg-glass-l)}.tbl tr:last-child td{border-bottom:none}
+.tl{position:relative;padding-left:26px}.tl::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:var(--bd)}.tl-item{position:relative;padding-bottom:var(--s-6)}.tl-item:last-child{padding-bottom:0}.tl-dot{position:absolute;left:-26px;top:4px;width:17px;height:17px;border-radius:50%;border:2px solid var(--bd);background:var(--bg-elevated)}.tl-dot.active{background:var(--br);border-color:var(--br);box-shadow:0 0 10px var(--br-g)}.tl-dot.done{background:var(--gn);border-color:var(--gn)}.tl-time{font-size:.7rem;color:var(--tx-t);margin-bottom:2px}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:var(--s-16) var(--s-8);text-align:center}.empty-ic{width:68px;height:68px;border-radius:50%;background:var(--bg-overlay);display:flex;align-items:center;justify-content:center;margin-bottom:var(--s-4);color:var(--tx-d)}.empty-ic svg{width:30px;height:30px}.empty-title{font-size:1.05rem;font-weight:600;margin-bottom:6px}.empty-desc{font-size:.85rem;color:var(--tx-t);max-width:340px}
+
+/*── BREADCRUMB / PAGINATION / CONTEXT / STAT / TOAST / COUNTER ──*/
+.bc{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--tx-t)}.bc a{color:var(--tx-s);text-decoration:none;transition:color var(--t-fast);padding:2px 7px;border-radius:var(--r-2xs)}.bc a:hover{color:var(--br);background:var(--br-g)}.bc .sep{color:var(--tx-d)}.pg{display:flex;align-items:center;gap:4px}.pg-btn{width:36px;height:36px;border-radius:var(--r-sm);border:1px solid var(--bd);background:var(--bg-glass-b);color:var(--tx-s);font-size:.82rem;cursor:pointer;transition:all var(--t-fast) var(--e-smooth);display:flex;align-items:center;justify-content:center}.pg-btn:hover{border-color:var(--bd-h);color:var(--tx-p)}.pg-btn.active{background:var(--br);border-color:var(--br);color:#fff}
+.ctx{min-width:190px;background:var(--bg-glass-h);backdrop-filter:blur(24px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-md);padding:4px;box-shadow:var(--sh-gl)}.ctx-it{padding:9px 14px;border-radius:var(--r-xs);font-size:.82rem;color:var(--tx-s);cursor:pointer;transition:all var(--t-fast) var(--e-smooth);display:flex;align-items:center;gap:10px;border:none;background:none;width:100%;text-align:left;font-family:var(--f-sans)}.ctx-it:hover{background:var(--bg-overlay);color:var(--tx-p)}.ctx-it.danger:hover{background:rgba(248,113,113,.10);color:var(--cr)}.ctx-div{height:1px;background:var(--bd);margin:4px 0}
+.stat{display:flex;flex-direction:column;align-items:center;gap:4px;padding:var(--s-5)}.stat-val{font-family:var(--f-disp);font-size:2rem;font-weight:750;letter-spacing:-.02em}.stat-lbl{font-size:.75rem;color:var(--tx-t)}.stat-tr{font-size:.72rem;display:flex;align-items:center;gap:3px;margin-top:2px}.stat-tr.up{color:var(--gn)}.stat-tr.down{color:var(--cr)}
+.toast{background:var(--bg-glass-h);backdrop-filter:blur(24px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-md);padding:14px 22px;display:flex;align-items:center;gap:12px;box-shadow:var(--sh-gl);color:var(--tx-p);font-size:.85rem;max-width:420px}.toast.ok{border-color:rgba(52,211,153,.20)}.toast.err{border-color:rgba(248,113,113,.20)}
+.ctr{display:inline-flex;align-items:center;gap:2px;padding:2px 9px;border-radius:var(--r-full);background:var(--bg-overlay);font-size:.7rem;font-weight:600;color:var(--tx-s)}
+
+/*── BENTO / FLUID NAV / SEARCH / FORM / TOOLTIP ──*/
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-4);grid-auto-flow:dense}.bento>*{min-height:110px}.b2{grid-column:span 2}.b3{grid-column:span 3}.br2{grid-row:span 2}
+.fnav{display:flex;align-items:center;gap:var(--s-1);background:var(--bg-glass-h);backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-full);padding:4px;width:fit-content;box-shadow:var(--sh-inner),0 6px 28px rgba(0,0,0,.25)}.fnav-btn{padding:9px 22px;border-radius:var(--r-full);border:none;background:transparent;color:var(--tx-s);font-size:.88rem;font-weight:500;cursor:pointer;transition:all var(--t-n) var(--e-smooth);font-family:var(--f-sans)}.fnav-btn:hover{color:var(--tx-p)}.fnav-btn.active{background:var(--bg-elevated);color:var(--tx-p);box-shadow:var(--sh-xs)}
+.search{display:flex;align-items:center;gap:10px;padding:0 16px;height:44px;border-radius:var(--r-lg);border:1px solid var(--bd);background:var(--bg-glass-b);backdrop-filter:blur(14px);transition:all var(--t-n) var(--e-smooth);box-shadow:var(--sh-inner)}.search:focus-within{border-color:var(--br);box-shadow:0 0 0 3px var(--br-g),var(--sh-inner)}.search svg{width:18px;height:18px;color:var(--tx-t);flex-shrink:0}.search input{flex:1;border:none;background:transparent;color:var(--tx-p);font-size:.88rem;outline:none;font-family:var(--f-sans)}.search input::placeholder{color:var(--tx-t)}
+.fg{margin-bottom:var(--s-5)}.fl{display:block;font-size:.8rem;font-weight:550;color:var(--tx-s);margin-bottom:7px}.fh{font-size:.7rem;color:var(--tx-t);margin-top:4px}.fe{font-size:.7rem;color:var(--cr);margin-top:4px}
+.tip-w{position:relative;display:inline-block}.tip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);padding:7px 13px;border-radius:var(--r-sm);background:var(--bg-glass-h);backdrop-filter:blur(20px);color:var(--tx-p);font-size:.75rem;white-space:nowrap;pointer-events:none;opacity:0;transition:all var(--t-fast) var(--e-smooth);border:1px solid var(--bd);box-shadow:var(--sh-md)}.tip-w:hover .tip{opacity:1}.tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--bg-glass-h)}
+
+/*── APP COMPONENTS: HERO / DASHBOARD / CONNECTOR / PIPELINE ──*/
+.hero{position:relative;padding:var(--s-24) 0 var(--s-16);text-align:center;overflow:hidden}.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 25%,var(--br-gh) 0%,transparent 50%),radial-gradient(ellipse at 80% 70%,rgba(139,92,246,.06) 0%,transparent 40%);pointer-events:none}.hero h1{max-width:850px;margin:0 auto 20px}.hero p{font-size:1.1rem;color:var(--tx-s);max-width:620px;margin:0 auto var(--s-8)}.hero-act{display:flex;gap:var(--s-3);justify-content:center;flex-wrap:wrap}.hero-flt{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;border-radius:var(--r-full);background:var(--bg-glass-b);backdrop-filter:blur(16px);border:1px solid var(--bd);font-size:.8rem;color:var(--tx-s);margin-bottom:var(--s-6)}
+.dash{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:var(--s-4);grid-auto-flow:dense}.dash .wide{grid-column:span 2}
+.conn{display:flex;align-items:center;gap:14px;padding:15px 18px;border-radius:var(--r-md);border:1px solid var(--bd);background:var(--bg-glass-b);backdrop-filter:blur(14px);transition:all var(--t-n) var(--e-smooth)}.conn:hover{border-color:var(--br);box-shadow:var(--sh-glow)}.conn-ic{width:44px;height:44px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0}.conn-ic.on{background:var(--br-g);color:var(--br)}.conn-ic.off{background:rgba(100,116,139,.10);color:var(--tx-t)}.conn-ic.err{background:rgba(248,113,113,.10);color:var(--cr)}.conn-info{flex:1;min-width:0}.conn-name{font-size:.85rem;font-weight:600}.conn-desc{font-size:.7rem;color:var(--tx-t);margin-top:2px}
+.pipe{display:flex;align-items:center;gap:8px;padding:var(--s-4) 0;overflow-x:auto}.pipe-step{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--r-sm);background:var(--bg-glass-b);border:1px solid var(--bd);font-size:.82rem;font-weight:500;white-space:nowrap;flex-shrink:0;transition:all var(--t-n) var(--e-smooth)}.pipe-step.active{border-color:var(--br);background:var(--br-g);color:var(--br)}.pipe-step.done{border-color:var(--gn);background:rgba(52,211,153,.08);color:var(--gn)}.pipe-arrow{color:var(--tx-d);font-size:.9rem;flex-shrink:0}
+
+/*── MODEL / WORKFLOW / SETTINGS / EYEBROW / ICON GRID ──*/
+.mc{padding:var(--s-5);border-radius:var(--r-md);background:var(--bg-glass-b);backdrop-filter:blur(14px);border:1px solid var(--bd);transition:all var(--t-n) var(--e-smooth)}.mc:hover{border-color:var(--bd-h);box-shadow:var(--sh-sm)}.mc-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:var(--r-xs);font-size:11px;font-weight:500;background:var(--bg-overlay);color:var(--tx-s)}.mc-chip.local{background:rgba(52,211,153,.08);color:var(--gn)}.mc-chip.api{background:var(--br-g);color:var(--br)}
+.wf{position:relative;padding:16px 20px;border-radius:var(--r-md);border:1px solid var(--bd);background:var(--bg-glass-b);margin-bottom:12px;margin-left:30px}.wf::before{content:'';position:absolute;left:-22px;top:50%;width:13px;height:13px;border-radius:50%;border:2px solid var(--bd);background:var(--bg-elevated);transform:translateY(-50%)}.wf.active::before{background:var(--br);border-color:var(--br);box-shadow:0 0 10px var(--br-g)}.wf.done::before{background:var(--gn);border-color:var(--gn)}.wf::after{content:'';position:absolute;left:-16px;top:calc(50% + 9px);width:2px;height:calc(100% - 8px);background:var(--bd)}.wf:last-child::after{display:none}.wf-trig{font-size:.7rem;color:var(--tx-t);margin-bottom:2px}
+.stg-l{display:grid;grid-template-columns:230px 1fr;gap:0;min-height:520px}.stg-nav{display:flex;flex-direction:column;gap:2px;padding:var(--s-4);border-right:1px solid var(--bd);overflow-y:auto}.stg-nav-it{padding:10px 16px;border-radius:var(--r-sm);font-size:.85rem;font-weight:500;color:var(--tx-s);cursor:pointer;transition:all var(--t-fast) var(--e-smooth);display:flex;align-items:center;gap:8px}.stg-nav-it:hover{background:var(--bg-glass-l);color:var(--tx-p)}.stg-nav-it.active{background:var(--br-g);color:var(--br)}.stg-ct{padding:var(--s-6);overflow-y:auto}.stg-grp{margin-bottom:var(--s-6)}.stg-grp-title{font-size:.73rem;text-transform:uppercase;letter-spacing:.10em;font-weight:600;color:var(--tx-t);margin-bottom:var(--s-3)}.stg-row{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--bd)}.stg-row:last-child{border-bottom:none}
+.eyebrow{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:var(--r-full);font-size:10px;text-transform:uppercase;letter-spacing:.14em;font-weight:650;background:var(--br-g);color:var(--br);border:1px solid var(--bd-g);margin-bottom:var(--s-3)}
+.kbd{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 5px;border-radius:var(--r-2xs);background:var(--bg-overlay);border:1px solid var(--bd);font-family:var(--f-mono);font-size:.65rem;font-weight:600;color:var(--tx-t)}
+.ig{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:var(--s-3)}.ig-it{display:flex;flex-direction:column;align-items:center;gap:8px;padding:var(--s-4);border-radius:var(--r-sm);background:var(--bg-glass-b);border:1px solid var(--bd);transition:all var(--t-fast) var(--e-smooth)}.ig-it:hover{border-color:var(--br);background:var(--br-g)}.ig-it svg{width:24px;height:24px;color:var(--tx-s)}.ig-it:hover svg{color:var(--br)}.ig-it span{font-size:.65rem;color:var(--tx-t);text-align:center}
+
+/*── NEW v8: TREE VIEW / STEPPER / NOTIFICATION FEED ──*/
+.tv{padding:var(--s-2)}.tv-item{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:var(--r-xs);font-size:.85rem;color:var(--tx-s);cursor:pointer;transition:all var(--t-fast)}.tv-item:hover{background:var(--bg-glass-l);color:var(--tx-p)}.tv-item.active{background:var(--br-g);color:var(--br)}.tv-caret{width:16px;height:16px;display:flex;align-items:center;justify-content:center;transition:transform var(--t-fast) var(--e-smooth)}.tv-caret.open{transform:rotate(90deg)}
+.stepper{display:flex;align-items:center}.stp{display:flex;flex-direction:column;align-items:center}.stp-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:600;border:2px solid var(--bd);background:var(--bg-elevated);color:var(--tx-t);flex-shrink:0}.stp.active .stp-dot{border-color:var(--br);background:var(--br-g);color:var(--br)}.stp.done .stp-dot{border-color:var(--gn);background:rgba(52,211,153,.10);color:var(--gn)}.stp-line{width:40px;height:2px;background:var(--bd)}.stp.done .stp-line{background:var(--gn)}.stp-label{font-size:.7rem;color:var(--tx-t);margin-top:4px;max-width:80px;text-align:center}
+.nf{border:1px solid var(--bd);border-radius:var(--r-lg);overflow:hidden}.nf-item{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-bottom:1px solid var(--bd);transition:background var(--t-fast)}.nf-item:hover{background:var(--bg-glass-l)}.nf-item:last-child{border-bottom:none}.nf-item.unread{background:var(--br-g)}.nf-dot{width:8px;height:8px;border-radius:50%;background:var(--br);flex-shrink:0;margin-top:6px}
+
+/*── RESPONSIVE ──*/
+
+/*═══════════════════ ICON SYSTEM ═══════════════════*/
+
+/* Icon Size Variants */
+.i-xs{width:14px;height:14px}.i-sm{width:18px;height:18px}.i-md{width:24px;height:24px}.i-lg{width:32px;height:32px}.i-xl{width:48px;height:48px}.i-2xl{width:64px;height:64px}
+
+/* Icon Color Variants */
+.i-primary{color:var(--br)}.i-success{color:var(--gn)}.i-warning{color:var(--am)}.i-danger{color:var(--cr)}.i-muted{color:var(--tx-t)}.i-accent{color:var(--pu)}
+
+/* Icon Gallery — expanded grid */
+.ig-lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:var(--s-2)}
+.ig-lib-item{display:flex;flex-direction:column;align-items:center;gap:6px;padding:var(--s-3) var(--s-2);border-radius:var(--r-sm);border:1px solid transparent;cursor:pointer;transition:all var(--t-fast) var(--e-smooth)}
+.ig-lib-item:hover{background:var(--bg-glass-l);border-color:var(--bd)}.ig-lib-item svg{width:26px;height:26px;color:var(--tx-s);transition:color var(--t-fast)}.ig-lib-item:hover svg{color:var(--br)}.ig-lib-item span{font-size:.58rem;color:var(--tx-t);text-align:center;line-height:1.1}
+
+/* Icon Button — standalone icon as button */
+.i-btn{width:40px;height:40px;border-radius:var(--r-sm);border:1px solid var(--bd);background:var(--bg-glass-b);display:flex;align-items:center;justify-content:center;color:var(--tx-s);cursor:pointer;transition:all var(--t-fast) var(--e-spring)}.i-btn:hover{border-color:var(--bd-h);color:var(--tx-p);box-shadow:var(--sh-xs)}.i-btn:active{transform:scale(.94)}
+.i-btn.active{background:var(--br-g);border-color:var(--br);color:var(--br)}
+.i-btn-round{width:40px;height:40px;border-radius:50%;border:1px solid var(--bd);background:var(--bg-glass-b);display:flex;align-items:center;justify-content:center;color:var(--tx-s);cursor:pointer;transition:all var(--t-fast) var(--e-spring)}.i-btn-round:hover{border-color:var(--bd-h);color:var(--tx-p);transform:scale(1.06)}
+
+
+/*═══════════════════ ANIMATION SYSTEM ─ 5-Bezier + Presets ═══════════════════*/
+
+/*── Staggered List Entry ──*/
+.stg-list>*{opacity:0;transform:translateY(16px);animation:stgIn 500ms var(--e-smooth) forwards}
+.stg-list>*:nth-child(1){animation-delay:40ms}.stg-list>*:nth-child(2){animation-delay:80ms}.stg-list>*:nth-child(3){animation-delay:120ms}.stg-list>*:nth-child(4){animation-delay:160ms}.stg-list>*:nth-child(5){animation-delay:200ms}.stg-list>*:nth-child(6){animation-delay:240ms}.stg-list>*:nth-child(7){animation-delay:280ms}.stg-list>*:nth-child(8){animation-delay:320ms}
+@keyframes stgIn{to{opacity:1;transform:translateY(0)}}
+
+/*── Blur-Reveal (for hero/images) ──*/
+.reveal-blur{opacity:0;filter:blur(12px);transform:translateY(20px);animation:rvBlur 800ms var(--e-decel) forwards}
+@keyframes rvBlur{to{opacity:1;filter:blur(0);transform:translateY(0)}}
+
+/*── Scale Fade (for cards/modals) ──*/
+.scale-in{animation:scIn 400ms var(--e-spring) forwards}
+@keyframes scIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+
+/*── Slide In Directions ──*/
+.slide-up{animation:su 450ms var(--e-smooth) forwards}@keyframes su{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.slide-down{animation:sd 450ms var(--e-smooth) forwards}@keyframes sd{from{opacity:0;transform:translateY(-28px)}to{opacity:1;transform:translateY(0)}}
+.slide-left{animation:sl 450ms var(--e-smooth) forwards}@keyframes sl{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+.slide-right{animation:sr 450ms var(--e-smooth) forwards}@keyframes sr{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+
+/*── Pulse / Glow ──*/
+.pulse{animation:pulse 2s var(--e-smooth) infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.glow-pulse{animation:gp 2s var(--e-smooth) infinite}@keyframes gp{0%,100%{box-shadow:0 0 8px var(--br-g)}50%{box-shadow:0 0 24px var(--br-gh)}}
+
+/*── Shimmer (loading text) ──*/
+.shimmer{background:linear-gradient(90deg,var(--bg-overlay) 25%,var(--bg-elevated) 50%,var(--bg-overlay) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/*── Bounce / Shake ──*/
+.bounce{animation:bounce .6s var(--e-spring)}@keyframes bounce{0%,100%{transform:translateY(0)}40%{transform:translateY(-12px)}60%{transform:translateY(-4px)}}
+.shake{animation:shake .5s var(--e-smooth)}@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(2px)}}
+
+/*── Spin / Rotate ──*/
+.spin-infinite{animation:spin 1.2s linear infinite}
+.rotate-hover{transition:transform var(--t-slow) var(--e-smooth)}.rotate-hover:hover{transform:rotate(180deg)}
+
+/*── Skeleton Pulse (override) ──*/
+.skel-pulse{animation:skPulse 1.8s ease-in-out infinite}@keyframes skPulse{0%,100%{opacity:.4}50%{opacity:.8}}
+
+/*── Page Transition (JS-driven) ──*/
+.page-enter{opacity:0;transform:translateY(12px)}.page-enter-active{transition:all var(--t-enter) var(--e-decel);opacity:1;transform:translateY(0)}
+.page-exit{opacity:1}.page-exit-active{transition:all var(--t-fast) var(--e-accel);opacity:0;transform:translateY(-8px)}
+
+/*── Magnetic Hover ──*/
+.mag-hover{transition:transform var(--t-normal) var(--e-spring)}.mag-hover:hover{transform:scale(1.04) translateY(-2px)}
+
+/*── Ripple Effect ──*/
+.ripple{position:relative;overflow:hidden}.ripple::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--rx,50%) var(--ry,50%),rgba(255,255,255,.12) 0%,transparent 60%);opacity:0;transition:opacity var(--t-fast)}.ripple:active::after{opacity:1;transition:opacity 0s}
+
+/*── Hover Lift + Glow ──*/
+.lift-glow{transition:all var(--t-slow) var(--e-smooth)}.lift-glow:hover{transform:translateY(-4px);box-shadow:var(--sh-glow)}
+
+/*── Animate Presence (for conditional rendering) ──*/
+@keyframes inRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes outLeft{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-40px)}}
+@keyframes inBottom{from{opacity:0;transform:translateY(30px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/*── Utility: Reduced Motion ──*/
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+
+
+/*═══════════════════ PAGE LAYOUTS ═══════════════════*/
+
+/*── App Shell (Nav Rail + Content) ──*/
+.l-app{display:flex;height:100%;width:100%;overflow:hidden}.l-app-nav{flex-shrink:0;z-index:10}.l-app-body{flex:1;overflow-y:auto;min-width:0}
+
+/*── Sidebar Left / Right ──*/
+.l-sidebar-l{display:grid;grid-template-columns:240px 1fr;gap:0;min-height:100vh}.l-sidebar-r{display:grid;grid-template-columns:1fr 320px;gap:0;min-height:100vh}
+.l-sidebar-l>.l-sb,.l-sidebar-r>.l-sb{border-right:1px solid var(--bd);padding:var(--s-6);overflow-y:auto;background:var(--bg-glass-l)}
+.l-sidebar-r>.l-sb{border-right:none;border-left:1px solid var(--bd)}
+
+/*── Split 50/50 / 70/30 ──*/
+.l-split-50{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-6);align-items:start}.l-split-70{display:grid;grid-template-columns:7fr 3fr;gap:var(--s-6);align-items:start}.l-split-30{display:grid;grid-template-columns:3fr 7fr;gap:var(--s-6);align-items:start}
+
+/*── Three-Column ──*/
+.l-three-col{display:grid;grid-template-columns:200px 1fr 280px;gap:var(--s-4);min-height:100vh}
+
+/*── Fullscreen / Centered ──*/
+.l-full{width:100%;min-height:100vh;display:flex;flex-direction:column}
+.l-centered{max-width:860px;margin:0 auto;padding:var(--s-8);width:100%}
+
+/*── Card Grid Density Variants ──*/
+.l-card-dense{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--s-3)}
+.l-card-normal{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--s-4)}
+.l-card-wide{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:var(--s-5)}
+
+/*── Stack (vertical rhythm) ──*/
+.l-stack{display:flex;flex-direction:column;gap:var(--s-6)}.l-stack-sm{display:flex;flex-direction:column;gap:var(--s-3)}.l-stack-lg{display:flex;flex-direction:column;gap:var(--s-12)}
+
+/*── Inline Cluster (horizontal wrap) ──*/
+.l-cluster{display:flex;flex-wrap:wrap;gap:var(--s-3);align-items:center}
+
+/*── Switcher (columns → stack below breakpoint) ──*/
+.l-switch{display:flex;flex-wrap:wrap;gap:var(--s-6)}.l-switch>*{flex-basis:calc((40rem - 100%) * 999);flex-grow:1}
+
+/*── Cover (centered hero-style) ──*/
+.l-cover{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:var(--s-8)}
+
+/*── Reel (horizontal scroll) ──*/
+.l-reel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:var(--s-4);padding:var(--s-2) 0;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--bd) transparent}.l-reel>*{scroll-snap-align:start;flex-shrink:0;min-width:280px}
+.l-reel::-webkit-scrollbar{height:6px}
+.l-reel::-webkit-scrollbar-track{background:transparent;border-radius:3px;margin:0 4px}
+.l-reel::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px;transition:background var(--t-fast) var(--e-smooth)}
+.l-reel::-webkit-scrollbar-thumb:hover{background:var(--bd-h)}
+
+/*── Page Section Spacing ──*/
+.l-section{padding:var(--s-12) 0}.l-section-lg{padding:var(--s-24) 0}.l-section-xl{padding:var(--s-32) 0}
+
+/*── Dashboard Grid ──*/
+.l-dash{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--s-4)}.l-dash>.c4{grid-column:span 4}.l-dash>.c6{grid-column:span 6}.l-dash>.c8{grid-column:span 8}.l-dash>.c12{grid-column:span 12}
+
+/*── Responsive Layout Overrides ──*/
+@media(max-width:1024px){.l-sidebar-l,.l-sidebar-r,.l-three-col{grid-template-columns:1fr}.l-sidebar-l>.l-sb,.l-sidebar-r>.l-sb,.l-three-col>.l-sb{border-right:none;border-left:none;border-bottom:1px solid var(--bd)}.l-split-50,.l-split-70,.l-split-30{grid-template-columns:1fr}.l-dash{grid-template-columns:repeat(4,1fr)}.l-dash>.c4,.l-dash>.c6,.l-dash>.c8{grid-column:span 4}}
+
+
+/*═══════════════════ PHASE 1: DESIGN GUIDE ═══════════════════*/
+
+/*── Typography Scale ──*/
+.type-scale{display:flex;flex-direction:column;gap:var(--s-4)}.type-item{display:flex;align-items:baseline;gap:var(--s-6);padding:var(--s-3) 0;border-bottom:1px solid var(--bd)}.type-item:last-child{border-bottom:none}.type-preview{font-family:var(--f-disp);line-height:1.2;min-width:200px}.type-meta{font-size:.72rem;color:var(--tx-t);font-family:var(--f-mono)}
+.t-h1{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:750;letter-spacing:-.03em}.t-h2{font-size:1.8rem;font-weight:650;letter-spacing:-.02em}.t-h3{font-size:1.4rem;font-weight:600}.t-h4{font-size:1.1rem;font-weight:600}.t-body{font-size:.9rem;font-weight:400;color:var(--tx-s);font-family:var(--f-sans)}.t-caption{font-size:.75rem;font-weight:400;color:var(--tx-t)}.t-mono{font-family:var(--f-mono);font-size:.82rem;color:var(--pu)}.t-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.14em;font-weight:650;color:var(--tx-t)}
+
+/*── Color Palette Swatches ──*/
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:var(--s-2)}
+.swatch{display:flex;flex-direction:column;gap:6px}.swatch-box{height:56px;border-radius:var(--r-sm);border:1px solid var(--bd);transition:transform var(--t-fast) var(--e-spring)}.swatch-box:hover{transform:scale(1.05)}.swatch-name{font-size:.65rem;color:var(--tx-s);font-family:var(--f-mono)}.swatch-hex{font-size:.58rem;color:var(--tx-t);font-family:var(--f-mono)}
+
+/*── Spacing Scale Ruler ──*/
+.spacing-scale{display:flex;flex-direction:column;gap:var(--s-1)}.spacing-item{display:flex;align-items:center;gap:var(--s-4)}.spacing-label{width:48px;font-size:.65rem;font-family:var(--f-mono);color:var(--tx-t);text-align:right;flex-shrink:0}.spacing-bar{height:12px;border-radius:var(--r-xs);background:var(--br);opacity:.35;transition:all var(--t-n) var(--e-smooth)}.spacing-value{font-size:.65rem;font-family:var(--f-mono);color:var(--tx-s);flex-shrink:0;width:48px}
+
+/*── Shadow Scale ──*/
+.shadow-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:var(--s-3)}
+.shadow-box{height:72px;border-radius:var(--r-md);background:var(--bg-surface);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-family:var(--f-mono);color:var(--tx-s);transition:transform var(--t-fast) var(--e-spring)}.shadow-box:hover{transform:scale(1.04)}
+
+/*── Radius Scale ──*/
+.radius-scale{display:flex;align-items:flex-end;gap:var(--s-4);padding:var(--s-4) 0}.radius-item{display:flex;flex-direction:column;align-items:center;gap:6px}.radius-box{border:1px solid var(--br);background:var(--br-g);transition:transform var(--t-fast) var(--e-spring)}.radius-box:hover{transform:scale(1.1)}.radius-label{font-size:.58rem;font-family:var(--f-mono);color:var(--tx-t)}
+
+/*── Easing Viz ──*/
+.easing-viz{display:flex;flex-direction:column;gap:var(--s-3)}.easing-row{display:flex;align-items:center;gap:var(--s-4)}.easing-name{font-size:.72rem;font-family:var(--f-mono);color:var(--tx-s);width:120px;flex-shrink:0}.easing-bar{height:6px;border-radius:3px;background:var(--bd);flex:1;position:relative;overflow:hidden}.easing-dot{position:absolute;top:-4px;width:14px;height:14px;border-radius:50%;background:var(--br);animation:easingDemo 2s infinite}.e1 .easing-dot{animation-timing-function:var(--e-spring)}.e2 .easing-dot{animation-timing-function:var(--e-smooth)}.e3 .easing-dot{animation-timing-function:var(--e-decel)}.e4 .easing-dot{animation-timing-function:var(--e-accel)}.e5 .easing-dot{animation-timing-function:var(--e-emphasis)}
+@keyframes easingDemo{0%,5%{left:2%}95%,100%{left:95%}}
+
+/*═══════════════════ PHASE 2: ENHANCED COMPONENTS ═══════════════════*/
+
+/*── Double-Bezel Enhanced ──*/
+.db-sh-e{position:relative;padding:var(--s-2);border-radius:var(--r-xl);background:var(--bg-overlay);border:1px solid var(--bd);transition:all var(--t-slow) var(--e-smooth);box-shadow:0 0 0 1px var(--bg-surface),0 2px 8px rgba(0,0,0,.08)}
+.db-sh-e:hover{background:var(--bd-g);box-shadow:var(--sh-glow);transform:translateY(-3px)}
+.db-co-e{background:var(--bg-elevated);border-radius:calc(var(--r-xl) - 4px);padding:var(--s-6);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(0,0,0,.04);position:relative}
+
+/*── Sparkline / Mini Trend ──*/
+.spark{display:flex;align-items:flex-end;gap:2px;height:32px}.spark-bar{flex:1;border-radius:2px 2px 0 0;background:var(--br);min-width:3px;transition:height var(--t-slow) var(--e-smooth);opacity:.7}.spark-bar:hover{opacity:1}.spark.up .spark-bar{background:var(--br)}.spark.down .spark-bar{background:var(--cr)}
+.trend{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600}.trend.up{color:var(--gn)}.trend.down{color:var(--cr)}.trend-val{font-family:var(--f-mono)}
+
+/*── Stat Mini ──*/
+.stat-mini{display:flex;flex-direction:column;gap:2px;padding:var(--s-3)}.stat-mini-val{font-family:var(--f-disp);font-size:1.4rem;font-weight:750;letter-spacing:-.02em}.stat-mini-lbl{font-size:.68rem;color:var(--tx-t)}.stat-mini-tr{font-size:.65rem;display:flex;align-items:center;gap:3px}
+
+/*═══════════════════ PHASE 3: PAGE STATES ═══════════════════*/
+
+/*── Page Loading ──*/
+.pg-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;gap:var(--s-6)}.pg-loading .spin-lg{margin-bottom:var(--s-2)}.pg-loading p{font-size:.85rem;color:var(--tx-t)}
+
+/*── Page Error ──*/
+.pg-error{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;gap:var(--s-4);text-align:center}.pg-error-icon{width:64px;height:64px;border-radius:50%;background:rgba(248,113,113,.10);display:flex;align-items:center;justify-content:center;color:var(--cr)}.pg-error-title{font-size:1.1rem;font-weight:600}.pg-error-desc{font-size:.85rem;color:var(--tx-s);max-width:360px}
+
+/*── Page Empty ──*/
+.pg-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;gap:var(--s-3);text-align:center}.pg-empty-icon{width:64px;height:64px;border-radius:50%;background:var(--bg-overlay);display:flex;align-items:center;justify-content:center;color:var(--tx-d)}.pg-empty-title{font-size:1.1rem;font-weight:600}.pg-empty-desc{font-size:.85rem;color:var(--tx-t);max-width:360px}
+
+/*── Page Success ──*/
+.pg-success{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;gap:var(--s-3);text-align:center}.pg-success-icon{width:64px;height:64px;border-radius:50%;background:rgba(52,211,153,.10);display:flex;align-items:center;justify-content:center;color:var(--gn)}
+
+/*── TOC (Sticky) ──*/
+.toc-sticky{position:sticky;top:var(--s-4);z-index:40;background:var(--bg-glass-h);backdrop-filter:blur(24px) saturate(180%);border:1px solid var(--bd);border-radius:var(--r-lg);padding:var(--s-4);margin-bottom:var(--s-8);box-shadow:var(--sh-inner),var(--sh-sm)}.toc-title{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;font-weight:650;color:var(--tx-t);margin-bottom:var(--s-3)}
+.toc-list{display:flex;flex-wrap:wrap;gap:var(--s-1)}.toc-link{font-size:.75rem;padding:4px 12px;border-radius:var(--r-full);color:var(--tx-s);text-decoration:none;transition:all var(--t-fast) var(--e-smooth);cursor:pointer;background:transparent;border:1px solid transparent;font-family:var(--f-sans)}.toc-link:hover{background:var(--bg-glass-l);border-color:var(--bd);color:var(--tx-p)}.toc-link.active{background:var(--br-g);border-color:var(--br);color:var(--br)}
+
+/*── Auto Dark Mode ──*/
+@media(prefers-color-scheme:dark){html:not([data-theme]){--bg-root:#030712;color-scheme:dark}}@media(prefers-color-scheme:light){html:not([data-theme]){--bg-root:#F4F6FA;color-scheme:light}}
+
+@media(max-width:768px){.c{padding:0 var(--s-4)}.g2,.g3,.g4{grid-template-columns:1fr}h1{font-size:1.6rem}.bento{grid-template-columns:1fr}.b2,.b3{grid-column:span 1}.br2{grid-row:span 1}.dash{grid-template-columns:1fr}.dash .wide{grid-column:span 1}.stg-l{grid-template-columns:1fr}.pipe{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="ts"><button onclick="st('night')" class="active" title="暗夜">🌙</button><button onclick="st('day')" title="日间">☀️</button><button onclick="st('classic')" title="经典">📖</button></div>
+
+<!-- HERO -->
+<section class="hero"><div class="hero-flt"><span class="dot on"></span> v8.0 · Double-Bezel · Glass 2.0 · 80+ Components</div>
+<h1>超级牛马 <span class="tg">Design System</span></h1>
+<p>Double-Bezel双层卡片 · Glass 2.0折射玻璃 · 5-Bezier动画体系 · Bento流式布局 · 暗夜/日间/经典三主题</p>
+<div class="hero-act"><button class="btn">开始使用 <span class="btn-ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></span></button><button class="btn-2">组件文档</button></div></section>
+
+<div class="c pf">
+<div class="fnav" style="margin:0 auto var(--s-12)"><button class="fnav-btn active">基础</button><button class="fnav-btn">布局</button><button class="fnav-btn">页面</button><button class="fnav-btn">应用</button></div>
+
+<!-- 1. DOUBLE-BEZEL CARDS -->
+<section class="sec"><div class="sh"><span class="eyebrow">v8.0 核心</span><h2>Double-Bezel 双层卡片系统</h2><p>外层托盘 hairline ring + 内芯 highlight inset — 模拟铝制托盘上的玻璃面板</p></div>
+<div class="g3">
+<div class="db-sh"><div class="db-co"><h3>Standard DB</h3><p style="font-size:.82rem;color:var(--tx-s);margin-top:6px">双层嵌套结构：外壳托盘 + 内芯高光</p><div style="margin-top:12px;display:flex;gap:8px"><div class="badge br">核心</div><div class="badge gn">升级</div></div></div></div>
+<div class="db-sh db-gls"><div class="db-co"><h3>Glass DB</h3><p style="font-size:.82rem;color:var(--tx-s);margin-top:6px">内芯使用玻璃材质 heavy blur + saturate</p><div style="margin-top:12px"><div class="tgl on" onclick="this.classList.toggle('on')"></div></div></div></div>
+<div class="db-sh"><div class="db-co" style="text-align:center;padding:var(--s-8)"><div style="font-size:2.5rem;font-weight:700" class="tg">v8.0</div><div style="font-size:.75rem;color:var(--tx-t);margin-top:4px">Double-Bezel</div></div></div>
+</div><div class="hr"></div></section>
+
+<!-- 2. GLASS 2.0 -->
+<section class="sec"><div class="sh"><span class="eyebrow">材质</span><h2>Glass 2.0 玻璃系统</h2><p>Heavy / Medium / Light 三层玻璃 + saturate(180%) + 内高光 border</p></div>
+<div class="g4">
+<div class="gc-h"><div style="font-size:.85rem;font-weight:600;margin-bottom:4px">Heavy Glass</div><p style="font-size:.72rem;color:var(--tx-t)">blur(28px) + saturate(180%)</p></div>
+<div class="gc-m"><div style="font-size:.85rem;font-weight:600;margin-bottom:4px">Medium Glass</div><p style="font-size:.72rem;color:var(--tx-t)">blur(18px)</p></div>
+<div class="gc-l"><div style="font-size:.85rem;font-weight:600;margin-bottom:4px">Light Glass</div><p style="font-size:.72rem;color:var(--tx-t)">blur(12px)</p></div>
+<div class="cd-sp"><div style="font-size:.85rem;font-weight:600;margin-bottom:4px">Spotlight</div><p style="font-size:.72rem;color:var(--tx-t)">hover 渐变光晕</p></div>
+<div class="cd-gr"><div style="font-size:.85rem;font-weight:600;margin-bottom:4px">Gradient</div><p style="font-size:.72rem;color:var(--tx-t)">渐变底 + 品牌边框</p></div>
+</div><div class="hr"></div></section>
+
+<!-- 3. BUTTONS -->
+<section class="sec"><div class="sh"><span class="eyebrow">交互</span><h2>Buttons — Button-in-Button Pattern</h2><p>主按钮h时 trailing icon 独立圆形嵌套 + 磁吸位移</p></div>
+<div class="rw" style="gap:var(--s-3)">
+<button class="btn">主要操作 <span class="btn-ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></span></button>
+<button class="btn-2">次要操作</button>
+<button class="btn-sm" style="background:var(--gr);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;font-family:var(--f-sans)">小型按钮</button>
+<button class="btn-gh">幽灵按钮</button>
+<button class="btn-ic-o"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+<button class="btn-gh danger">删除</button>
+</div><div class="hr"></div></section>
+
+<!-- 4. BADGE / DOT / AVATAR / TOGGLE -->
+<section class="sec"><div class="sh"><span class="eyebrow">原子</span><h2>Badge · Dot · Avatar · Toggle</h2></div>
+<div class="rw" style="gap:var(--s-4)">
+<div><div class="lbl">Badges</div><div style="display:flex;gap:6px;flex-wrap:wrap"><span class="badge br">品牌</span><span class="badge gn">成功</span><span class="badge am">警告</span><span class="badge pu">创意</span><span class="badge cr">危险</span><span class="badge te">Teal</span></div></div>
+<div><div class="lbl">Dots</div><div style="display:flex;gap:8px;align-items:center"><span class="dot on"></span> Online <span class="dot warn"></span> Busy <span class="dot off"></span> Offline</div></div>
+<div><div class="lbl">Avatars</div><div style="display:flex;gap:8px;align-items:center"><div class="av br sm">H</div><div class="av pu">C</div><div class="av gn lg">D</div><div class="av am online xl">P</div></div></div>
+<div><div class="lbl">Toggle</div><div class="tgl on" onclick="this.classList.toggle('on')"></div></div>
+</div><div class="hr"></div></section>
+
+<!-- 5. INPUT / TAG / TABS / FORMS -->
+<section class="sec"><div class="sh"><span class="eyebrow">表单</span><h2>Input · Tag · Tabs · Checkbox · Radio</h2></div>
+<div class="g2">
+<div class="gc-m"><div class="fg"><label class="fl">项目名称</label><input class="inp" value="赛博工坊 v2.0"><div class="fh">支持中英文、数字和下划线</div></div>
+<div class="fg"><label class="fl">描述</label><textarea class="txta" placeholder="简要描述项目目标..."></textarea></div>
+<div style="display:flex;gap:var(--s-6);margin-top:var(--s-3)"><label class="chk"><input type="checkbox" checked><span class="chk-m"></span>自动保存</label><label class="chk"><input type="checkbox"><span class="chk-m"></span>通知提醒</label></div>
+<div style="display:flex;gap:var(--s-6);margin-top:var(--s-3)"><label class="rad"><input type="radio" name="r1" checked><span class="rad-m"></span>公开</label><label class="rad"><input type="radio" name="r1"><span class="rad-m"></span>私有</label></div></div>
+<div class="gc-m"><div class="lbl">Tags</div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:var(--s-4)"><span class="tag-o active">全部</span><span class="tag-o">前端</span><span class="tag-o">后端</span><span class="tag-o">设计</span><span class="tag-o">数据</span></div>
+<div class="lbl">Tabs</div><div class="tabs"><button class="tab active">概览</button><button class="tab">组件</button><button class="tab">页面</button><button class="tab">系统</button></div>
+<div class="lbl" style="margin-top:var(--s-4)">Search</div><div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input placeholder="搜索组件..."><span class="kbd">/</span></div></div>
+</div><div class="hr"></div></section>
+
+<!-- 6. PROGRESS / SKELETON / SPINNER -->
+<section class="sec"><div class="sh"><span class="eyebrow">状态</span><h2>Progress · Skeleton · Spinner</h2></div>
+<div class="g3"><div class="gc-m"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:.8rem">下载进度</span><span style="font-size:.75rem;color:var(--br)">68%</span></div><div class="prog"><div class="prog-bar" style="width:68%"></div></div><div style="margin-top:16px"><span style="font-size:.8rem;display:block;margin-bottom:6px">处理中</span><div class="prog"><div class="prog-ind"></div></div></div></div>
+<div class="gc-m"><div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="skel skel-a"></div><div style="flex:1"><div class="skel skel-t" style="width:60%"></div><div class="skel skel-t" style="width:40%"></div></div></div><div class="skel skel-c"></div><div style="display:flex;align-items:center;gap:10px;margin-top:12px"><div class="spin"></div><span style="font-size:.8rem;color:var(--tx-t)">加载中...</span></div></div></div><div class="hr"></div></section>
+
+<!-- 7. NAV RAIL + DIALOG -->
+<section class="sec"><div class="sh"><span class="eyebrow">布局</span><h2>Nav Rail + Dialog Modal</h2></div>
+<div class="rw" style="gap:var(--s-8);align-items:flex-start">
+<div class="nr"><div class="nr-icon active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+<div class="nr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+<div class="nr-icon nr-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+<div class="nr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></div>
+</div>
+<div><button class="btn-2" onclick="document.getElementById('demoDlg').style.display='flex'">打开弹窗</button></div>
+</div>
+<div class="ovr" id="demoDlg" style="display:none" onclick="if(event.target===this)this.style.display='none'"><div class="dlg"><div class="dlg-head"><h3>Skill 详情</h3><button class="btn-ic-o" onclick="document.getElementById('demoDlg').style.display='none'" style="width:32px;height:32px;font-size:18px">&times;</button></div>
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="av pu lg">DS</div><div><div style="font-weight:600">深度研究</div><div class="badge pu">推荐</div></div></div>
+<p style="font-size:.85rem;color:var(--tx-s);line-height:1.7">结构化深度调研，多 Agent 并行搜索与交叉验证。覆盖学术、技术、市场三大领域。支持自定义搜索源和交叉验证规则。</p>
+<div class="dlg-foot"><button class="btn-gh danger">删除</button><button class="btn" style="padding:8px 20px;font-size:.85rem" onclick="document.getElementById('demoDlg').style.display='none'">安装 <span class="btn-ic" style="width:22px;height:22px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg></span></button></div></div></div><div class="hr"></div></section>
+
+<!-- 8. DROPDOWN + MESSAGES + CODE -->
+<section class="sec"><div class="sh"><span class="eyebrow">组件</span><h2>Dropdown · Messages · Code Block</h2></div>
+<div class="g2">
+<div><div class="dd" id="dd8"><button class="dd-btn" onclick="td('dd8')">选择类型 <svg class="ch" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button><div class="dd-m" id="dd8-m"><div class="dd-it sel">研发项目</div><div class="dd-it">内容创作</div><div class="dd-it">数据分析</div><div class="dd-div"></div><div class="dd-it">自定义</div></div></div>
+<div class="tl" style="margin-top:var(--s-6)"><div class="tl-item"><div class="tl-dot done"></div><div class="tl-time">14:32</div><div style="font-size:.85rem;font-weight:500">任务完成：数据清洗</div><div style="font-size:.75rem;color:var(--tx-t)">处理 12,847 条记录</div></div>
+<div class="tl-item"><div class="tl-dot active"></div><div class="tl-time">14:45</div><div style="font-size:.85rem;font-weight:500">涌现洞察</div><div style="font-size:.75rem;color:var(--tx-t)">发现 3 个新行为模式</div></div></div></div>
+<div class="gc-m"><div class="bub-ai">从代码分析来看，主要性能瓶颈有三个：<br><br>1. <b>N+1查询</b> — 第23行循环内数据库查询<br>2. <b>未使用索引</b> — user_id字段全表扫描</div>
+<div class="bub-u" style="margin-top:12px">能帮我优化一下吗？</div>
+<div class="cb" style="margin-top:16px"><div class="cb-head"><span class="cb-lang">TypeScript</span><button class="cb-copy">复制</button></div><div class="cb-body"><span class="kw">async</span> <span class="kw">function</span> <span class="fn">optimize</span>(data: <span class="kw">string</span>[]): <span class="kw">Promise</span>&lt;<span class="kw">void</span>&gt; {&<span class="kw">nbsp</span>;<span class="cm">// batch process</span><br>&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">const</span> item <span class="kw">of</span> data) {<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">await</span> process(item);<br>&nbsp;&nbsp;}<br>}</div></div></div></div><div class="hr"></div></section>
+
+<!-- 9. FILE / TABLE / EMPTY / TOAST / CONTEXT -->
+<section class="sec"><div class="sh"><span class="eyebrow">数据</span><h2>File List · Table · Empty · Toast · Context Menu</h2></div>
+<div class="g2">
+<div class="gc-m" style="padding:var(--s-4)"><div class="fi"><div class="fi-ic fld"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div><div><div class="fi-nm">src/</div><div class="fi-meta">文件夹 · 12项</div></div><span class="ctr">12</span></div>
+<div class="fi"><div class="fi-ic doc"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><div class="fi-nm">README.md</div><div class="fi-meta">4.2 KB · 06-25</div></div></div>
+<div class="fi"><div class="fi-ic img"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/></svg></div><div><div class="fi-nm">banner.png</div><div class="fi-meta">1.2 MB · 06-24</div></div></div></div>
+<div class="gc-m" style="padding:0;overflow:hidden"><table class="tbl"><thead><tr><th>任务</th><th>状态</th><th>Agent</th></tr></thead><tbody><tr><td>数据清洗</td><td><span class="badge gn">完成</span></td><td><div style="display:flex;align-items:center;gap:6px"><div class="av br sm">H</div>Hermes</div></td></tr><tr><td>竞品分析</td><td><span class="badge br">进行中</span></td><td><div style="display:flex;align-items:center;gap:6px"><div class="av pu sm">D</div>Data</div></td></tr></tbody></table></div></div>
+<div class="rw" style="margin-top:var(--s-4);gap:var(--s-4)">
+<div class="gc-m" style="max-width:360px"><div class="empty"><div class="empty-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></div><div class="empty-title">暂无文件</div><div class="empty-desc">点击上传或拖拽文件到此处</div><button class="btn-2" style="margin-top:16px">上传文件</button></div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div class="toast ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gn)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>任务已完成</div><div class="toast err"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cr)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/></svg>连接超时</div></div>
+<div class="ctx"><div class="ctx-it"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="13" height="13" rx="2"/></svg>复制</div><div class="ctx-it"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>引用</div><div class="ctx-div"></div><div class="ctx-it danger"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>删除</div></div>
+</div><div class="hr"></div></section>
+
+<!-- 10. DASHBOARD + BENTO -->
+<section class="sec"><div class="sh"><span class="eyebrow">页面</span><h2>Dashboard + Bento Grid</h2></div>
+<div class="dash" style="margin-bottom:var(--s-6)"><div class="db-sh wide br2"><div class="db-co" style="height:100%"><div class="badge br" style="margin-bottom:8px">系统概览</div><h3>太极引擎状态</h3><div class="g3" style="grid-template-columns:repeat(3,1fr);margin-top:var(--s-4)"><div class="gc-m" style="text-align:center;padding:var(--s-4)"><div style="font-size:1.8rem;font-weight:700;color:var(--br)">47</div><div style="font-size:.7rem;color:var(--tx-t)">活跃模块</div></div><div class="gc-m" style="text-align:center;padding:var(--s-4)"><div style="font-size:1.8rem;font-weight:700" class="tg">12.4K</div><div style="font-size:.7rem;color:var(--tx-t)">今日Token</div></div><div class="gc-m" style="text-align:center;padding:var(--s-4)"><div style="font-size:1.8rem;font-weight:700;color:var(--gn)">99.7%</div><div style="font-size:.7rem;color:var(--tx-t)">可用率</div></div></div><div style="display:flex;gap:var(--s-4);margin-top:var(--s-4)"><div style="flex:1"><div style="font-size:.75rem;color:var(--tx-t);margin-bottom:4px">压缩率</div><div class="prog"><div class="prog-bar" style="width:72%"></div></div></div><div style="flex:1"><div style="font-size:.75rem;color:var(--tx-t);margin-bottom:4px">内存</div><div class="prog"><div class="prog-bar" style="width:45%"></div></div></div></div></div></div>
+<div class="db-sh"><div class="db-co"><div class="badge am" style="margin-bottom:8px">涌现</div><h3 style="font-size:.9rem">协同模式</h3><p style="font-size:.75rem;color:var(--tx-s);margin-top:4px">compression + memory 产生3个新协同</p></div></div>
+<div class="db-sh"><div class="db-co"><div class="badge gn" style="margin-bottom:8px">连接</div><h3 style="font-size:.9rem">连接器</h3><div style="display:flex;gap:12px;margin-top:8px"><div style="text-align:center"><div style="font-size:1.3rem;font-weight:700">8</div><div style="font-size:.65rem;color:var(--tx-t)">已连接</div></div><div style="text-align:center"><div style="font-size:1.3rem;font-weight:700;color:var(--tx-t)">3</div><div style="font-size:.65rem;color:var(--tx-t)">未连接</div></div></div></div></div></div>
+<div class="bento"><div class="db-sh b2 br2"><div class="db-co"><div class="badge br" style="margin-bottom:8px">太极引擎</div><h3>递归进化引擎</h3><p style="font-size:.8rem;color:var(--tx-s)">微型周期 · 每日周期 · 意识流追踪</p><div style="display:flex;gap:12px;align-items:center;margin-top:auto"><span class="dot on"></span><span style="font-size:.8rem;color:var(--tx-s)">v1.8 运行中</span></div></div></div>
+<div class="db-sh"><div class="db-co" style="text-align:center"><div style="font-size:2rem;font-weight:700">47</div><div style="font-size:.72rem;color:var(--tx-t)">模块</div></div></div>
+<div class="db-sh"><div class="db-co" style="text-align:center"><div style="font-size:2rem;font-weight:700;color:var(--te)">89%</div><div style="font-size:.72rem;color:var(--tx-t)">压缩率</div></div></div>
+<div class="db-sh"><div class="db-co"><div class="badge pu" style="margin-bottom:8px">新</div><h3 style="font-size:.9rem">网格P2P</h3><p style="font-size:.75rem;color:var(--tx-s)">3节点在线</p></div></div></div><div class="hr"></div></section>
+
+<!-- 11. CONNECTOR + PIPELINE -->
+<section class="sec"><div class="sh"><span class="eyebrow">应用</span><h2>Connector · Work Pipeline</h2></div>
+<div class="g3" style="margin-bottom:var(--s-4)"><div class="conn"><div class="conn-ic on"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="conn-info"><div class="conn-name">飞书</div><div class="conn-desc">消息推送 · 文档 · 日历</div></div><span class="dot on"></span><button class="btn-gh btn-sm">配置</button></div>
+<div class="conn"><div class="conn-ic on"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/></svg></div><div class="conn-info"><div class="conn-name">GitHub</div><div class="conn-desc">仓库 · PR · Issues</div></div><span class="dot on"></span><button class="btn-gh btn-sm">配置</button></div>
+<div class="conn"><div class="conn-ic off"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/></svg></div><div class="conn-info"><div class="conn-name">Notion</div><div class="conn-desc">未配置 API Key</div></div><span class="dot off"></span><button class="btn-2 btn-sm">连接</button></div></div>
+<div class="gc-m" style="overflow:auto"><div class="pipe"><div class="pipe-step done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>意图识别</div><div class="pipe-arrow">→</div><div class="pipe-step done">任务规划</div><div class="pipe-arrow">→</div><div class="pipe-step active"><div class="spin spin-sm"></div>Agent执行</div><div class="pipe-arrow">→</div><div class="pipe-step">Gate验证</div><div class="pipe-arrow">→</div><div class="pipe-step">交付</div></div></div><div class="hr"></div></section>
+
+<!-- 12. WORKFLOW + MODEL + SETTINGS + NEW v8 -->
+<section class="sec"><div class="sh"><span class="eyebrow">应用</span><h2>Workflow SOP · Model · Settings · Tree · Stepper · Notification</h2></div>
+<div class="g2">
+<div class="gc-m"><h3 style="margin-bottom:var(--s-4)">SOP 工作流</h3>
+<div class="wf active"><div class="wf-trig">手动触发 / 定时: 9:00</div><div style="font-weight:600;font-size:.9rem">S1: 数据采集</div><div style="font-size:.78rem;color:var(--tx-s);margin-top:4px">飞书 → 行业报告 → 竞品数据源</div></div>
+<div class="wf done"><div class="wf-trig">上一节点完成</div><div style="font-weight:600;font-size:.9rem">S2: 分析</div><div style="font-size:.78rem;color:var(--tx-s);margin-top:4px">趋势提取 → 异常检测</div></div>
+<div class="wf"><div class="wf-trig">条件: confidence > 0.8</div><div style="font-weight:600;font-size:.9rem">S3: 报告生成</div><div style="font-size:.78rem;color:var(--tx-s);margin-top:4px">Markdown → 飞书 · PDF</div></div></div>
+<div class="gc-m"><h3 style="margin-bottom:var(--s-4)">预装模型</h3>
+<div class="g4" style="margin-bottom:var(--s-4)"><div class="mc"><div style="font-weight:600;font-size:.85rem;margin-bottom:4px">Gemma-4</div><div style="font-size:.7rem;color:var(--tx-t);margin-bottom:6px">9B/27B</div><span class="mc-chip local">本地</span></div>
+<div class="mc"><div style="font-weight:600;font-size:.85rem;margin-bottom:4px">DeepSeek V4</div><div style="font-size:.7rem;color:var(--tx-t);margin-bottom:6px">API</div><span class="mc-chip api">API</span></div>
+<div class="mc"><div style="font-weight:600;font-size:.85rem;margin-bottom:4px">Qwen</div><div style="font-size:.7rem;color:var(--tx-t);margin-bottom:6px">多模态</div><span class="mc-chip local">本地</span></div></div>
+<button class="btn-2 btn-sm" style="width:100%;justify-content:center">+ 接入模型</button></div>
+</div>
+<div class="rw" style="gap:var(--s-4);margin-top:var(--s-4)">
+<div class="gc-m" style="flex:1"><h3 style="margin-bottom:var(--s-4)">树形视图</h3><div class="tv"><div class="tv-item"><span class="tv-caret open">▶</span> src/</div><div class="tv-item" style="padding-left:24px"><span class="tv-caret">▶</span> components/</div><div class="tv-item active" style="padding-left:42px">Button.tsx</div><div class="tv-item" style="padding-left:42px">Card.tsx</div></div></div>
+<div class="gc-m" style="flex:1"><h3 style="margin-bottom:var(--s-4)">步骤条</h3>
+<div class="stepper"><div class="stp done"><div class="stp-dot">✓</div><div class="stp-label">采集</div></div><div class="stp-line done"></div><div class="stp active"><div class="stp-dot">2</div><div class="stp-label">分析</div></div><div class="stp-line"></div><div class="stp"><div class="stp-dot">3</div><div class="stp-label">生成</div></div><div class="stp-line"></div><div class="stp"><div class="stp-dot">4</div><div class="stp-label">交付</div></div></div></div>
+</div><div style="max-width:400px;margin-top:var(--s-4)"><div class="nf"><div class="nf-item unread"><div class="nf-dot"></div><div><div style="font-size:.85rem;font-weight:500">涌现洞察</div><div style="font-size:.72rem;color:var(--tx-t)">compression_engine 发现3个新行为模式</div><div style="font-size:.65rem;color:var(--tx-t);margin-top:2px">2 分钟前</div></div></div>
+<div class="nf-item"><div class="nf-dot" style="background:var(--tx-d);box-shadow:none"></div><div><div style="font-size:.85rem;font-weight:500">SOP 更新</div><div style="font-size:.72rem;color:var(--tx-t)">新增飞书知识库节点</div><div style="font-size:.65rem;color:var(--tx-t);margin-top:2px">15 分钟前</div></div></div></div></div><div class="hr"></div></section>
+
+<!-- 13. STATS + ICON GRID -->
+<section class="sec"><div class="sh"><span class="eyebrow">汇总</span><h2>Stats · Icons · Bento Dashboard</h2></div>
+<div class="g4" style="margin-bottom:var(--s-6)"><div class="gc-m stat"><div class="stat-val tg">12.4K</div><div class="stat-lbl">今日Token</div><div class="stat-tr up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg> +12.5%</div></div>
+<div class="gc-m stat"><div class="stat-val" style="color:var(--gn)">47</div><div class="stat-lbl">活跃模块</div><div class="stat-tr up">+3</div></div>
+<div class="gc-m stat"><div class="stat-val" style="color:var(--cr)">2.8s</div><div class="stat-lbl">平均响应</div><div class="stat-tr down"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/></svg> +0.3s</div></div>
+<div class="gc-m stat"><div class="stat-val" style="color:var(--am)">89%</div><div class="stat-lbl">压缩率</div><div class="stat-tr up">+5%</div></div></div>
+<div class="ig"><div class="ig-it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>chat</span></div>
+<div class="ig-it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>activity</span></div>
+<div class="ig-it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span>dashboard</span></div>
+<div class="ig-it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg><span>check</span></div>
+<div class="ig-it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span>code</span></div>
+<div class="ig-it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10"/></svg><span>globe</span></div>
+<div class="ig-it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>search</span></div>
+<div class="ig-it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span>folder</span></div></div>
+
+
+<!-- ═══════════════ ICON LIBRARY ═══════════════ -->
+<section class="sec"><div class="sh"><span class="eyebrow">图标</span><h2>Icon Library — 40+ 矢量图标</h2><p>按类别组织：导航 · 操作 · 文件 · 状态 · 社交 · 工具</p></div>
+
+<div class="lbl">导航 Navigation</div>
+<div class="ig-lib" style="margin-bottom:var(--s-6)">
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>home</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>search</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg><span>menu</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>grid</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg><span>chevron-l</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg><span>chevron-r</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg><span>chevron-d</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>info</span></div>
+</div>
+
+<div class="lbl">操作 Actions</div>
+<div class="ig-lib" style="margin-bottom:var(--s-6)">
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>plus</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>close</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span>check</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg><span>edit</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg><span>delete</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>copy</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>download</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><span>upload</span></div>
+</div>
+
+<div class="lbl">通信 / 文件</div>
+<div class="ig-lib" style="margin-bottom:var(--s-6)">
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>chat</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>phone</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22 6 12 13 2 6"/></svg><span>mail</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>file</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span>folder</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>image</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="12 6 12 12 16 16"/></svg><span>lock</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>shield</span></div>
+</div>
+
+<div class="lbl">用户 / 状态</div>
+<div class="ig-lib" style="margin-bottom:var(--s-6)">
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>user</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>users</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>clock</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>activity</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>heart</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>star</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg><span>more-h</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>equalizer</span></div>
+</div>
+
+<div class="lbl">工具 / 开发</div>
+<div class="ig-lib" style="margin-bottom:var(--s-6)">
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>settings</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span>code</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>pen</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg><span>terminal</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg><span>dashboard</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg><span>globe</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><span>eye</span></div>
+<div class="ig-lib-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>help</span></div>
+</div>
+
+<div class="lbl">Icon 尺寸与颜色变体</div>
+<div class="rw" style="gap:var(--s-3);margin-bottom:var(--s-4)">
+<span class="badge br">.i-xs 14px</span><span class="badge gn">.i-sm 18px</span><span class="badge am">.i-md 24px</span><span class="badge pu">.i-lg 32px</span><span class="badge te">.i-xl 48px</span>
+</div>
+<div class="rw" style="gap:var(--s-3)">
+<svg class="i-md i-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="20 6 9 17 4 12"/></svg>
+<svg class="i-md i-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="20 6 9 17 4 12"/></svg>
+<svg class="i-md i-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="20 6 9 17 4 12"/></svg>
+<svg class="i-md i-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="20 6 9 17 4 12"/></svg>
+<svg class="i-md i-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="20 6 9 17 4 12"/></svg>
+<svg class="i-md i-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="20 6 9 17 4 12"/></svg>
+</div><div class="hr"></div></section>
+
+<!-- ═══════════════ ANIMATION SHOWCASE ═══════════════ -->
+<section class="sec"><div class="sh"><span class="eyebrow">动效</span><h2>Animation System — 5-Bezier + 20+ Presets</h2><p>入场动画 · 交互动画 · 状态动画 · 加载动画 · 页面转场</p></div>
+
+<div class="lbl">入场动画 Entry</div>
+<div class="g3" style="margin-bottom:var(--s-6)">
+<div class="gc-m slide-up" style="animation-delay:0s"><h3>Slide Up</h3><p style="font-size:.78rem;color:var(--tx-t)">.slide-up · 0s delay</p></div>
+<div class="gc-m slide-up" style="animation-delay:.1s"><h3>Slide Up +0.1s</h3><p style="font-size:.78rem;color:var(--tx-t)">staggered delay</p></div>
+<div class="gc-m slide-up" style="animation-delay:.2s"><h3>Slide Up +0.2s</h3><p style="font-size:.78rem;color:var(--tx-t)">staggered delay</p></div>
+<div class="gc-m scale-in"><h3>Scale In</h3><p style="font-size:.78rem;color:var(--tx-t)">.scale-in · 400ms spring</p></div>
+<div class="gc-m reveal-blur"><h3>Blur Reveal</h3><p style="font-size:.78rem;color:var(--tx-t)">.reveal-blur · 800ms</p></div>
+<div class="gc-m slide-left"><h3>Slide Left</h3><p style="font-size:.78rem;color:var(--tx-t)">.slide-left</p></div>
+</div>
+
+<div class="lbl">交互效果 Interactive</div>
+<div class="rw" style="gap:var(--s-4);margin-bottom:var(--s-6)">
+<div class="gc-m mag-hover" style="width:200px;text-align:center"><span style="font-size:2rem">🧲</span><p style="font-size:.75rem;color:var(--tx-t);margin-top:4px">.mag-hover<br>磁吸放大</p></div>
+<div class="gc-m lift-glow" style="width:200px;text-align:center"><span style="font-size:2rem">✨</span><p style="font-size:.75rem;color:var(--tx-t);margin-top:4px">.lift-glow<br>抬升光晕</p></div>
+<div class="gc-m rotate-hover" style="width:200px;text-align:center"><span style="font-size:2rem">🔄</span><p style="font-size:.75rem;color:var(--tx-t);margin-top:4px">.rotate-hover<br>悬停旋转</p></div>
+<div class="gc-m glow-pulse" style="width:200px;text-align:center"><span style="font-size:2rem">💫</span><p style="font-size:.75rem;color:var(--tx-t);margin-top:4px">.glow-pulse<br>脉冲光晕</p></div>
+</div>
+
+<div class="lbl">状态动画 Status</div>
+<div class="rw" style="gap:var(--s-6);align-items:center;margin-bottom:var(--s-6)">
+<div style="display:flex;align-items:center;gap:8px"><span class="dot on pulse"></span><span style="font-size:.8rem">.pulse 在线</span></div>
+<div style="display:flex;align-items:center;gap:8px"><div class="spin spin-sm"></div><span style="font-size:.8rem">spin 加载</span></div>
+<div style="display:flex;align-items:center;gap:8px"><div class="skel skel-t skel-pulse" style="width:120px;display:inline-block"></div><span style="font-size:.8rem">.skel-pulse</span></div>
+<div style="display:flex;align-items:center;gap:8px"><span class="shimmer" style="font-size:1.2rem;font-weight:600">Shimmer Text</span></div>
+<div style="display:flex;align-items:center;gap:8px"><span class="bounce" style="font-size:1.5rem">↑</span><span style="font-size:.8rem">.bounce</span></div>
+<div style="display:flex;align-items:center;gap:8px"><span class="shake" style="font-size:1.2rem">⚠</span><span style="font-size:.8rem">.shake 错误</span></div>
+</div>
+
+<div class="lbl">交互动画按钮</div>
+<div class="rw" style="gap:var(--s-3);margin-bottom:var(--s-4)">
+<button class="i-btn ripple" onclick="this.classList.add('ripple')"><svg class="i-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></button>
+<button class="i-btn-round ripple"><svg class="i-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="20 6 9 17 4 12"/></svg></button>
+<button class="i-btn-round lift-glow"><svg class="i-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+<button class="i-btn-round rotate-hover"><svg class="i-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+</div><div class="hr"></div></section>
+
+<!-- ═══════════════ PAGE LAYOUTS ═══════════════ -->
+<section class="sec"><div class="sh"><span class="eyebrow">布局</span><h2>Page Layouts — 15+ 预设模板</h2><p>应用壳 · 侧边栏 · 分栏 · 网格 · 居中 · 全屏覆盖 · 水平滚动 · 仪表盘12栅格</p></div>
+
+<div class="lbl">Layout 01: App Shell（导航轨 + 内容区）</div>
+<div class="gc-m" style="height:180px;overflow:hidden;padding:0;margin-bottom:var(--s-4)">
+<div class="l-app" style="height:100%">
+<div class="l-app-nav nr" style="height:100%;border-radius:0;border-right:1px solid var(--bd)"><div class="nr-icon active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="nr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></div></div>
+<div class="l-app-body" style="padding:var(--s-4);display:flex;align-items:center;justify-content:center;color:var(--tx-t);font-size:.8rem">.l-app — Content Area</div>
+</div></div>
+
+<div class="lbl">Layout 02: Sidebar + Content</div>
+<div class="gc-m" style="height:180px;overflow:hidden;padding:0;margin-bottom:var(--s-4)">
+<div class="l-sidebar-l" style="height:100%">
+<div class="l-sb" style="display:flex;align-items:center;justify-content:center;font-size:.72rem;color:var(--tx-t)">.l-sb<br>240px</div>
+<div style="padding:var(--s-4);display:flex;align-items:center;justify-content:center;font-size:.72rem;color:var(--tx-t)">Content Area — flex:1</div>
+</div></div>
+
+<div class="lbl">Layout 03: Split 50/50 · 70/30 · 30/70</div>
+<div class="gc-m" style="height:160px;overflow:hidden;padding:var(--s-4);margin-bottom:var(--s-4)">
+<div class="l-split-50" style="height:100%">
+<div style="background:var(--bg-glass-l);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--tx-t)">50%</div>
+<div style="background:var(--bg-glass-l);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--tx-t)">50%</div>
+</div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s-4);margin-bottom:var(--s-4)">
+<div class="gc-m" style="height:100px;overflow:hidden;padding:var(--s-3)">
+<div class="l-split-70" style="height:100%">
+<div style="background:var(--bg-glass-l);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--tx-t)">70%</div>
+<div style="background:var(--bg-glass-l);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--tx-t)">30%</div>
+</div></div>
+<div class="gc-m" style="height:100px;overflow:hidden;padding:var(--s-3)">
+<div class="l-split-30" style="height:100%">
+<div style="background:var(--bg-glass-l);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--tx-t)">30%</div>
+<div style="background:var(--bg-glass-l);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--tx-t)">70%</div>
+</div></div></div>
+
+<div class="lbl">Layout 04: Three-Column</div>
+<div class="gc-m" style="height:160px;overflow:hidden;padding:0;margin-bottom:var(--s-4)">
+<div class="l-three-col" style="height:100%">
+<div style="background:var(--bg-glass-l);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--tx-t);border-right:1px solid var(--bd)">Nav 200px</div>
+<div style="padding:var(--s-3);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--tx-t)">Content flex:1</div>
+<div style="background:var(--bg-glass-l);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--tx-t);border-left:1px solid var(--bd)">Panel 280px</div>
+</div></div>
+
+<div class="lbl">Layout 05: Centered · Cover · Reel</div>
+<div class="g3" style="margin-bottom:var(--s-4)">
+<div class="gc-m" style="height:140px;overflow:hidden;padding:var(--s-3)">
+<div class="l-cover" style="height:100%;padding:0"><span style="font-size:.7rem;color:var(--tx-t)">.l-cover<br>centered hero</span></div></div>
+<div class="gc-m" style="height:140px;overflow:hidden;padding:var(--s-3)">
+<div class="l-reel" style="height:100%"><div style="min-width:120px;background:var(--bg-glass-l);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--tx-t)">Card 1</div><div style="min-width:120px;background:var(--bg-glass-l);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--tx-t)">Card 2</div><div style="min-width:120px;background:var(--bg-glass-l);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--tx-t)">Card 3</div></div></div>
+<div class="gc-m" style="height:140px;overflow:hidden;padding:0">
+<div class="l-app" style="height:100%"><div class="l-app-nav" style="width:48px;background:var(--bg-glass-l);border-right:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:.55rem;color:var(--tx-t);writing-mode:vertical-rl">Nav</div><div class="l-app-body" style="display:flex;flex-direction:column"><div style="padding:8px;border-bottom:1px solid var(--bd);font-size:.55rem;color:var(--tx-t)">Header</div><div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:.55rem;color:var(--tx-t)">Scroll</div></div></div></div></div>
+
+<div class="lbl">Layout 06: 12-Grid Dashboard</div>
+<div class="gc-m" style="padding:var(--s-3)">
+<div class="l-dash" style="margin-bottom:var(--s-2)">
+<div class="c8"><div style="background:var(--bg-glass-l);border-radius:var(--r-sm);padding:10px;font-size:.65rem;color:var(--tx-t)">.c8 — 主区域</div></div>
+<div class="c4"><div style="background:var(--bg-glass-l);border-radius:var(--r-sm);padding:10px 10px 30px;font-size:.65rem;color:var(--tx-t)">.c4</div></div>
+</div>
+<div class="l-dash">
+<div class="c4"><div style="background:var(--bg-glass-l);border-radius:var(--r-sm);padding:10px 10px 20px;font-size:.65rem;color:var(--tx-t)">.c4</div></div>
+<div class="c4"><div style="background:var(--bg-glass-l);border-radius:var(--r-sm);padding:10px 10px 20px;font-size:.65rem;color:var(--tx-t)">.c4</div></div>
+<div class="c4"><div style="background:var(--bg-glass-l);border-radius:var(--r-sm);padding:10px 10px 20px;font-size:.65rem;color:var(--tx-t)">.c4</div></div>
+</div></div>
+
+<div class="lbl" style="margin-top:var(--s-4)">Layout 07: Card Grid Densities</div>
+<div class="rw" style="gap:var(--s-4)">
+<div style="flex:1"><span style="font-size:.65rem;color:var(--tx-t);display:block;margin-bottom:4px">.l-card-dense (200px)</span><div class="gc-m" style="padding:var(--s-2);height:80px"><div class="l-card-dense" style="grid-template-columns:repeat(3,1fr);height:100%"><div style="background:var(--bg-glass-l);border-radius:var(--r-2xs)"></div><div style="background:var(--bg-glass-l);border-radius:var(--r-2xs)"></div><div style="background:var(--bg-glass-l);border-radius:var(--r-2xs)"></div></div></div></div>
+<div style="flex:1"><span style="font-size:.65rem;color:var(--tx-t);display:block;margin-bottom:4px">.l-card-normal (280px)</span><div class="gc-m" style="padding:var(--s-2);height:80px"><div class="l-card-normal" style="grid-template-columns:repeat(2,1fr);height:100%"><div style="background:var(--bg-glass-l);border-radius:var(--r-xs)"></div><div style="background:var(--bg-glass-l);border-radius:var(--r-xs)"></div></div></div></div>
+<div style="flex:1"><span style="font-size:.65rem;color:var(--tx-t);display:block;margin-bottom:4px">.l-stack (vertical)</span><div class="gc-m" style="padding:var(--s-3);height:80px"><div class="l-stack-sm" style="height:100%"><div style="flex:1;background:var(--bg-glass-l);border-radius:var(--r-2xs)"></div><div style="height:8px;background:var(--bg-glass-l);border-radius:var(--r-2xs)"></div><div style="height:8px;background:var(--bg-glass-l);border-radius:var(--r-2xs)"></div></div></div></div>
+</div><div class="hr"></div></section>
+
+
+<!-- ═══════════════ TOC 粘性目录 ═══════════════ -->
+<div class="toc-sticky" style="margin:var(--s-8) 0 0">
+<div class="toc-title">快速导航 Quick Nav</div>
+<div class="toc-list">
+<a class="toc-link active" href="#ds-typography">字体</a>
+<a class="toc-link" href="#ds-color">色板</a>
+<a class="toc-link" href="#ds-spacing">间距·阴影·圆角</a>
+<a class="toc-link" href="#ds-easing">缓动</a>
+<a class="toc-link" href="#ds-db">卡片</a>
+<a class="toc-link" href="#ds-glass">玻璃</a>
+<a class="toc-link" href="#ds-buttons">按钮</a>
+<a class="toc-link" href="#ds-atoms">原子</a>
+<a class="toc-link" href="#ds-forms">表单</a>
+<a class="toc-link" href="#ds-status">状态</a>
+<a class="toc-link" href="#ds-layouts">布局</a>
+<a class="toc-link" href="#ds-icons">图标</a>
+<a class="toc-link" href="#ds-anim">动效</a>
+<a class="toc-link" href="#ds-pagelayouts">页面</a>
+<a class="toc-link" href="#ds-sparkline">图表</a>
+<a class="toc-link" href="#ds-pagestates">页态</a>
+</div></div>
+
+<!-- ═══════════════ 0. DESIGN GUIDE: TYPOGRAPHY ═══════════════ -->
+<section class="sec" id="ds-typography"><div class="sh"><span class="eyebrow">指南</span><h2>Typography Scale 字体阶梯</h2><p>Display · Heading · Body · Caption · Mono · Eyebrow — 9级阶梯</p></div>
+<div class="g2"><div class="gc-m"><div class="type-scale">
+<div class="type-item"><div class="type-preview t-h1">Heading 1</div><div class="type-meta">Display / 750 / -0.03em / clamp(2rem,4.5vw,3.2rem)</div></div>
+<div class="type-item"><div class="type-preview t-h2">Heading 2</div><div class="type-meta">Display / 650 / -0.02em / 1.8rem</div></div>
+<div class="type-item"><div class="type-preview t-h3">Heading 3</div><div class="type-meta">Display / 600 / 1.4rem</div></div>
+<div class="type-item"><div class="type-preview t-h4">Heading 4</div><div class="type-meta">Display / 600 / 1.1rem</div></div>
+<div class="type-item"><div class="type-preview t-body">Body Text · 正文用于段落内容，行高 1.6，最大阅读舒适度。</div><div class="type-meta">Sans / 400 / 0.9rem / line-height 1.6</div></div>
+<div class="type-item"><div class="type-preview t-caption">Caption · 辅助信息 元数据 时间戳</div><div class="type-meta">Sans / 400 / 0.75rem</div></div>
+<div class="type-item"><div class="type-preview t-mono">Mono · const x = 42;</div><div class="type-meta">Mono / 0.82rem / Geist Mono</div></div>
+<div class="type-item"><div class="type-preview t-eyebrow">EYEBROW LABEL</div><div class="type-meta">Sans / 650 / 10px / 0.14em / uppercase</div></div>
+</div></div>
+<div class="gc-m"><div class="type-scale">
+<div class="type-item"><div class="type-preview" style="font-family:var(--f-sans);font-size:2rem;font-weight:750">Geist Bold</div><div class="type-meta">--f-sans / 750 weight</div></div>
+<div class="type-item"><div class="type-preview" style="font-family:var(--f-sans);font-size:1.2rem;font-weight:600">Geist Semibold</div><div class="type-meta">--f-sans / 600 weight</div></div>
+<div class="type-item"><div class="type-preview" style="font-family:var(--f-sans);font-size:1.2rem;font-weight:400">Geist Regular</div><div class="type-meta">--f-sans / 400 weight</div></div>
+<div class="type-item"><div class="type-preview" style="font-family:var(--f-mono);font-size:1.2rem;font-weight:600">Geist Mono</div><div class="type-meta">--f-mono / 600 weight</div></div>
+<div class="type-item"><div class="type-preview" style="font-family:var(--f-mono);font-size:1.2rem;font-weight:400">Geist Mono</div><div class="type-meta">--f-mono / 400 weight</div></div>
+</div></div></div><div class="hr"></div></section>
+
+<!-- ═══════════════ 0. COLOR PALETTE ═══════════════ -->
+<div id="ds-color"></div>
+<section class="sec"><div class="sh"><span class="eyebrow">指南</span><h2>Color Palette 色板体系</h2><p>品牌蓝 · 语义色 · 表面色 · 文字色 · 边框色 — 62变量/主题</p></div>
+
+<div class="lbl">Brand 品牌色</div>
+<div class="swatch-grid" style="margin-bottom:var(--s-6)">
+<div class="swatch"><div class="swatch-box" style="background:var(--br)"></div><div class="swatch-name">--br</div><div class="swatch-hex">Brand Primary</div></div>
+<div class="swatch"><div class="swatch-box" style="background:var(--br-h)"></div><div class="swatch-name">--br-h</div><div class="swatch-hex">Brand Hover</div></div>
+<div class="swatch"><div class="swatch-box" style="background:var(--br-d)"></div><div class="swatch-name">--br-d</div><div class="swatch-hex">Brand Deep</div></div>
+<div class="swatch"><div class="swatch-box" style="background:linear-gradient(135deg,var(--br),var(--te))"></div><div class="swatch-name">--gr</div><div class="swatch-hex">Gradient</div></div>
+</div>
+
+<div class="lbl">Semantic 语义色</div>
+<div class="swatch-grid" style="margin-bottom:var(--s-6)">
+<div class="swatch"><div class="swatch-box" style="background:var(--cr)"></div><div class="swatch-name">--cr</div><div class="swatch-hex">Danger</div></div>
+<div class="swatch"><div class="swatch-box" style="background:var(--gn)"></div><div class="swatch-name">--gn</div><div class="swatch-hex">Success</div></div>
+<div class="swatch"><div class="swatch-box" style="background:var(--am)"></div><div class="swatch-name">--am</div><div class="swatch-hex">Warning</div></div>
+<div class="swatch"><div class="swatch-box" style="background:var(--pu)"></div><div class="swatch-name">--pu</div><div class="swatch-hex">Purple/Creative</div></div>
+<div class="swatch"><div class="swatch-box" style="background:var(--te)"></div><div class="swatch-name">--te</div><div class="swatch-hex">Teal</div></div>
+<div class="swatch"><div class="swatch-box" style="background:var(--cy)"></div><div class="swatch-name">--cy</div><div class="swatch-hex">Cyan</div></div>
+</div>
+
+<div class="lbl">Surfaces 表面色 (暗/日/经典 三主题各不同)</div>
+<div class="g3" style="margin-bottom:var(--s-6)">
+<div class="gc-m"><div class="lbl">bg-root</div><div style="height:32px;background:var(--bg-root);border-radius:var(--r-xs);border:1px solid var(--bd)"></div></div>
+<div class="gc-m"><div class="lbl">bg-surface</div><div style="height:32px;background:var(--bg-surface);border-radius:var(--r-xs);border:1px solid var(--bd)"></div></div>
+<div class="gc-m"><div class="lbl">bg-elevated</div><div style="height:32px;background:var(--bg-elevated);border-radius:var(--r-xs);border:1px solid var(--bd)"></div></div>
+<div class="gc-m"><div class="lbl">bg-glass-h</div><div style="height:32px;background:var(--bg-glass-h);backdrop-filter:blur(20px);border-radius:var(--r-xs);border:1px solid var(--bd)"></div></div>
+<div class="gc-m"><div class="lbl">bg-glass-b</div><div style="height:32px;background:var(--bg-glass-b);backdrop-filter:blur(20px);border-radius:var(--r-xs);border:1px solid var(--bd)"></div></div>
+<div class="gc-m"><div class="lbl">bg-overlay</div><div style="height:32px;background:var(--bg-overlay);border-radius:var(--r-xs);border:1px solid var(--bd)"></div></div>
+</div>
+
+<div class="lbl">Text Colors 文字色</div>
+<div class="rw" style="gap:var(--s-3);flex-wrap:wrap;margin-bottom:var(--s-4)">
+<span style="font-size:1.2rem;font-weight:700;color:var(--tx-p)">--tx-p Primary</span>
+<span style="font-size:1.2rem;font-weight:500;color:var(--tx-s)">--tx-s Secondary</span>
+<span style="font-size:1.2rem;color:var(--tx-t)">--tx-t Tertiary</span>
+<span style="font-size:1.2rem;color:var(--tx-d)">--tx-d Disabled</span>
+</div><div class="hr"></div></section>
+
+<!-- ═══════════════ 0. SPACING + SHADOW + RADIUS + EASING ═══════════════ -->
+<section class="sec" id="ds-spacing"><div class="sh"><span class="eyebrow">指南</span><h2>Design Tokens — 间距 · 阴影 · 圆角 · 缓动</h2><p>15级间距 / 5级阴影 / 8级圆角 / 5条贝塞尔</p></div>
+
+<div class="g2">
+<div class="gc-m"><div class="lbl">Spacing Scale (-s-0 → --s-32)</div>
+<div class="spacing-scale">
+<div class="spacing-item"><span class="spacing-label">s-0</span><div class="spacing-bar" style="width:0px"></div><span class="spacing-value">0</span></div>
+<div class="spacing-item"><span class="spacing-label">s-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+<div class="spacing-item"><span class="spacing-label">s-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+<div class="spacing-item"><span class="spacing-label">s-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+<div class="spacing-item"><span class="spacing-label">s-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+<div class="spacing-item"><span class="spacing-label">s-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+<div class="spacing-item"><span class="spacing-label">s-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+<div class="spacing-item"><span class="spacing-label">s-16</span><div class="spacing-bar" style="width:64px"></div><span class="spacing-value">64px</span></div>
+<div class="spacing-item"><span class="spacing-label">s-20</span><div class="spacing-bar" style="width:80px"></div><span class="spacing-value">80px</span></div>
+<div class="spacing-item"><span class="spacing-label">s-32</span><div class="spacing-bar" style="width:128px"></div><span class="spacing-value">128px</span></div>
+</div></div>
+<div class="gc-m"><div class="lbl">Shadow Scale</div>
+<div class="shadow-grid">
+<div class="shadow-box" style="box-shadow:var(--sh-xs)">--sh-xs</div>
+<div class="shadow-box" style="box-shadow:var(--sh-sm)">--sh-sm</div>
+<div class="shadow-box" style="box-shadow:var(--sh-md)">--sh-md</div>
+<div class="shadow-box" style="box-shadow:var(--sh-lg)">--sh-lg</div>
+<div class="shadow-box" style="box-shadow:var(--sh-xl)">--sh-xl</div>
+<div class="shadow-box" style="box-shadow:var(--sh-gl)">--sh-gl</div>
+<div class="shadow-box" style="box-shadow:var(--sh-glow)">--sh-glow</div>
+<div class="shadow-box" style="box-shadow:var(--sh-inner)">--sh-inner</div>
+</div></div>
+</div>
+
+<div class="g2" style="margin-top:var(--s-4)">
+<div class="gc-m"><div class="lbl">Radius Scale (Squircle)</div>
+<div class="radius-scale">
+<div class="radius-item"><div class="radius-box" style="width:28px;height:28px;border-radius:var(--r-2xs)"></div><div class="radius-label">r-2xs 4px</div></div>
+<div class="radius-item"><div class="radius-box" style="width:36px;height:36px;border-radius:var(--r-xs)"></div><div class="radius-label">r-xs 7px</div></div>
+<div class="radius-item"><div class="radius-box" style="width:44px;height:44px;border-radius:var(--r-sm)"></div><div class="radius-label">r-sm 10px</div></div>
+<div class="radius-item"><div class="radius-box" style="width:52px;height:52px;border-radius:var(--r-md)"></div><div class="radius-label">r-md 16px</div></div>
+<div class="radius-item"><div class="radius-box" style="width:60px;height:60px;border-radius:var(--r-lg)"></div><div class="radius-label">r-lg 22px</div></div>
+<div class="radius-item"><div class="radius-box" style="width:68px;height:68px;border-radius:var(--r-xl)"></div><div class="radius-label">r-xl 28px</div></div>
+<div class="radius-item"><div class="radius-box" style="width:76px;height:76px;border-radius:var(--r-2xl)"></div><div class="radius-label">r-2xl 36px</div></div>
+</div></div>
+<div class="gc-m"><div class="lbl" id="ds-easing">Easing Curves 缓动曲线</div>
+<div class="easing-viz">
+<div class="easing-row e1"><span class="easing-name">--e-spring</span><div class="easing-bar"><div class="easing-dot"></div></div></div>
+<div class="easing-row e2"><span class="easing-name">--e-smooth</span><div class="easing-bar"><div class="easing-dot"></div></div></div>
+<div class="easing-row e3"><span class="easing-name">--e-decel</span><div class="easing-bar"><div class="easing-dot"></div></div></div>
+<div class="easing-row e4"><span class="easing-name">--e-accel</span><div class="easing-bar"><div class="easing-dot"></div></div></div>
+<div class="easing-row e5"><span class="easing-name">--e-emphasis</span><div class="easing-bar"><div class="easing-dot"></div></div></div>
+</div></div>
+</div><div class="hr"></div></section>
+
+
+<!-- ═══════════════ PHASE 2: SPARKLINE / DATA VIZ ═══════════════ -->
+<section class="sec" id="ds-sparkline"><div class="sh"><span class="eyebrow">数据</span><h2>Sparkline · Mini Trend · Stat Dash</h2><p>微型趋势图 · 迷你统计卡 · 数据指示器</p></div>
+<div class="g3">
+<div class="gc-m"><div class="lbl">Sparkline (up)</div>
+<div class="spark up"><div class="spark-bar" style="height:50%"></div><div class="spark-bar" style="height:70%"></div><div class="spark-bar" style="height:45%"></div><div class="spark-bar" style="height:80%"></div><div class="spark-bar" style="height:60%"></div><div class="spark-bar" style="height:90%"></div><div class="spark-bar" style="height:75%"></div><div class="spark-bar" style="height:100%"></div></div>
+<div style="display:flex;justify-content:space-between;margin-top:4px"><span class="trend up"><span class="trend-val">+12.5%</span></span><span style="font-size:.65rem;color:var(--tx-t)">7d</span></div></div>
+<div class="gc-m"><div class="lbl">Sparkline (down)</div>
+<div class="spark down"><div class="spark-bar" style="height:90%"></div><div class="spark-bar" style="height:85%"></div><div class="spark-bar" style="height:70%"></div><div class="spark-bar" style="height:60%"></div><div class="spark-bar" style="height:55%"></div><div class="spark-bar" style="height:35%"></div><div class="spark-bar" style="height:40%"></div><div class="spark-bar" style="height:20%"></div></div>
+<div style="display:flex;justify-content:space-between;margin-top:4px"><span class="trend down"><span class="trend-val">-8.3%</span></span><span style="font-size:.65rem;color:var(--tx-t)">7d</span></div></div>
+<div class="gc-m"><div class="lbl">Stat Minis</div>
+<div class="g4" style="margin-bottom:var(--s-3)"><div class="stat-mini"><div class="stat-mini-val tg">12.4K</div><div class="stat-mini-lbl">Token</div><div class="stat-mini-tr" style="color:var(--gn)">+12.5%</div></div>
+<div class="stat-mini"><div class="stat-mini-val" style="color:var(--gn)">47</div><div class="stat-mini-lbl">模块</div><div class="stat-mini-tr" style="color:var(--gn)">+3</div></div></div>
+<div class="g4"><div class="stat-mini"><div class="stat-mini-val" style="color:var(--cr)">2.8s</div><div class="stat-mini-lbl">响应</div><div class="stat-mini-tr" style="color:var(--cr)">+0.3s</div></div>
+<div class="stat-mini"><div class="stat-mini-val" style="color:var(--am)">89%</div><div class="stat-mini-lbl">压缩率</div><div class="stat-mini-tr" style="color:var(--gn)">+5%</div></div></div></div>
+</div><div class="hr"></div></section>
+
+<!-- ═══════════════ PHASE 2: DOUBLE-BEZEL ENHANCED ═══════════════ -->
+<section class="sec" id="ds-db-enhanced"><div class="sh"><span class="eyebrow">v8.1 增强</span><h2>Double-Bezel Enhanced 增强托盘卡片</h2><p>外壳增加托盘实体色 + 更明显的嵌套质感</p></div>
+<div class="g3">
+<div class="db-sh-e"><div class="db-co-e"><h3>Enhanced DB</h3><p style="font-size:.82rem;color:var(--tx-s);margin-top:6px">bg-overlay 外壳 + inset highlight 内芯</p><div style="margin-top:12px"><div class="tgl on" onclick="this.classList.toggle('on')"></div></div></div></div>
+<div class="db-sh-e"><div class="db-co-e" style="text-align:center;padding:var(--s-8)"><div style="font-size:2.5rem;font-weight:700" class="tg">v8.1</div><div style="font-size:.75rem;color:var(--tx-t);margin-top:4px">Enhanced Tray</div></div></div>
+<div class="db-sh-e"><div class="db-co-e"><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div class="av br lg">C</div><div><div style="font-weight:600">Code</div><div class="badge br">活跃</div></div></div><div style="font-size:.75rem;color:var(--tx-t)">全栈开发 · 3 个 Worker</div></div></div>
+</div><div class="hr"></div></section>
+
+<!-- ═══════════════ PHASE 3: PAGE STATES ═══════════════ -->
+<section class="sec" id="ds-pagestates"><div class="sh"><span class="eyebrow">状态</span><h2>Page States — Loading · Error · Empty · Success</h2><p>完整的页面级状态组件</p></div>
+<div class="g2">
+<div class="gc-m"><div class="pg-loading"><div class="spin spin-lg"></div><p>加载中，请稍候...</p></div></div>
+<div class="gc-m"><div class="pg-error"><div class="pg-error-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><div class="pg-error-title">加载失败</div><div class="pg-error-desc">网络连接异常，请检查网络后重试</div><button class="btn-2" style="margin-top:12px">重新加载</button></div></div>
+<div class="gc-m"><div class="pg-empty"><div class="pg-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><path d="M9 13h6"/></svg></div><div class="pg-empty-title">暂无内容</div><div class="pg-empty-desc">点击下方按钮创建第一项</div><button class="btn" style="margin-top:12px;padding:8px 20px;font-size:.85rem">开始创建 <span class="btn-ic" style="width:22px;height:22px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></button></div></div>
+<div class="gc-m"><div class="pg-success"><div class="pg-success-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="pg-empty-title">操作成功</div><div class="pg-empty-desc">数据已保存，即将跳转</div></div></div></div><div class="hr"></div></section>
+
+<footer style="text-align:center;padding:var(--s-20) 0;color:var(--tx-t);font-size:.8rem">Super Niuma · DS v8.0 · 80+ Components · Double-Bezel · Glass 2.0 · 5-Bezier Motion · Dark/Light/Classic<br>Design by Vanguard_UI_Architect + tasteskill + high-end-visual-design</footer>
+</div>
+
+<script>
+function st(t){
+  document.documentElement.setAttribute('data-theme',t);
+  document.querySelectorAll('.ts button').forEach(function(b){
+    b.classList.remove('active');
+    var tt=b.textContent.includes('暗夜')?'night':b.textContent.includes('日间')?'day':'classic';
+    if(tt===t)b.classList.add('active')
+  })
+}
+function td(id){
+  var b=document.querySelector('#'+id+' .dd-btn'),m=document.getElementById(id+'-m');
+  b.classList.toggle('open');m.classList.toggle('open')
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.dd')){
+    document.querySelectorAll('.dd-btn.open').forEach(function(b){b.classList.remove('open')});
+    document.querySelectorAll('.dd-m.open').forEach(function(m){m.classList.remove('open')})
+  }
+})
+document.querySelectorAll('.tabs').forEach(function(t){
+  t.querySelectorAll('.tab').forEach(function(tb){
+    tb.addEventListener('click',function(){
+      t.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
+      tb.classList.add('active')
+    })
+  })
+})
+
+/*── Scroll Reveal (IntersectionObserver) ──*/
+(function(){
+  var observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.style.animationPlayState='running';
+        observer.unobserve(e.target)
+      }
+    })
+  },{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('[data-reveal]').forEach(function(el){
+    el.style.animationPlayState='paused';
+    observer.observe(el)
+  })
+})();
+/*── Auto Dark Mode Detection ──*/
+(function(){
+  if(!document.documentElement.hasAttribute('data-theme')){
+    var prefersDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+    document.documentElement.setAttribute('data-theme',prefersDark?'night':'day');
+    var btns=document.querySelectorAll('.ts button');
+    btns.forEach(function(b){
+      b.classList.remove('active');
+      var t=b.textContent.includes('暗夜')?'night':b.textContent.includes('日间')?'day':'classic';
+      if(t===(prefersDark?'night':'day'))b.classList.add('active')
+    })
+  }
+  window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){
+    if(!document.documentElement.hasAttribute('data-theme')){
+      st(e.matches?'night':'day')
+    }
+  })
+})();
+/*── TOC Scroll Spy ──*/
+(function(){
+  var links=document.querySelectorAll('.toc-link');
+  var sections=[];
+  links.forEach(function(l){var id=l.getAttribute('href');if(id){var el=document.querySelector(id);if(el)sections.push({id:id,el:el,link:l})}});
+  var observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(l){l.classList.remove('active')});
+        var link=document.querySelector('.toc-link[href="'+e.target.getAttribute('data-anchor')+'"]');
+        if(link)link.classList.add('active')
+      }
+    })
+  },{threshold:.3});
+  sections.forEach(function(s){observer.observe(s.el)});
+  links.forEach(function(l){
+    l.addEventListener('click',function(e){
+      e.preventDefault();var id=this.getAttribute('href');
+      var el=document.querySelector(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})
+    })
+  })
+})();
+
+</script>
+</body></html>

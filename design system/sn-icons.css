@@ -1,0 +1,89 @@
+/* ============================================================
+   Super Niuma Icon System — CSS
+   "创作脉冲" (Creative Pulse) — geometric, precise, energetic
+   ============================================================ */
+
+/* ── Custom Properties ───────────────────────────────────── */
+:root {
+  --sn-icon-size: 20px;
+  --sn-icon-color: currentColor;
+  --sn-icon-stroke: 1.5px;
+
+  /* Brand palette */
+  --sn-blue:    #4DA8F0;   /* pulse blue */
+  --sn-ink:     #E1E4EA;   /* primary on dark */
+  --sn-muted:   #6B7280;   /* secondary */
+  --sn-subtle:  #3A3F4B;   /* tertiary / disabled */
+  --sn-green:   #34D399;   /* success */
+  --sn-amber:   #FBBF24;   /* warning */
+  --sn-red:     #F87171;   /* danger */
+}
+
+/* ── Base Icon Class ─────────────────────────────────────── */
+.sn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--sn-icon-size);
+  height: var(--sn-icon-size);
+  color: var(--sn-icon-color);
+  vertical-align: middle;
+}
+
+.sn-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Size Variants ───────────────────────────────────────── */
+.sn-icon--sm  { --sn-icon-size: 14px; }
+.sn-icon--md  { --sn-icon-size: 20px; }
+.sn-icon--lg  { --sn-icon-size: 24px; }
+.sn-icon--xl  { --sn-icon-size: 32px; }
+
+/* ── Color Variants ──────────────────────────────────────── */
+.sn-icon--blue    { color: var(--sn-blue); }
+.sn-icon--ink     { color: var(--sn-ink); }
+.sn-icon--muted   { color: var(--sn-muted); }
+.sn-icon--subtle  { color: var(--sn-subtle); }
+.sn-icon--green   { color: var(--sn-green); }
+.sn-icon--amber   { color: var(--sn-amber); }
+.sn-icon--red     { color: var(--sn-red); }
+
+/* Hover pulse — only on interactive icons */
+.sn-icon--interactive {
+  cursor: pointer;
+  transition: color 180ms ease, transform 150ms ease;
+}
+.sn-icon--interactive:hover {
+  color: var(--sn-blue);
+  transform: scale(1.1);
+}
+.sn-icon--interactive:active {
+  transform: scale(0.95);
+}
+
+/* ── Button Variant ──────────────────────────────────────── */
+.sn-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--sn-muted);
+  transition: background 150ms ease, color 150ms ease;
+}
+.sn-icon-btn:hover {
+  background: rgba(77, 168, 240, 0.12);
+  color: var(--sn-blue);
+}
+.sn-icon-btn .sn-icon {
+  width: 20px;
+  height: 20px;
+}
